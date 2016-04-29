@@ -1,10 +1,21 @@
 #!/usr/bin/env node
 
 import commander from 'commander';
-import cli from './cli.js';
+import Request from './request';
+import Emitter from './emitter';
+
+let request = new Request();
+let emitter = new Emitter();
 
 commander
   .version('0.0.1')
-  .parse(process.argv);
+  .option('-q, --quiet', 'quiet mode', emitter.silence.bind(emitter));
 
-cli.parse(commander);
+// account level
+commander
+  .command("balance")
+  .alias('b')
+  .description("Prints the current balance")
+  .action(request.accountBalance.bind(request));
+
+commander.parse(process.argv);

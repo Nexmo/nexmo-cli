@@ -35,6 +35,12 @@ After rebuilding the library run the following command to reinstall the library.
 npm install -g
 ```
 
+### Running tests
+
+```
+npm test
+```
+
 # License
 
 This library is released under the [MIT License][license]
