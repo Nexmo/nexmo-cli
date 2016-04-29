@@ -2,7 +2,7 @@
   "name": "nexmo-cli",
   "version": "0.0.1",
   "description": "Nexmo Command Line Interface",
-  "main": "distribution/index.js",
+  "main": "distribution/cli.js",
   "scripts": {
     "build": "babel source --presets babel-preset-es2015 --out-dir distribution",
     "predist": "npm run build"
@@ -18,7 +18,7 @@
     "cli"
   ],
   "bin": {
-    "nexmo": "distribution/index.js"
+    "nexmo": "distribution/bin.js"
   },
   "author": "nexmo",
   "license": "MIT",
