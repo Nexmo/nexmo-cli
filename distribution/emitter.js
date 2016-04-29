@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8,38 +8,35 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var quiet = void 0;
-
 var Emitter = function () {
   function Emitter() {
     _classCallCheck(this, Emitter);
 
-    this.output = console;
-    quiet = false;
+    this.quiet = false;
   }
 
   _createClass(Emitter, [{
-    key: 'silence',
+    key: "silence",
     value: function silence() {
-      var _quiet = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+      var quiet = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
-      quiet = _quiet;
+      this.quiet = quiet;
     }
   }, {
-    key: 'setOutput',
-    value: function setOutput(output) {
-      this.output = output;
+    key: "log",
+    value: function log(message) {
+      if (!this.quiet) console.log(message); // eslint-disable-line no-console
     }
   }, {
-    key: 'emit',
-    value: function emit(level, message) {
-      if (level === 'log' && !quiet) {
-        this.output.log(message);
-      } else if (level === 'warn' && !quiet) {
-        this.output.warn(message);
-      } else if (level === 'error') {
-        this.output.error(message);
-      }
+    key: "warn",
+    value: function warn(message) {
+      if (!this.quiet) console.warn(message); // eslint-disable-line no-console
+    }
+  }, {
+    key: "error",
+    value: function error(message) {
+      console.error(message); // eslint-disable-line no-console
+      process.exit(1);
     }
   }]);
 

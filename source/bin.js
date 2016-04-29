@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 
 import commander from 'commander';
-import Request from './request';
-import Emitter from './emitter';
 
-let request = new Request();
-let emitter = new Emitter();
+import Emitter  from './emitter';
+import Config   from './config';
+import Client   from './client';
+import Response from './response';
+import Request  from './request';
+
+let emitter  = new Emitter();
+let config   = new Config(emitter);
+let client   = new Client(config, emitter);
+let response = new Response(emitter);
+let request  = new Request(config, client, response);
 
 commander
   .version('0.0.1')
@@ -13,9 +20,16 @@ commander
 
 // account level
 commander
-  .command("balance")
+  .command('setup <api_key> <api_secret>')
+  .alias('s')
+  .option('-l, --local', 'write config to current folder (./.nexmo) instead of the user root (~/.nexmo)')
+  .description('Set up your API credentials')
+  .action(request.accountSetup.bind(request));
+
+commander
+  .command('balance')
   .alias('b')
-  .description("Prints the current balance")
+  .description('Prints the current balance')
   .action(request.accountBalance.bind(request));
 
 commander.parse(process.argv);

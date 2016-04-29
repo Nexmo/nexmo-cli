@@ -1,22 +1,21 @@
-import Client     from './client';
-import Response   from './response'
-
 class Request {
-  constructor() {
-    this.response = new Response();
-    this.client = new Client().instance();
-  }
-
-  setClient(client) {
-    this.client = client;
-  }
-
-  setResponse(response) {
+  constructor(config, client, response) {
+    this.config   = config;
+    this.client   = client;
     this.response = response;
   }
 
   accountBalance() {
-    this.client.checkBalance(this.response.accountBalance.bind(this.response));
+    this.client.instance().checkBalance(this.response.accountBalance.bind(this.response));
+  }
+
+  accountSetup(key, secret, options) {
+    this.config.putAndSave({
+      'credentials': {
+        'api_key': key,
+        'api_secret': secret
+      }
+    }, options.local);
   }
 }
 

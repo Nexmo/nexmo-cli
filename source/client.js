@@ -1,33 +1,30 @@
-import fs    from 'fs';
-import ini   from 'ini';
 import nexmo from 'easynexmo';
 
 class Client {
-  // returns an initialized Nexmo client
+  constructor(config, emitter) {
+    this.emitter = emitter;
+    this.config = config;
+  }
+
   instance() {
-    let credentials = this.credentials();
-    nexmo.initialize(
-      credentials.api_key,
-      credentials.api_secret,
-      false
-    );
+    initialize(this.config, this.emitter);
     return nexmo;
-  }
-
-  // reads the user credentials from disk
-  credentials() {
-    return ini.parse(
-      fs.readFileSync(
-        this.userHome() + '/.nexmo/config', 'utf-8'
-      )
-    ).credentials;
-  }
-
-  // determines the user's HOME
-  userHome() {
-    let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
-    return process.env[key];
   }
 }
 
 export default Client;
+
+// private methods
+
+let initialize = function(config, emitter) {
+  try {
+    let credentials = config.read().credentials;
+    nexmo.initialize(credentials.api_key, credentials.api_secret);
+  } catch(e) {
+    if (e instanceof TypeError) {
+      emitter.error(`Could not initialize Nexmo SDK. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
+    } else {
+      emitter.error(`Could not read credentials from ${config.readFilename()}. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
+    }
+  }
+};

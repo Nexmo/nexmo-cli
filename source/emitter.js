@@ -1,27 +1,23 @@
-let quiet;
-
 class Emitter {
   constructor() {
-    this.output = console;
-    quiet = false;
+    this.quiet = false;
   }
 
-  silence(_quiet = true) {
-    quiet = _quiet;
+  silence(quiet = true) {
+    this.quiet = quiet;
   }
 
-  setOutput(output) {
-    this.output = output;
+  log(message) {
+    if (!this.quiet) console.log(message); // eslint-disable-line no-console
   }
 
-  emit(level, message) {
-    if (level === 'log' && !quiet) {
-      this.output.log(message);
-    } else if (level === 'warn' && !quiet) {
-      this.output.warn(message);
-    } else if (level === 'error') {
-      this.output.error(message);
-    }
+  warn(message) {
+    if (!this.quiet) console.warn(message); // eslint-disable-line no-console
+  }
+
+  error(message) {
+    console.error(message); // eslint-disable-line no-console
+    process.exit(1);
   }
 }
 

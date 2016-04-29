@@ -9,31 +9,31 @@ import sinonChai        from 'sinon-chai';
 chai.use(sinonChai);
 
 
-describe("Response", () => {
+describe('Response', () => {
 
-  it("should export a Response object", () => {
+  it('should export a Response object', () => {
     expect(Response).to.not.be.null;
-    expect(Response.name).to.equal("Response");
+    expect(Response.name).to.equal('Response');
   });
 
-  describe(".accountBalance", () => {
-    it("should validate the response and emit the result", () => {
+  describe('.accountBalance', () => {
+    it('should validate the response and emit the result', sinon.test(function() {
       let response = new Response();
       let validator = new Validator();
       let emitter = new Emitter();
 
-      let stub1 = sinon.stub(validator, 'response');
-      let stub2 = sinon.stub(emitter, 'emit');
+      let stub1 = this.stub(validator, 'response');
+      let stub2 = this.stub(emitter, 'log');
 
-      response.setValidator(validator);
-      response.setEmitter(emitter);
+      response.validator = validator;
+      response.emitter = emitter;
 
       response.accountBalance(null, { value: 123 });
 
       expect(stub1).to.be.called;
       expect(stub1).to.be.calledWith(null, { value: 123 });
       expect(stub2).to.be.called;
-      expect(stub2).to.be.calledWith('log', 123);
-    });
+      expect(stub2).to.be.calledWith(123);
+    }));
   });
 });
