@@ -45,7 +45,7 @@ var initialize = function initialize(config, emitter) {
     if (e instanceof TypeError) {
       emitter.error('Could not initialize Nexmo SDK. Please run \'nexmo setup\' to setup the CLI correctly. (' + e.message + ')');
     } else {
-      emitter.error('Could not read credentials from ' + config.readFilename() + '. Please run \'nexmo setup\' to setup the CLI. (' + e.message + ')');
+      emitter.error('Could not read credentials. Please run \'nexmo setup\' to setup the CLI. (' + e.message + ')');
     }
   }
 };

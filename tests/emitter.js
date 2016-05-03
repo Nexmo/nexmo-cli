@@ -18,12 +18,21 @@ describe('Emitter', () => {
     expect(Emitter.name).to.equal('Emitter');
   });
 
-  describe('.silence', () => {
+  describe('.quiet', () => {
     it('should disable debug logs', sinon.test(function() {
       let log = this.stub(console, 'log');
-      emitter.silence();
+      emitter.quiet();
       emitter.log('foobar');
       expect(log).not.to.have.been.called;
+    }));
+  });
+
+  describe('.verbose', () => {
+    it('should enable verbose logs', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      emitter.verbose();
+      emitter.log('message', 'verbose message');
+      expect(log).to.have.been.calledWith('verbose message');
     }));
   });
 

@@ -2,21 +2,24 @@
 
 import commander from 'commander';
 
-import Emitter  from './emitter';
-import Config   from './config';
-import Client   from './client';
-import Response from './response';
-import Request  from './request';
+import Emitter   from './emitter';
+import Config    from './config';
+import Client    from './client';
+import Response  from './response';
+import Request   from './request';
+import Validator from './validator';
 
-let emitter  = new Emitter();
-let config   = new Config(emitter);
-let client   = new Client(config, emitter);
-let response = new Response(emitter);
-let request  = new Request(config, client, response);
+let emitter   = new Emitter();
+let config    = new Config(emitter);
+let client    = new Client(config, emitter);
+let validator = new Validator(emitter);
+let response  = new Response(validator, emitter);
+let request   = new Request(config, client, response);
 
 commander
   .version('0.0.1')
-  .option('-q, --quiet', 'quiet mode', emitter.silence.bind(emitter));
+  .option('-q, --quiet', 'quiet mode', emitter.quiet.bind(emitter))
+  .option('-v, --verbose', 'verbose mode', emitter.verbose.bind(emitter));
 
 // account level
 commander
@@ -29,7 +32,22 @@ commander
 commander
   .command('balance')
   .alias('b')
-  .description('Prints the current balance')
+  .description('Current account balance')
   .action(request.accountBalance.bind(request));
 
+// numbers
+commander
+  .command('numbers:list')
+  .alias('n')
+  .description('List of numbers assigned to the account')
+  .action(request.numbersList.bind(request));
+
+// catch unknown commands
+commander
+  .command('*', null, { noHelp: true })
+  .action(() => { commander.help(); });
+
 commander.parse(process.argv);
+
+// show help on no command
+if (!commander.args.length) commander.help();

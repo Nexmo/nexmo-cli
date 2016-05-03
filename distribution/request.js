@@ -9,18 +9,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Request = function () {
-  function Request(client, response) {
+  function Request(config, client, response) {
     _classCallCheck(this, Request);
 
+    this.config = config;
     this.client = client;
-    this.nexmo = client.instance();
     this.response = response;
   }
+  // Account
 
   _createClass(Request, [{
     key: 'accountBalance',
     value: function accountBalance() {
-      this.nexmo.checkBalance(this.response.accountBalance.bind(this.response));
+      this.client.instance().checkBalance(this.response.accountBalance.bind(this.response));
     }
   }, {
     key: 'accountSetup',
@@ -31,6 +32,14 @@ var Request = function () {
           'api_secret': secret
         }
       }, options.local);
+    }
+
+    // Numbers
+
+  }, {
+    key: 'numbersList',
+    value: function numbersList() {
+      this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
     }
   }]);
 

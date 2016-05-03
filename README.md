@@ -11,7 +11,7 @@ The Nexmo CLI requires NodeJS 4 or above.
 npm install nexmo-cli -g
 ```
 
-The set up the CLI with your API key and secret:
+Then set up the CLI with your API key and secret:
 
 ```
 nexmo setup a123b c345d
@@ -27,15 +27,33 @@ This will save the config to your local folder instead.
 
 ## Usage
 
+### Flags
+
+Use `--quiet` to silence all but errors and warnings, and use `--verbose` to get more detailed output.
+
 ### Account balance
 
 ```
-nexmo balance
+> nexmo balance
+18.9686
 ```
 
-## Examples
+### Numbers
 
-TBD
+#### List all numbers on your account
+
+```
+> nexmo numbers:list
+31555555555
+445555555555
+
+> nexmo numbers:list --verbose
+msisdn       | country | type       | features
+-----------------------------------------------
+31555555555  | NL      | landline   | VOICE    
+445555555555 | GB      | mobile-lvn | VOICE,SMS      
+445555555556 | GB      | mobile-lvn | SMS      
+```
 
 ## Contributing
 

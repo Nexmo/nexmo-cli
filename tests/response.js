@@ -10,6 +10,15 @@ chai.use(sinonChai);
 
 
 describe('Response', () => {
+  let validator;
+  let emitter;
+  let response;
+
+  beforeEach(() => {
+    validator = sinon.createStubInstance(Validator);
+    emitter = sinon.createStubInstance(Emitter);
+    response = new Response(validator, emitter);
+  });
 
   it('should export a Response object', () => {
     expect(Response).to.not.be.null;
@@ -18,22 +27,23 @@ describe('Response', () => {
 
   describe('.accountBalance', () => {
     it('should validate the response and emit the result', sinon.test(function() {
-      let response = new Response();
-      let validator = new Validator();
-      let emitter = new Emitter();
-
-      let stub1 = this.stub(validator, 'response');
-      let stub2 = this.stub(emitter, 'log');
-
-      response.validator = validator;
-      response.emitter = emitter;
-
       response.accountBalance(null, { value: 123 });
-
-      expect(stub1).to.be.called;
-      expect(stub1).to.be.calledWith(null, { value: 123 });
-      expect(stub2).to.be.called;
-      expect(stub2).to.be.calledWith(123);
+      expect(validator.response).to.have.been.calledWith(null, { value: 123});
+      expect(emitter.log).to.have.been.calledWith(123);
     }));
+  });
+
+  describe('.numbersList', () => {
+    it('should print a list of numbers', () => {
+      let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      response.numbersList(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features']);
+    });
+
+    it('should warn if no numbers found', () => {
+      response.numbersList(null, { numbers: []});
+      expect(emitter.warn).to.have.been.called;
+    });
   });
 });
