@@ -30,10 +30,10 @@ describe('Validator', () => {
 
           let stub = this.stub(emitter, 'error');
 
-          validator.response({}, {});
+          validator.response({ message: 'error'}, {});
 
           expect(stub).to.be.called;
-          expect(stub).to.be.calledWith({});
+          expect(stub).to.be.calledWith('error');
         }));
       });
 

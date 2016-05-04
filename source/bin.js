@@ -35,7 +35,7 @@ commander
   .description('Current account balance')
   .action(request.accountBalance.bind(request));
 
-// numbers
+// Number List
 commander
   .command('numbers:list')
   .alias('nl')
@@ -54,15 +54,33 @@ commander
   .command('number:list', null, { noHelp: true })
   .action(request.numbersList.bind(request));
 
+// Number Buy
 commander
-  .command('number:buy <pattern>')
+  .command('number:buy <country_code> <msisdn>')
   .alias('nb')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:buy GB 445555555555');
+    emitter.log('    $ nexmo number:buy NL 31555555555');
+    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log();
+  })
   .action(request.numberBuy.bind(request));
 
 commander
-  .command('numbers:buy <pattern>', null, { noHelp: true })
+  .command('numbers:buy <country_code> <msisdn>', null, { noHelp: true })
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:buy GB 445555555555');
+    emitter.log('    $ nexmo number:buy NL 31555555555');
+    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log();
+  })
   .action(request.numberBuy.bind(request));
 
+// Number Search
 commander
   .command('number:search <country_code>')
   .alias('ns')

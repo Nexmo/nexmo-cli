@@ -60,7 +60,7 @@ msisdn       | country | type       | features
 Parameters:
 
 * `country_code` - an ISO 3166-2 country code for the country you are trying to find a number for.
-* flags:
+* Optional flags:
   * `--pattern <pattern>`  to be matched in number (use * to match end or start of number)
   * `--voice` to search for voice enabled numbers
   * `--sms` search for SMS enabled numbers
@@ -78,6 +78,13 @@ msisdn      | country | cost | type       | features
 31655551007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
 31655552007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
 31655553007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
+```
+
+#### Buying a number
+
+```
+> nexmo number:buy US 12069396555
+success
 ```
 
 ## Contributing

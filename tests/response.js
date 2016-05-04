@@ -60,4 +60,13 @@ describe('Response', () => {
       expect(emitter.warn).to.have.been.called;
     });
   });
+
+  describe('.numberBuy', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.numberBuy(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith(data);
+    });
+  });
 });

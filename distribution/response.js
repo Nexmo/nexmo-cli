@@ -39,7 +39,7 @@ var Response = function () {
     key: 'numberBuy',
     value: function numberBuy(error, response) {
       this.validator.response(error, response);
-      console.log(response);
+      this.emitter.log(response);
     }
   }, {
     key: 'numberSearch',

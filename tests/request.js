@@ -98,5 +98,14 @@ describe('Request', () => {
         expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2 });
       }));
     });
+
+    describe('.numberBuy', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberBuy('GB', '123');
+        expect(nexmo.buyNumber).to.have.been.calledWith('GB', '123');
+      }));
+    });
   });
 });

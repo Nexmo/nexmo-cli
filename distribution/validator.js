@@ -19,7 +19,7 @@ var Validator = function () {
     key: 'response',
     value: function response(error, _response) {
       if (error) {
-        this.emitter.error(error);
+        this.emitter.error(error.message);
       } else if (_response['error-code']) {
         this.emitter.error(_response['error-code-label']);
       }

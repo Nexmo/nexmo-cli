@@ -5,7 +5,7 @@ class Validator {
 
   response(error, response) {
     if (error) {
-      this.emitter.error(error);
+      this.emitter.error(error.message);
     } else if (response['error-code']) {
       this.emitter.error(response['error-code-label']);
     }

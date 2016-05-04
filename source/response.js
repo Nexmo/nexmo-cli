@@ -25,7 +25,7 @@ class Response {
 
   numberBuy(error, response) {
     this.validator.response(error, response);
-    console.log(response);
+    this.emitter.log(response);
   }
 
   numberSearch(error, response) {
