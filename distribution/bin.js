@@ -46,13 +46,35 @@ _commander2.default.command('setup <api_key> <api_secret>').alias('s').option('-
 _commander2.default.command('balance').alias('b').description('Current account balance').action(request.accountBalance.bind(request));
 
 // numbers
-_commander2.default.command('numbers:list').alias('n').description('List of numbers assigned to the account').action(request.numbersList.bind(request));
+_commander2.default.command('numbers:list').alias('nl').description('List of numbers assigned to the account').action(request.numbersList.bind(request));
 
 _commander2.default.command('numbers', null, { noHelp: true }).action(request.numbersList.bind(request));
 
 _commander2.default.command('number', null, { noHelp: true }).action(request.numbersList.bind(request));
 
 _commander2.default.command('number:list', null, { noHelp: true }).action(request.numbersList.bind(request));
+
+_commander2.default.command('number:buy <pattern>').alias('nb').action(request.numberBuy.bind(request));
+
+_commander2.default.command('numbers:buy <pattern>', null, { noHelp: true }).action(request.numberBuy.bind(request));
+
+_commander2.default.command('number:search <country_code>').alias('ns').option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log();
+  emitter.log('    $ nexmo number:search GB --pattern 078*');
+  emitter.log('    $ nexmo number:search NL --sms --pattern 123');
+  emitter.log('    $ nexmo number:search US --pattern *007 --verbose');
+  emitter.log();
+}).action(request.numberSearch.bind(request));
+
+_commander2.default.command('numbers:search <country_code>', null, { noHelp: true }).option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log();
+  emitter.log('    $ nexmo number:search GB --pattern 078*');
+  emitter.log('    $ nexmo number:search NL --sms --pattern 123');
+  emitter.log('    $ nexmo number:search US --pattern *007 --verbose');
+  emitter.log();
+}).action(request.numberSearch.bind(request));
 
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
