@@ -23,11 +23,6 @@ class Response {
     }
   }
 
-  numberBuy(error, response) {
-    this.validator.response(error, response);
-    this.emitter.log(response);
-  }
-
   numberSearch(error, response) {
     this.validator.response(error, response);
     if (response.numbers && response.numbers.length > 0) {
@@ -35,6 +30,16 @@ class Response {
     } else {
       this.emitter.warn('No numbers');
     }
+  }
+
+  numberBuy(error, response) {
+    this.validator.response(error, response);
+    this.emitter.log(response);
+  }
+
+  numberCancel(error, response) {
+    this.validator.response(error, response);
+    this.emitter.log(response);
   }
 }
 

@@ -25,10 +25,6 @@ class Request {
     this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
   }
 
-  numberBuy(countryCode, msisdn) {
-    this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
-  }
-
   numberSearch(countryCode, flags) {
     countryCode = countryCode.toUpperCase();
 
@@ -44,6 +40,14 @@ class Request {
     }
 
     this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
+  }
+
+  numberBuy(countryCode, msisdn) {
+    this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+  }
+
+  numberCancel(countryCode, msisdn) {
+    this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
   }
 }
 

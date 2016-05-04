@@ -107,5 +107,14 @@ describe('Request', () => {
         expect(nexmo.buyNumber).to.have.been.calledWith('GB', '123');
       }));
     });
+
+    describe('.numberCancel', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberCancel('GB', '123');
+        expect(nexmo.cancelNumber).to.have.been.calledWith('GB', '123');
+      }));
+    });
   });
 });

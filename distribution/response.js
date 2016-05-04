@@ -36,12 +36,6 @@ var Response = function () {
       }
     }
   }, {
-    key: 'numberBuy',
-    value: function numberBuy(error, response) {
-      this.validator.response(error, response);
-      this.emitter.log(response);
-    }
-  }, {
     key: 'numberSearch',
     value: function numberSearch(error, response) {
       this.validator.response(error, response);
@@ -50,6 +44,18 @@ var Response = function () {
       } else {
         this.emitter.warn('No numbers');
       }
+    }
+  }, {
+    key: 'numberBuy',
+    value: function numberBuy(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response);
+    }
+  }, {
+    key: 'numberCancel',
+    value: function numberCancel(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response);
     }
   }]);
 

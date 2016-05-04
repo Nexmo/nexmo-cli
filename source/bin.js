@@ -112,6 +112,32 @@ commander
   })
   .action(request.numberSearch.bind(request));
 
+// Number Cancel
+commander
+  .command('number:cancel <country_code> <msisdn>')
+  .alias('nc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:cancel GB 445555555555');
+    emitter.log('    $ nexmo number:cancel NL 31555555555');
+    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberCancel.bind(request));
+
+commander
+  .command('numbers:cancel <country_code> <msisdn>', null, { noHelp: true })
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:cancel GB 445555555555');
+    emitter.log('    $ nexmo number:cancel NL 31555555555');
+    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberCancel.bind(request));
+
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })

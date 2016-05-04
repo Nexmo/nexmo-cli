@@ -42,11 +42,6 @@ var Request = function () {
       this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
     }
   }, {
-    key: 'numberBuy',
-    value: function numberBuy(countryCode, msisdn) {
-      this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
-    }
-  }, {
     key: 'numberSearch',
     value: function numberSearch(countryCode, flags) {
       countryCode = countryCode.toUpperCase();
@@ -67,6 +62,16 @@ var Request = function () {
       }
 
       this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
+    }
+  }, {
+    key: 'numberBuy',
+    value: function numberBuy(countryCode, msisdn) {
+      this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+    }
+  }, {
+    key: 'numberCancel',
+    value: function numberCancel(countryCode, msisdn) {
+      this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
     }
   }]);
 

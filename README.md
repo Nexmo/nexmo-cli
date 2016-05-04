@@ -87,6 +87,13 @@ msisdn      | country | cost | type       | features
 success
 ```
 
+#### Cancelling a number
+
+```
+> nexmo number:cancel US 12069396555
+success
+```
+
 ## Contributing
 
 This projects is written in ES2015 and compiled using Babel. The source can be found in the `/source` folder, and the build is compiled to the `/distribution` folder.

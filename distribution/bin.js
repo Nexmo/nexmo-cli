@@ -92,6 +92,25 @@ _commander2.default.command('numbers:search <country_code>', null, { noHelp: tru
   emitter.log();
 }).action(request.numberSearch.bind(request));
 
+// Number Cancel
+_commander2.default.command('number:cancel <country_code> <msisdn>').alias('nc').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log();
+  emitter.log('    $ nexmo number:cancel GB 445555555555');
+  emitter.log('    $ nexmo number:cancel NL 31555555555');
+  emitter.log('    $ nexmo number:cancel US 17136738555');
+  emitter.log();
+}).action(request.numberCancel.bind(request));
+
+_commander2.default.command('numbers:cancel <country_code> <msisdn>', null, { noHelp: true }).on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log();
+  emitter.log('    $ nexmo number:cancel GB 445555555555');
+  emitter.log('    $ nexmo number:cancel NL 31555555555');
+  emitter.log('    $ nexmo number:cancel US 17136738555');
+  emitter.log();
+}).action(request.numberCancel.bind(request));
+
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
   _commander2.default.help();
