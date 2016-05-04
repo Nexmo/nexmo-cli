@@ -103,7 +103,7 @@ describe('Request', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.numberBuy('GB', '123');
+        request.numberBuy('GB', '123', { confirm: true });
         expect(nexmo.buyNumber).to.have.been.calledWith('GB', '123');
       }));
     });
@@ -112,7 +112,7 @@ describe('Request', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.numberCancel('GB', '123');
+        request.numberCancel('GB', '123', { confirm: true });
         expect(nexmo.cancelNumber).to.have.been.calledWith('GB', '123');
       }));
     });

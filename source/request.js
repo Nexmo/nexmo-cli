@@ -42,13 +42,37 @@ class Request {
     this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
   }
 
-  numberBuy(countryCode, msisdn) {
-    this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+  numberBuy(countryCode, msisdn, flags) {
+    confirm(this.response.emitter, flags, () => {
+      this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+    });
   }
 
-  numberCancel(countryCode, msisdn) {
-    this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
+  numberCancel(countryCode, msisdn, flags) {
+    confirm(this.response.emitter, flags, () => {
+      this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
+    });
   }
 }
 
 export default Request;
+
+let confirm = function(emitter, flags, callback) {
+  let stdin = process.stdin;
+  stdin.resume();
+
+  let action = (answer) => {
+    if (answer.toString().trim() == 'confirm') {
+      callback();
+    } else {
+      process.exit(1);
+    }
+  };
+
+  if (flags.confirm) {
+    callback();
+  } else {
+    emitter.log('This is operation can not be reversed. Please type "confirm" to continue.');
+    stdin.addListener('data', action);
+  }
+};

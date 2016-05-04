@@ -58,6 +58,7 @@ commander
 commander
   .command('number:buy <country_code> <msisdn>')
   .alias('nb')
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log();
@@ -70,6 +71,7 @@ commander
 
 commander
   .command('numbers:buy <country_code> <msisdn>', null, { noHelp: true })
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log();
@@ -115,6 +117,7 @@ commander
 // Number Cancel
 commander
   .command('number:cancel <country_code> <msisdn>')
+  .option('--confirm', 'skip confirmation step and directly cancel the number' )
   .alias('nc')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -128,6 +131,7 @@ commander
 
 commander
   .command('numbers:cancel <country_code> <msisdn>', null, { noHelp: true })
+  .option('--confirm', 'skip confirmation step and directly cancel the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log();

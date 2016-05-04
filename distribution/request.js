@@ -65,13 +65,21 @@ var Request = function () {
     }
   }, {
     key: 'numberBuy',
-    value: function numberBuy(countryCode, msisdn) {
-      this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+    value: function numberBuy(countryCode, msisdn, flags) {
+      var _this = this;
+
+      confirm(this.response.emitter, flags, function () {
+        _this.client.instance().buyNumber(countryCode, msisdn, _this.response.numberBuy.bind(_this.response));
+      });
     }
   }, {
     key: 'numberCancel',
-    value: function numberCancel(countryCode, msisdn) {
-      this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
+    value: function numberCancel(countryCode, msisdn, flags) {
+      var _this2 = this;
+
+      confirm(this.response.emitter, flags, function () {
+        _this2.client.instance().cancelNumber(countryCode, msisdn, _this2.response.numberCancel.bind(_this2.response));
+      });
     }
   }]);
 
@@ -79,3 +87,24 @@ var Request = function () {
 }();
 
 exports.default = Request;
+
+
+var confirm = function confirm(emitter, flags, callback) {
+  var stdin = process.stdin;
+  stdin.resume();
+
+  var action = function action(answer) {
+    if (answer.toString().trim() == 'confirm') {
+      callback();
+    } else {
+      process.exit(1);
+    }
+  };
+
+  if (flags.confirm) {
+    callback();
+  } else {
+    emitter.log('This is operation can not be reversed. Please type "confirm" to continue.');
+    stdin.addListener('data', action);
+  }
+};
