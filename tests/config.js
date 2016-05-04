@@ -83,6 +83,38 @@ api_secret=abc
   });
 
   describe('.putAndSave', () => {
-    it('pending');
+    it('should write the new data', () => {
+      mockfs();
+      config.putAndSave(credentials, false);
+      expect(fs.readFileSync(config.readFilename(), 'utf-8')).to.equal(ini_content);
+    });
+
+    it('should merge additional data', () => {
+      let initial_content = `[credentials]
+api_key=123
+api_secret=abc
+`;
+
+      let expected_content = `[credentials]
+api_key=234
+api_secret=abc
+
+[extras]
+foobar=1
+`;
+
+      mockfs({
+        '.nexmorc' : initial_content
+      });
+      config.putAndSave({
+        'credentials': {
+          'api_key': 234
+        },
+        'extras': {
+          'foobar': 1
+        }
+      }, true);
+      expect(fs.readFileSync(config.readFilename(), 'utf-8')).to.equal(expected_content);
+    });
   });
 });

@@ -34,9 +34,28 @@ class Config {
   }
 
   putAndSave(values, writeLocal=false) {
-    let data = readIfPresent();
-    data = Object.assign(data, values);
-    attemptWrite(data, writeLocal);
+    let data = {};
+
+    try {
+      data = this.read();
+    } catch (e) {
+      this.emitter.warn('No existing config found. Writing to new file.');
+    }
+
+    for (let group in values) {
+      let group_vals = values[group];
+      for (let key in group_vals) {
+        if (data[group] == undefined) { data[group] = {}; }
+        data[group][key] = group_vals[key];
+      }
+    }
+
+    try {
+      this.write(data, writeLocal);
+      this.emitter.log(`Credentials written to ${this.writeFilename(writeLocal)}`);
+    } catch (e) {
+      this.emitter.error(`Could not write credentials to ${this.writeFilename(writeLocal)}. (${e.message})`);
+    }
     return data;
   }
 }
@@ -52,22 +71,4 @@ let localFile = function() {
 let homeFile = function() {
   let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
   return `${process.env[key]}/.nexmorc`;
-};
-
-let readIfPresent = function() {
-  try {
-    return this.read();
-  } catch (e) {
-    this.emitter.warn('No existing config found. Writing new config.');
-    return {};
-  }
-};
-
-let attemptWrite = function(data, writeLocal) {
-  try {
-    this.write(data, writeLocal);
-    this.emitter.log(`Credentials written to ${this.writeFilename(writeLocal)}`);
-  } catch (e) {
-    this.emitter.error(`Could not write credentials to ${this.writeFilename(writeLocal)}. (${e.message})`);
-  }
 };

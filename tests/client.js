@@ -6,8 +6,6 @@ import easynexmo from 'easynexmo';
 import { expect } from 'chai';
 import sinon      from 'sinon';
 
-
-
 describe('Client', () => {
   it('should export a Client object', () => {
     expect(Client).to.not.be.null;

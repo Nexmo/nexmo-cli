@@ -4,6 +4,7 @@ class Request {
     this.client   = client;
     this.response = response;
   }
+  // Account
 
   accountBalance() {
     this.client.instance().checkBalance(this.response.accountBalance.bind(this.response));
@@ -16,6 +17,12 @@ class Request {
         'api_secret': secret
       }
     }, options.local);
+  }
+
+  // Numbers
+
+  numbersList() {
+    this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
   }
 }
 

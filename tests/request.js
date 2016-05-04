@@ -30,6 +30,13 @@ describe('Request', () => {
       request  = new Request(config, client, response);
     });
 
+    describe('.accountSetup', () => {
+      it('should call the Config', () => {
+        request.accountSetup('123', 'abc', false);
+        expect(config.putAndSave).to.have.been.called;
+      });
+    });
+
     describe('.accountBalance', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
@@ -39,11 +46,13 @@ describe('Request', () => {
       }));
     });
 
-    describe('.accountSetup', () => {
-      it('should call the Config', () => {
-        request.accountSetup('123', 'abc', false);
-        expect(config.putAndSave).to.have.been.called;
-      });
+    describe('.numbersList', () => {
+      it('should call the Config', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numbersList();
+        expect(nexmo.getNumbers).to.have.been.called;
+      }));
     });
   });
 });
