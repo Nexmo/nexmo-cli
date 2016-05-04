@@ -7,6 +7,17 @@
 
 The Nexmo CLI requires NodeJS 4 or above.
 
+Until the repository is made public or we publish to NPM you can install the CLI as follows:
+
+```bash
+git clone git@github.com:Nexmo/nexmo-cli.git
+npm install nexmo-cli -g
+```
+
+If you clone to a directory other than `nexmo-cli` you will need to update the last command.
+
+Once published to NPM you can install using:
+
 ```
 npm install nexmo-cli -g
 ```
