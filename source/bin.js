@@ -18,8 +18,8 @@ let request   = new Request(config, client, response);
 
 commander
   .version('0.0.1')
-  .option('-q, --quiet', 'quiet mode', emitter.quiet.bind(emitter))
-  .option('-v, --verbose', 'verbose mode', emitter.verbose.bind(emitter));
+  .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
+  .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter));
 
 // account level
 commander
@@ -40,6 +40,18 @@ commander
   .command('numbers:list')
   .alias('n')
   .description('List of numbers assigned to the account')
+  .action(request.numbersList.bind(request));
+
+commander
+  .command('numbers', null, { noHelp: true })
+  .action(request.numbersList.bind(request));
+
+commander
+  .command('number', null, { noHelp: true })
+  .action(request.numbersList.bind(request));
+
+commander
+  .command('number:list', null, { noHelp: true })
   .action(request.numbersList.bind(request));
 
 // catch unknown commands
