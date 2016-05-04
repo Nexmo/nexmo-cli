@@ -61,4 +61,8 @@ describe('Emitter', () => {
       expect(exit).to.have.been.calledWith(1);
     }));
   });
+
+  describe('.table', () => {
+    it('should output a table representation of the data');
+  });
 });
