@@ -55,6 +55,55 @@ msisdn       | country | type       | features
 445555555556 | GB      | mobile-lvn | SMS      
 ```
 
+#### Search for new numbers
+
+Parameters:
+
+* `country_code` - an ISO 3166-2 country code for the country you are trying to find a number for.
+* Optional flags:
+  * `--pattern <pattern>`  to be matched in number (use * to match end or start of number)
+  * `--voice` to search for voice enabled numbers
+  * `--sms` search for SMS enabled numbers
+
+```
+> nexmo number:search US
+12057200555
+12069396555
+12069396555
+12155961555
+
+> nexmo number:search NL --sms --pattern *007 --verbose
+msisdn      | country | cost | type       | features
+-----------------------------------------------------
+31655551007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
+31655552007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
+31655553007 | NL      | 3.00 | mobile-lvn | VOICE,SMS
+```
+
+#### Buying a number
+
+```
+> nexmo number:buy US 12069396555
+This is operation can not be reversed. Please type "confirm" to continue.
+confirm
+success
+
+> nexmo number:buy US 12069396555 --confirm
+success
+```
+
+#### Cancelling a number
+
+```
+> nexmo number:cancel US 12069396555
+This is operation can not be reversed. Please type "confirm" to continue.
+confirm
+success
+
+> nexmo number:cancel US 12069396555 --confirm
+success
+```
+
 ## Contributing
 
 This projects is written in ES2015 and compiled using Babel. The source can be found in the `/source` folder, and the build is compiled to the `/distribution` folder.

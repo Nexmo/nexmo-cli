@@ -46,4 +46,36 @@ describe('Response', () => {
       expect(emitter.warn).to.have.been.called;
     });
   });
+
+  describe('.numberSearch', () => {
+    it('should print a list of numbers', () => {
+      let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      response.numberSearch(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
+    });
+
+    it('should warn if no numbers found', () => {
+      response.numberSearch(null, { numbers: []});
+      expect(emitter.warn).to.have.been.called;
+    });
+  });
+
+  describe('.numberBuy', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.numberBuy(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith(data);
+    });
+  });
+
+  describe('.numberCancel', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.numberCancel(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith(data);
+    });
+  });
 });

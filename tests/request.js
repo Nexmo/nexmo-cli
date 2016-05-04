@@ -47,11 +47,73 @@ describe('Request', () => {
     });
 
     describe('.numbersList', () => {
-      it('should call the Config', sinon.test(function() {
+      it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
         request.numbersList();
         expect(nexmo.getNumbers).to.have.been.called;
+      }));
+    });
+
+    describe('.numberSearch', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', {});
+        expect(nexmo.searchNumbers).to.have.been.called;
+      }));
+
+      it('should parse a voice flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { voice: true });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: ['VOICE'] });
+      }));
+
+      it('should parse a sms flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { sms: true });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: ['SMS'] });
+      }));
+
+      it('should parse both the sms and voice flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { sms: true, voice: true });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: ['VOICE','SMS'] });
+      }));
+
+      it('should pass the pattern flag without a wildcard', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { pattern: '020'});
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1 });
+      }));
+
+      it('should pass the pattern flag with a start-of wildcard', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { pattern: '*020'});
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2 });
+      }));
+    });
+
+    describe('.numberBuy', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberBuy('GB', '123', { confirm: true });
+        expect(nexmo.buyNumber).to.have.been.calledWith('GB', '123');
+      }));
+    });
+
+    describe('.numberCancel', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberCancel('GB', '123', { confirm: true });
+        expect(nexmo.cancelNumber).to.have.been.calledWith('GB', '123');
       }));
     });
   });

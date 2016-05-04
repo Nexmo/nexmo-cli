@@ -22,6 +22,9 @@ var Response = function () {
       this.validator.response(error, response);
       this.emitter.log(response.value, 'Balance: ' + response.value);
     }
+
+    // numbers
+
   }, {
     key: 'numbersList',
     value: function numbersList(error, response) {
@@ -31,6 +34,28 @@ var Response = function () {
       } else {
         this.emitter.warn('No numbers');
       }
+    }
+  }, {
+    key: 'numberSearch',
+    value: function numberSearch(error, response) {
+      this.validator.response(error, response);
+      if (response.numbers && response.numbers.length > 0) {
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
+      } else {
+        this.emitter.warn('No numbers');
+      }
+    }
+  }, {
+    key: 'numberBuy',
+    value: function numberBuy(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response);
+    }
+  }, {
+    key: 'numberCancel',
+    value: function numberCancel(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response);
     }
   }]);
 

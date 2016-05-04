@@ -35,10 +35,10 @@ commander
   .description('Current account balance')
   .action(request.accountBalance.bind(request));
 
-// numbers
+// Number List
 commander
   .command('numbers:list')
-  .alias('n')
+  .alias('nl')
   .description('List of numbers assigned to the account')
   .action(request.numbersList.bind(request));
 
@@ -53,6 +53,94 @@ commander
 commander
   .command('number:list', null, { noHelp: true })
   .action(request.numbersList.bind(request));
+
+// Number Buy
+commander
+  .command('number:buy <country_code> <msisdn>')
+  .alias('nb')
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:buy GB 445555555555');
+    emitter.log('    $ nexmo number:buy NL 31555555555');
+    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberBuy.bind(request));
+
+commander
+  .command('numbers:buy <country_code> <msisdn>', null, { noHelp: true })
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:buy GB 445555555555');
+    emitter.log('    $ nexmo number:buy NL 31555555555');
+    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberBuy.bind(request));
+
+// Number Search
+commander
+  .command('number:search <country_code>')
+  .alias('ns')
+  .option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)')
+  .option('--voice', 'search for voice enabled numbers' )
+  .option('--sms', 'search for SMS enabled numbers')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:search GB --pattern 078*');
+    emitter.log('    $ nexmo number:search NL --sms --pattern 123');
+    emitter.log('    $ nexmo number:search US --pattern *007 --verbose');
+    emitter.log();
+  })
+  .action(request.numberSearch.bind(request));
+
+commander
+  .command('numbers:search <country_code>', null, { noHelp: true })
+  .option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)')
+  .option('--voice', 'search for voice enabled numbers' )
+  .option('--sms', 'search for SMS enabled numbers')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:search GB --pattern 078*');
+    emitter.log('    $ nexmo number:search NL --sms --pattern 123');
+    emitter.log('    $ nexmo number:search US --pattern *007 --verbose');
+    emitter.log();
+  })
+  .action(request.numberSearch.bind(request));
+
+// Number Cancel
+commander
+  .command('number:cancel <country_code> <msisdn>')
+  .option('--confirm', 'skip confirmation step and directly cancel the number' )
+  .alias('nc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:cancel GB 445555555555');
+    emitter.log('    $ nexmo number:cancel NL 31555555555');
+    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberCancel.bind(request));
+
+commander
+  .command('numbers:cancel <country_code> <msisdn>', null, { noHelp: true })
+  .option('--confirm', 'skip confirmation step and directly cancel the number' )
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log();
+    emitter.log('    $ nexmo number:cancel GB 445555555555');
+    emitter.log('    $ nexmo number:cancel NL 31555555555');
+    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log();
+  })
+  .action(request.numberCancel.bind(request));
 
 // catch unknown commands
 commander

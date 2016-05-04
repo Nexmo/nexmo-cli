@@ -25,13 +25,13 @@ var Request = function () {
     }
   }, {
     key: 'accountSetup',
-    value: function accountSetup(key, secret, options) {
+    value: function accountSetup(key, secret, flags) {
       this.config.putAndSave({
         'credentials': {
           'api_key': key,
           'api_secret': secret
         }
-      }, options.local);
+      }, flags.local);
     }
 
     // Numbers
@@ -41,9 +41,70 @@ var Request = function () {
     value: function numbersList() {
       this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
     }
+  }, {
+    key: 'numberSearch',
+    value: function numberSearch(countryCode, flags) {
+      countryCode = countryCode.toUpperCase();
+
+      var options = { features: [] };
+      if (flags.voice) {
+        options.features.push('VOICE');
+      }
+      if (flags.sms) {
+        options.features.push('SMS');
+      }
+
+      if (flags.pattern) {
+        options.pattern = flags.pattern;
+        options.search_pattern = 1;
+        if (options.pattern[0] === '*') options.search_pattern = 2;
+        if (options.pattern.slice(-1) === '*') options.search_pattern = 0;
+      }
+
+      this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
+    }
+  }, {
+    key: 'numberBuy',
+    value: function numberBuy(countryCode, msisdn, flags) {
+      var _this = this;
+
+      confirm(this.response.emitter, flags, function () {
+        _this.client.instance().buyNumber(countryCode, msisdn, _this.response.numberBuy.bind(_this.response));
+      });
+    }
+  }, {
+    key: 'numberCancel',
+    value: function numberCancel(countryCode, msisdn, flags) {
+      var _this2 = this;
+
+      confirm(this.response.emitter, flags, function () {
+        _this2.client.instance().cancelNumber(countryCode, msisdn, _this2.response.numberCancel.bind(_this2.response));
+      });
+    }
   }]);
 
   return Request;
 }();
 
 exports.default = Request;
+
+
+var confirm = function confirm(emitter, flags, callback) {
+  var stdin = process.stdin;
+  stdin.resume();
+
+  var action = function action(answer) {
+    if (answer.toString().trim() == 'confirm') {
+      callback();
+    } else {
+      process.exit(1);
+    }
+  };
+
+  if (flags.confirm) {
+    callback();
+  } else {
+    emitter.log('This is operation can not be reversed. Please type "confirm" to continue.');
+    stdin.addListener('data', action);
+  }
+};
