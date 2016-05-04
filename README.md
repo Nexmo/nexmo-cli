@@ -11,7 +11,7 @@ Until the repository is made public or we publish to NPM you can install the CLI
 
 ```bash
 git clone git@github.com:Nexmo/nexmo-cli.git
-npm install nexmo-cli -g
+npm install ./nexmo-cli -g
 ```
 
 If you clone to a directory other than `nexmo-cli` you will need to update the last command.
