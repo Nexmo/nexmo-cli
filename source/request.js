@@ -21,8 +21,12 @@ class Request {
 
   // Numbers
 
-  numbersList() {
-    this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
+  numbersList(flags) {
+    let options = {};
+    if (flags.page) { options.index = flags.page; }
+    if (flags.size) { options.size = flags.size; }
+
+    this.client.instance().getNumbers(options, this.response.numbersList.bind(this.response));
   }
 
   numberSearch(countryCode, flags) {
@@ -31,6 +35,8 @@ class Request {
     let options = { features: [] };
     if (flags.voice) { options.features.push('VOICE'); }
     if (flags.sms) { options.features.push('SMS'); }
+    if (flags.page) { options.index = flags.page; }
+    if (flags.size) { options.size = flags.size; }
 
     if(flags.pattern) {
       options.pattern = flags.pattern;

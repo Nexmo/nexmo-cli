@@ -50,8 +50,22 @@ describe('Request', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.numbersList();
+        request.numbersList({});
         expect(nexmo.getNumbers).to.have.been.called;
+      }));
+
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numbersList({ page: 2 });
+        expect(nexmo.getNumbers).to.have.been.calledWith({ index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numbersList({ size: 25 });
+        expect(nexmo.getNumbers).to.have.been.calledWith({ size: 25 });
       }));
     });
 
@@ -82,6 +96,20 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         request.numberSearch('GB', { sms: true, voice: true });
         expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: ['VOICE','SMS'] });
+      }));
+
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { page: 2 });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { size: 25 });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], size: 25 });
       }));
 
       it('should pass the pattern flag without a wildcard', sinon.test(function() {
