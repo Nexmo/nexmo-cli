@@ -144,5 +144,92 @@ describe('Request', () => {
         expect(nexmo.numberInsightBasic).to.have.been.called;
       }));
     });
+
+    describe('.applicationsList', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationsList({});
+        expect(nexmo.getApplications).to.have.been.called;
+      }));
+
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationsList({ page: 2 });
+        expect(nexmo.getApplications).to.have.been.calledWith({ index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationsList({ size: 25 });
+        expect(nexmo.getApplications).to.have.been.calledWith({ size: 25 });
+      }));
+    });
+
+    describe('.applicationCreate', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice' });
+        expect(nexmo.createApplication).to.have.been.called;
+      }));
+
+      it('should parse a answer_method flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
+        expect(nexmo.createApplication).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+      }));
+
+      it('should parse a event_method flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
+        expect(nexmo.createApplication).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+      }));
+    });
+
+    describe('.applicationShow', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationShow('app_id');
+        expect(nexmo.getApplication).to.have.been.called;
+      }));
+    });
+
+    describe('.applicationUpdate', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice' });
+        expect(nexmo.updateApplication).to.have.been.called;
+      }));
+
+      it('should parse a answer_method flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
+        expect(nexmo.updateApplication).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+      }));
+
+      it('should parse a event_method flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
+        expect(nexmo.updateApplication).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+      }));
+    });
+
+    describe('.applicationDelete', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.applicationDelete('123', { confirm: true });
+        expect(nexmo.deleteApplication).to.have.been.called;
+      }));
+    });
   });
 });

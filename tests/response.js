@@ -66,7 +66,7 @@ describe('Response', () => {
       let data = 'response';
       response.numberBuy(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.log).to.have.been.calledWith(data);
+      expect(emitter.log).to.have.been.calledWith('Number purchased');
     });
   });
 
@@ -75,7 +75,7 @@ describe('Response', () => {
       let data = 'response';
       response.numberCancel(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.log).to.have.been.calledWith(data);
+      expect(emitter.log).to.have.been.calledWith('Number cancelled');
     });
   });
 
@@ -87,6 +87,56 @@ describe('Response', () => {
 
       expect(method).to.be.a('function');
       method(null, {});
+    });
+  });
+
+  describe('.applicationsList', () => {
+    it('should print a list of application', () => {
+      let data = {'_embedded':{'applications':[{'id':123}]}};
+      response.applicationsList(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.table).to.have.been.calledWith([{'id':123}], ['id', 'name'], ['id', 'name']);
+    });
+
+    it('should warn if no applications found', () => {
+      response.applicationsList(null, {'_embedded':{'applications':[]}});
+      expect(emitter.warn).to.have.been.called;
+    });
+  });
+
+  describe('.applicationCreate', () => {
+    it('should print the response', () => {
+      let data = { id: 123 };
+      response.applicationCreate(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith('Application created: 123', data);
+    });
+  });
+
+  describe('.applicationShow', () => {
+    it('should print the response', () => {
+      let data = { id: 123 };
+      response.applicationShow(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith(null, data);
+    });
+  });
+
+  describe('.applicationUpdate', () => {
+    it('should print the response', () => {
+      let data = { id: 123 };
+      response.applicationUpdate(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith('Application updated: 123', data);
+    });
+  });
+
+  describe('.applicationDelete', () => {
+    it('should print the response', () => {
+      let data = { id: 123 };
+      response.applicationDelete(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith('Application deleted');
     });
   });
 });

@@ -35,14 +35,24 @@ class Emitter {
     records.forEach((record, row) => {
       let message = formatMessage(record, lengths);
       this.log(message);
-      if (row == 0 && this.amplified) this.log(pad('', message.length, '-'));
+      if (row == 0 && this.amplified) this.log(right('', message.length, '-'));
     });
+  }
+
+  list(message, verbose_data) {
+    if (this.amplified || !message) {
+      let message = formatList(verbose_data);
+      this.log(message);
+    } else {
+      this.log(message);
+    }
+
   }
 }
 
 export default Emitter;
 
-let pad = function(string = '', size = 0, padding = ' ') {
+let right = function(string = '', size = 0, padding = ' ') {
   if (string.length >= size) { return string; }
 
   var max = size - string.length;
@@ -74,7 +84,21 @@ let valueLengths = function(records) {
 
 let formatMessage = function(record, lengths) {
   return record.reduce((previous, current, index) => {
-    if (index == 1) { previous = pad(previous, lengths[index-1]); }
-    return `${previous} | ${pad(current, lengths[index])}`;
+    if (index == 1) { previous = right(previous, lengths[index-1]); }
+    return `${previous} | ${right(current, lengths[index])}`;
   });
+};
+
+let formatList = function(data, prefix = '') {
+  let message = '';
+  for (let key in data) {
+    let value = data[key];
+    if (typeof(value) === 'object') {
+      message += formatList(value, prefix+key+'.');
+    } else {
+      message += `[${prefix}${key}]\n`;
+      message += `${data[key]}\n\n`;
+    }
+  }
+  return message;
 };
