@@ -78,4 +78,15 @@ describe('Response', () => {
       expect(emitter.log).to.have.been.calledWith(data);
     });
   });
+
+  describe('.numberInsight', () => {
+    it('should call the callback', (done) => {
+      let method = response.numberInsight(() => {
+        done();
+      });
+
+      expect(method).to.be.a('function');
+      method(null, {});
+    });
+  });
 });

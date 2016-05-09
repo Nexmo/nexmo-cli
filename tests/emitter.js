@@ -63,6 +63,31 @@ describe('Emitter', () => {
   });
 
   describe('.table', () => {
-    it('should output a table representation of the data');
+    it('should output a table representation of the data', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
+      let keys = ['name'];
+      let verbose_keys = ['name', 'count'];
+
+      emitter.table(data, keys, verbose_keys);
+      expect(log).to.have.been.calledTwice;
+      expect(log).to.have.been.calledWith('foo');
+      expect(log).to.have.been.calledWith('bar');
+    }));
+
+    it('should support a verbose table', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
+      let keys = ['name'];
+      let verbose_keys = ['name', 'count'];
+
+      emitter.verbose();
+      emitter.table(data, keys, verbose_keys);
+      expect(log.callCount).to.equal(4);
+      expect(log).to.have.been.calledWith('name | count');
+      expect(log).to.have.been.calledWith('------------');
+      expect(log).to.have.been.calledWith('foo  | 1    ');
+      expect(log).to.have.been.calledWith('bar  | 2    ');
+    }));
   });
 });
