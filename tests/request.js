@@ -50,8 +50,22 @@ describe('Request', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.numbersList();
+        request.numbersList({});
         expect(nexmo.getNumbers).to.have.been.called;
+      }));
+
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numbersList({ page: 2 });
+        expect(nexmo.getNumbers).to.have.been.calledWith({ index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numbersList({ size: 25 });
+        expect(nexmo.getNumbers).to.have.been.calledWith({ size: 25 });
       }));
     });
 

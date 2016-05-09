@@ -38,20 +38,28 @@ commander
 // Number List
 commander
   .command('numbers:list')
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the number of results to return')
   .alias('nl')
   .description('List of numbers assigned to the account')
   .action(request.numbersList.bind(request));
 
 commander
   .command('numbers', null, { noHelp: true })
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the number of results to return')
   .action(request.numbersList.bind(request));
 
 commander
   .command('number', null, { noHelp: true })
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the number of results to return')
   .action(request.numbersList.bind(request));
 
 commander
   .command('number:list', null, { noHelp: true })
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the number of results to return')
   .action(request.numbersList.bind(request));
 
 // Number Buy

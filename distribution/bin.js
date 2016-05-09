@@ -46,13 +46,13 @@ _commander2.default.command('setup <api_key> <api_secret>').alias('s').option('-
 _commander2.default.command('balance').alias('b').description('Current account balance').action(request.accountBalance.bind(request));
 
 // Number List
-_commander2.default.command('numbers:list').alias('nl').description('List of numbers assigned to the account').action(request.numbersList.bind(request));
+_commander2.default.command('numbers:list').option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').alias('nl').description('List of numbers assigned to the account').action(request.numbersList.bind(request));
 
-_commander2.default.command('numbers', null, { noHelp: true }).action(request.numbersList.bind(request));
+_commander2.default.command('numbers', null, { noHelp: true }).option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').action(request.numbersList.bind(request));
 
-_commander2.default.command('number', null, { noHelp: true }).action(request.numbersList.bind(request));
+_commander2.default.command('number', null, { noHelp: true }).option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').action(request.numbersList.bind(request));
 
-_commander2.default.command('number:list', null, { noHelp: true }).action(request.numbersList.bind(request));
+_commander2.default.command('number:list', null, { noHelp: true }).option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').action(request.numbersList.bind(request));
 
 // Number Buy
 _commander2.default.command('number:buy <msisdn>').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {

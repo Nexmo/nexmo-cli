@@ -38,8 +38,16 @@ var Request = function () {
 
   }, {
     key: 'numbersList',
-    value: function numbersList() {
-      this.client.instance().getNumbers(this.response.numbersList.bind(this.response));
+    value: function numbersList(flags) {
+      var options = {};
+      if (flags.page) {
+        options.index = flags.page;
+      }
+      if (flags.size) {
+        options.size = flags.size;
+      }
+
+      this.client.instance().getNumbers(options, this.response.numbersList.bind(this.response));
     }
   }, {
     key: 'numberSearch',
