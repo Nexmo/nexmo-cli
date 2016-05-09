@@ -55,7 +55,7 @@ _commander2.default.command('number', null, { noHelp: true }).action(request.num
 _commander2.default.command('number:list', null, { noHelp: true }).action(request.numbersList.bind(request));
 
 // Number Buy
-_commander2.default.command('number:buy <country_code> <msisdn>').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
+_commander2.default.command('number:buy <msisdn>').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:buy GB 445555555555');
@@ -64,7 +64,7 @@ _commander2.default.command('number:buy <country_code> <msisdn>').alias('nb').op
   emitter.log();
 }).action(request.numberBuy.bind(request));
 
-_commander2.default.command('numbers:buy <country_code> <msisdn>', null, { noHelp: true }).option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
+_commander2.default.command('numbers:buy <msisdn>', null, { noHelp: true }).option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:buy GB 445555555555');
@@ -93,7 +93,7 @@ _commander2.default.command('numbers:search <country_code>', null, { noHelp: tru
 }).action(request.numberSearch.bind(request));
 
 // Number Cancel
-_commander2.default.command('number:cancel <country_code> <msisdn>').option('--confirm', 'skip confirmation step and directly cancel the number').alias('nc').on('--help', function () {
+_commander2.default.command('number:cancel <msisdn>').option('--confirm', 'skip confirmation step and directly cancel the number').alias('nc').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:cancel GB 445555555555');
@@ -102,7 +102,7 @@ _commander2.default.command('number:cancel <country_code> <msisdn>').option('--c
   emitter.log();
 }).action(request.numberCancel.bind(request));
 
-_commander2.default.command('numbers:cancel <country_code> <msisdn>', null, { noHelp: true }).option('--confirm', 'skip confirmation step and directly cancel the number').on('--help', function () {
+_commander2.default.command('numbers:cancel <msisdn>', null, { noHelp: true }).option('--confirm', 'skip confirmation step and directly cancel the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:cancel GB 445555555555');

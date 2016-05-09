@@ -65,20 +65,24 @@ var Request = function () {
     }
   }, {
     key: 'numberBuy',
-    value: function numberBuy(countryCode, msisdn, flags) {
+    value: function numberBuy(msisdn, flags) {
       var _this = this;
 
       confirm(this.response.emitter, flags, function () {
-        _this.client.instance().buyNumber(countryCode, msisdn, _this.response.numberBuy.bind(_this.response));
+        _this.client.instance().numberInsightBasic(msisdn, _this.response.numberInsight(function (response) {
+          _this.client.instance().buyNumber(response.country_code, msisdn, _this.response.numberBuy.bind(_this.response));
+        }));
       });
     }
   }, {
     key: 'numberCancel',
-    value: function numberCancel(countryCode, msisdn, flags) {
+    value: function numberCancel(msisdn, flags) {
       var _this2 = this;
 
       confirm(this.response.emitter, flags, function () {
-        _this2.client.instance().cancelNumber(countryCode, msisdn, _this2.response.numberCancel.bind(_this2.response));
+        _this2.client.instance().numberInsightBasic(msisdn, _this2.response.numberInsight(function (response) {
+          _this2.client.instance().cancelNumber(response.country_code, msisdn, _this2.response.numberCancel.bind(_this2.response));
+        }));
       });
     }
   }]);

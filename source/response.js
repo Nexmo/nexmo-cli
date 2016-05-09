@@ -41,6 +41,13 @@ class Response {
     this.validator.response(error, response);
     this.emitter.log(response);
   }
+
+  numberInsight(callback) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      callback(response);
+    };
+  }
 }
 
 export default Response;

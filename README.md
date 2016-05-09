@@ -83,24 +83,24 @@ msisdn      | country | cost | type       | features
 #### Buying a number
 
 ```
-> nexmo number:buy US 12069396555
+> nexmo number:buy 12069396555
 This is operation can not be reversed. Please type "confirm" to continue.
 confirm
 success
 
-> nexmo number:buy US 12069396555 --confirm
+> nexmo number:buy 12069396555 --confirm
 success
 ```
 
 #### Cancelling a number
 
 ```
-> nexmo number:cancel US 12069396555
+> nexmo number:cancel 12069396555
 This is operation can not be reversed. Please type "confirm" to continue.
 confirm
 success
 
-> nexmo number:cancel US 12069396555 --confirm
+> nexmo number:cancel 12069396555 --confirm
 success
 ```
 

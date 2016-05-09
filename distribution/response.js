@@ -57,6 +57,16 @@ var Response = function () {
       this.validator.response(error, response);
       this.emitter.log(response);
     }
+  }, {
+    key: 'numberInsight',
+    value: function numberInsight(callback) {
+      var _this = this;
+
+      return function (error, response) {
+        _this.validator.response(error, response);
+        callback(response);
+      };
+    }
   }]);
 
   return Response;

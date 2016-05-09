@@ -42,15 +42,19 @@ class Request {
     this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
   }
 
-  numberBuy(countryCode, msisdn, flags) {
+  numberBuy(msisdn, flags) {
     confirm(this.response.emitter, flags, () => {
-      this.client.instance().buyNumber(countryCode, msisdn, this.response.numberBuy.bind(this.response));
+      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
+        this.client.instance().buyNumber(response.country_code, msisdn, this.response.numberBuy.bind(this.response));
+      }));
     });
   }
 
-  numberCancel(countryCode, msisdn, flags) {
+  numberCancel(msisdn, flags) {
     confirm(this.response.emitter, flags, () => {
-      this.client.instance().cancelNumber(countryCode, msisdn, this.response.numberCancel.bind(this.response));
+      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
+        this.client.instance().cancelNumber(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
+      }));
     });
   }
 }
