@@ -53,6 +53,12 @@ var Request = function () {
       if (flags.sms) {
         options.features.push('SMS');
       }
+      if (flags.page) {
+        options.index = flags.page;
+      }
+      if (flags.size) {
+        options.size = flags.size;
+      }
 
       if (flags.pattern) {
         options.pattern = flags.pattern;

@@ -74,7 +74,7 @@ _commander2.default.command('numbers:buy <msisdn>', null, { noHelp: true }).opti
 }).action(request.numberBuy.bind(request));
 
 // Number Search
-_commander2.default.command('number:search <country_code>').alias('ns').option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').on('--help', function () {
+_commander2.default.command('number:search <country_code>').alias('ns').option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:search GB --pattern 078*');
@@ -83,7 +83,7 @@ _commander2.default.command('number:search <country_code>').alias('ns').option('
   emitter.log();
 }).action(request.numberSearch.bind(request));
 
-_commander2.default.command('numbers:search <country_code>', null, { noHelp: true }).option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').on('--help', function () {
+_commander2.default.command('numbers:search <country_code>', null, { noHelp: true }).option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)').option('--voice', 'search for voice enabled numbers').option('--sms', 'search for SMS enabled numbers').option('--page <page>', 'the page of results to return').option('--size <size>', 'the number of results to return').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log();
   emitter.log('    $ nexmo number:search GB --pattern 078*');

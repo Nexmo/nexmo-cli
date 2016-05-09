@@ -84,6 +84,20 @@ describe('Request', () => {
         expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: ['VOICE','SMS'] });
       }));
 
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { page: 2 });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberSearch('GB', { size: 25 });
+        expect(nexmo.searchNumbers).to.have.been.calledWith('GB', { features: [], size: 25 });
+      }));
+
       it('should pass the pattern flag without a wildcard', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);

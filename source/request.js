@@ -31,6 +31,8 @@ class Request {
     let options = { features: [] };
     if (flags.voice) { options.features.push('VOICE'); }
     if (flags.sms) { options.features.push('SMS'); }
+    if (flags.page) { options.index = flags.page; }
+    if (flags.size) { options.size = flags.size; }
 
     if(flags.pattern) {
       options.pattern = flags.pattern;
