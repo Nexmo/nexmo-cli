@@ -1,5 +1,7 @@
 # Nexmo CLI
 
+[![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli)
+
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
 
