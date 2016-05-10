@@ -90,4 +90,27 @@ describe('Emitter', () => {
       expect(log).to.have.been.calledWith('bar  | 2    ');
     }));
   });
+
+  describe('.list', () => {
+    it('should output message in regular mode', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = {name: 'foo', count: 1};
+      let message = 'foobar';
+
+      emitter.list(message, data);
+      expect(log).to.have.been.calledOnce;
+      expect(log).to.have.been.calledWith(message);
+    }));
+
+    it('should output a list in verbose mode', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = {name: 'foo', count: 1};
+      let message = 'foobar';
+
+      emitter.verbose();
+      emitter.list(message, data);
+      expect(log).to.have.been.calledOnce;
+      expect(log).not.to.have.been.calledWith(message);
+    }));
+  });
 });

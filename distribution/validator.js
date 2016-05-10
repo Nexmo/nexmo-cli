@@ -20,7 +20,7 @@ var Validator = function () {
     value: function response(error, _response) {
       if (error) {
         this.emitter.error(error.message);
-      } else if (_response['error-code']) {
+      } else if (_response['error-code'] && _response['error-code'] !== '200') {
         this.emitter.error(_response['error-code-label']);
       }
     }

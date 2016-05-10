@@ -1,3 +1,5 @@
+import readline from 'readline';
+
 class Request {
   constructor(config, client, response) {
     this.config   = config;
@@ -29,8 +31,8 @@ class Request {
     this.client.instance().getNumbers(options, this.response.numbersList.bind(this.response));
   }
 
-  numberSearch(countryCode, flags) {
-    countryCode = countryCode.toUpperCase();
+  numberSearch(country_code, flags) {
+    country_code = country_code.toUpperCase();
 
     let options = { features: [] };
     if (flags.voice) { options.features.push('VOICE'); }
@@ -45,11 +47,11 @@ class Request {
       if (options.pattern.slice(-1) === '*') options.search_pattern = 0;
     }
 
-    this.client.instance().searchNumbers(countryCode, options, this.response.numberSearch.bind(this.response));
+    this.client.instance().searchNumbers(country_code, options, this.response.numberSearch.bind(this.response));
   }
 
   numberBuy(msisdn, flags) {
-    confirm(this.response.emitter, flags, () => {
+    confirm('This is operation will charge your account.', this.response.emitter, flags, () => {
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
         this.client.instance().buyNumber(response.country_code, msisdn, this.response.numberBuy.bind(this.response));
       }));
@@ -57,32 +59,69 @@ class Request {
   }
 
   numberCancel(msisdn, flags) {
-    confirm(this.response.emitter, flags, () => {
+    confirm('This is operation can not be reversed.', this.response.emitter, flags, () => {
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
         this.client.instance().cancelNumber(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
       }));
+    });
+  }
+
+  // Applications
+
+  applicationsList(flags) {
+    let options = {};
+    if (flags.page) { options.index = flags.page; }
+    if (flags.size) { options.size = flags.size; }
+
+    this.client.instance().getApplications(options, this.response.applicationsList.bind(this.response));
+  }
+
+  applicationCreate(name, answer_url, event_url, flags) {
+    let options = {};
+    if (flags.answer_method) { options.answer_method = flags.answer_method; }
+    if (flags.event_method) { options.event_method = flags.event_method; }
+
+    this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate.bind(this.response));
+  }
+
+  applicationShow(app_id) {
+    this.client.instance().getApplication(app_id, this.response.applicationShow.bind(this.response));
+  }
+
+  applicationUpdate(app_id, name, answer_url, event_url, flags) {
+    let options = {};
+    if (flags.answer_method) { options.answer_method = flags.answer_method; }
+    if (flags.event_method) { options.event_method = flags.event_method; }
+
+    this.client.instance().updateApplication(app_id, name, flags.type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
+  }
+
+  applicationDelete(app_id, flags) {
+    return confirm('This is operation can not be reversed.', this.response.emitter, flags, () => {
+      this.client.instance().deleteApplication(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
 }
 
 export default Request;
 
-let confirm = function(emitter, flags, callback) {
-  let stdin = process.stdin;
-  stdin.resume();
+// private methods
 
-  let action = (answer) => {
-    if (answer.toString().trim() == 'confirm') {
-      callback();
-    } else {
-      process.exit(1);
-    }
-  };
-
+let confirm = function(message, emitter, flags, callback) {
   if (flags.confirm) {
     callback();
   } else {
-    emitter.log('This is operation can not be reversed. Please type "confirm" to continue.');
-    stdin.addListener('data', action);
+    let cli = readline.createInterface(process.stdin, process.stdout);
+    cli.question(message + '\n\nPlease type "confirm" to continue: ', (answer) => {
+      if (answer.toString().trim() == 'confirm') {
+        emitter.log(' ');
+        callback();
+      } else {
+        process.exit(1);
+      }
+
+      cli.close();
+      process.stdin.destroy();
+    });
   }
 };

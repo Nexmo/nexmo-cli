@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -62,8 +64,18 @@ var Emitter = function () {
       records.forEach(function (record, row) {
         var message = formatMessage(record, lengths);
         _this.log(message);
-        if (row == 0 && _this.amplified) _this.log(pad('', message.length, '-'));
+        if (row == 0 && _this.amplified) _this.log(right('', message.length, '-'));
       });
+    }
+  }, {
+    key: 'list',
+    value: function list(message, verbose_data) {
+      if (this.amplified || !message) {
+        var _message = formatList(verbose_data);
+        this.log(_message);
+      } else {
+        this.log(message);
+      }
     }
   }]);
 
@@ -73,7 +85,7 @@ var Emitter = function () {
 exports.default = Emitter;
 
 
-var pad = function pad() {
+var right = function right() {
   var string = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
   var size = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
   var padding = arguments.length <= 2 || arguments[2] === undefined ? ' ' : arguments[2];
@@ -112,8 +124,24 @@ var valueLengths = function valueLengths(records) {
 var formatMessage = function formatMessage(record, lengths) {
   return record.reduce(function (previous, current, index) {
     if (index == 1) {
-      previous = pad(previous, lengths[index - 1]);
+      previous = right(previous, lengths[index - 1]);
     }
-    return previous + ' | ' + pad(current, lengths[index]);
+    return previous + ' | ' + right(current, lengths[index]);
   });
+};
+
+var formatList = function formatList(data) {
+  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+
+  var message = '';
+  for (var key in data) {
+    var value = data[key];
+    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
+      message += formatList(value, prefix + key + '.');
+    } else {
+      message += '[' + prefix + key + ']\n';
+      message += data[key] + '\n\n';
+    }
+  }
+  return message;
 };

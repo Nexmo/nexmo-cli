@@ -38,19 +38,28 @@ describe('Validator', () => {
       });
 
       describe('due to error codes in response objects', () => {
-        it('should emit an error', () => {
-          it('should emit an error', sinon.test(function() {
-            let emitter = new Emitter();
-            let validator = new Validator(emitter);
+        it('should emit an error', sinon.test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
 
-            let stub = this.stub(emitter, 'error');
+          let stub = this.stub(emitter, 'error');
 
-            validator.response(null, {'error-code' : 'foobar'});
+          validator.response(null, {'error-code' : '500', 'error-code-label' : 'foobar'});
 
-            expect(stub).to.be.called;
-            expect(stub).to.be.calledWith('foobar');
-          }));
-        });
+          expect(stub).to.be.called;
+          expect(stub).to.be.calledWith('foobar');
+        }));
+
+        it('should ignore a 200 status', sinon.test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
+
+          let stub = this.stub(emitter, 'error');
+
+          validator.response(null, {'error-code' : '200'});
+
+          expect(stub).not.to.be.called;
+        }));
       });
     });
   });
