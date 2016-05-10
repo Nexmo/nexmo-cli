@@ -16,6 +16,7 @@ var Emitter = function () {
 
     this.silenced = false;
     this.amplified = false;
+    this.debugging = false;
   }
 
   _createClass(Emitter, [{
@@ -33,6 +34,13 @@ var Emitter = function () {
       this.amplified = amplified;
     }
   }, {
+    key: 'debug',
+    value: function debug() {
+      var debugging = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+      this.debugging = debugging;
+    }
+  }, {
     key: 'log',
     value: function log(message, amplified_message) {
       if (this.amplified && amplified_message) message = amplified_message;
@@ -48,6 +56,13 @@ var Emitter = function () {
     value: function error(message) {
       console.error(message); // eslint-disable-line no-console
       process.exit(1);
+    }
+  }, {
+    key: 'debugger',
+    value: function _debugger(message) {
+      if (this.debugging) {
+        console.log(message);
+      } // eslint-disable-line no-console
     }
   }, {
     key: 'table',

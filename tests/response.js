@@ -38,7 +38,7 @@ describe('Response', () => {
       let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
       response.numbersList(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features']);
+      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue']);
     });
 
     it('should warn if no numbers found', () => {
@@ -137,6 +137,24 @@ describe('Response', () => {
       response.applicationDelete(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Application deleted');
+    });
+  });
+
+  describe('.linkCreate', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.linkCreate(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith('Number linked');
+    });
+  });
+
+  describe('.linkDelete', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.linkDelete(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith('Number unlinked');
     });
   });
 });

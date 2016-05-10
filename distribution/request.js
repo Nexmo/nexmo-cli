@@ -161,6 +161,29 @@ var Request = function () {
         _this3.client.instance().deleteApplication(app_id, _this3.response.applicationDelete.bind(_this3.response));
       });
     }
+
+    // links
+
+  }, {
+    key: 'linkCreate',
+    value: function linkCreate(msisdn, app_id) {
+      var _this4 = this;
+
+      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
+        var options = { voiceCallbackType: 'app', voiceCallbackValue: app_id };
+        _this4.client.instance().updateNumber(response.country_code, msisdn, options, _this4.response.linkCreate.bind(_this4.response));
+      }));
+    }
+  }, {
+    key: 'linkDelete',
+    value: function linkDelete(msisdn) {
+      var _this5 = this;
+
+      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
+        var options = { voiceCallbackType: null, voiceCallbackValue: null };
+        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.linkDelete.bind(_this5.response));
+      }));
+    }
   }]);
 
   return Request;

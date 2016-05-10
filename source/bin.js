@@ -19,7 +19,8 @@ let request   = new Request(config, client, response);
 commander
   .version('0.0.1')
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
-  .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter));
+  .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter))
+  .option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
 
 // account level
 commander
@@ -228,6 +229,56 @@ commander
   .alias('ad')
   .option('--confirm', 'skip confirmation step and directly delete the app' )
   .action(request.applicationDelete.bind(request));
+
+// Create a link
+
+commander
+  .command('link:create <number> <app_id>')
+  .description('Link a number to an application')
+  .alias('lc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+    emitter.log(' ');
+  })
+  .action(request.linkCreate.bind(request));
+
+commander
+  .command('link <number> <app_id>', null, { noHelp: true })
+  .description('Link a number to an application')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+    emitter.log(' ');
+  })
+  .action(request.linkCreate.bind(request));
+
+// Delete a link
+
+commander
+  .command('link:delete <number>')
+  .description('Unlink a number from any applications')
+  .alias('ld')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:delete 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.linkDelete.bind(request));
+
+commander
+  .command('unlink <number>', null, { noHelp: true })
+  .description('Unlink a number from any applications')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:delete 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.linkDelete.bind(request));
 
 // catch unknown commands
 commander

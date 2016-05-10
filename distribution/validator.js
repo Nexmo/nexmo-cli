@@ -18,11 +18,22 @@ var Validator = function () {
   _createClass(Validator, [{
     key: 'response',
     value: function response(error, _response) {
+      this.debug(error, _response);
+
       if (error) {
         this.emitter.error(error.message);
       } else if (_response['error-code'] && _response['error-code'] !== '200') {
         this.emitter.error(_response['error-code-label']);
       }
+    }
+  }, {
+    key: 'debug',
+    value: function debug(error, response) {
+      this.emitter.debugger('Validator.response() - Error: ');
+      this.emitter.debugger(error);
+      this.emitter.debugger('Validator.response() - Response: ');
+      this.emitter.debugger(response);
+      this.emitter.debugger('End Validator.response()');
     }
   }]);
 

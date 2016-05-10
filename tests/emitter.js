@@ -36,6 +36,15 @@ describe('Emitter', () => {
     }));
   });
 
+  describe('.debug', () => {
+    it('should enable debug logs', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      emitter.debug();
+      emitter.debugger('message');
+      expect(log).to.have.been.calledWith('message');
+    }));
+  });
+
   describe('.log', () => {
     it('should put debug logs to console.log', sinon.test(function() {
       let log = this.stub(console, 'log');
@@ -59,6 +68,14 @@ describe('Emitter', () => {
       emitter.error('foobar');
       expect(error).to.have.been.calledWith('foobar');
       expect(exit).to.have.been.calledWith(1);
+    }));
+  });
+
+  describe('.debugger', () => {
+    it('should not output anything in normal mode', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      emitter.debugger('message');
+      expect(log).not.to.have.been.called;
     }));
   });
 

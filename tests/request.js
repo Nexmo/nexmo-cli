@@ -231,5 +231,23 @@ describe('Request', () => {
         expect(nexmo.deleteApplication).to.have.been.called;
       }));
     });
+
+    describe('.linkCreate', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.linkCreate('123', 'abc');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
+
+    describe('.linkDelete', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.linkDelete('123');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
   });
 });

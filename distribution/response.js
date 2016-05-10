@@ -30,7 +30,7 @@ var Response = function () {
     value: function numbersList(error, response) {
       this.validator.response(error, response);
       if (response.numbers && response.numbers.length > 0) {
-        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features']);
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue']);
       } else {
         this.emitter.warn('No numbers');
       }
@@ -103,6 +103,21 @@ var Response = function () {
     value: function applicationDelete(error, response) {
       this.validator.response(error, response);
       this.emitter.log('Application deleted');
+    }
+
+    // links
+
+  }, {
+    key: 'linkCreate',
+    value: function linkCreate(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log('Number linked');
+    }
+  }, {
+    key: 'linkDelete',
+    value: function linkDelete(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log('Number unlinked');
     }
   }]);
 

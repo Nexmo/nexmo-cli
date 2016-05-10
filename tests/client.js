@@ -25,5 +25,19 @@ describe('Client', () => {
 
       expect(nexmo.initialize).to.have.been.called;
     }));
+
+    it('should allow for debugging', sinon.test(function () {
+      let emitter = sinon.createStubInstance(Emitter);
+      let config = sinon.createStubInstance(Config);
+      let nexmo = this.stub(easynexmo);
+
+      config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
+      emitter.debugging = true;
+
+      let client = new Client(config, emitter);
+      client.instance();
+
+      expect(nexmo.initialize).to.have.been.calledWith('123', 'abc', true);
+    }));
   });
 });

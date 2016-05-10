@@ -2,6 +2,7 @@ class Emitter {
   constructor() {
     this.silenced = false;
     this.amplified = false;
+    this.debugging = false;
   }
 
   quiet(silenced = true) {
@@ -10,6 +11,10 @@ class Emitter {
 
   verbose(amplified = true) {
     this.amplified = amplified;
+  }
+
+  debug(debugging = true) {
+    this.debugging = debugging;
   }
 
   log(message, amplified_message) {
@@ -24,6 +29,10 @@ class Emitter {
   error(message) {
     console.error(message); // eslint-disable-line no-console
     process.exit(1);
+  }
+
+  debugger(message) {
+    if (this.debugging) { console.log(message); } // eslint-disable-line no-console
   }
 
   table(data, regular_keys, verbose_keys) {

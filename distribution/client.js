@@ -40,7 +40,7 @@ exports.default = Client;
 var initialize = function initialize(config, emitter) {
   try {
     var credentials = config.read().credentials;
-    _easynexmo2.default.initialize(credentials.api_key, credentials.api_secret);
+    _easynexmo2.default.initialize(credentials.api_key, credentials.api_secret, emitter.debugging);
   } catch (e) {
     if (e instanceof TypeError) {
       emitter.error('Could not initialize Nexmo SDK. Please run \'nexmo setup\' to setup the CLI correctly. (' + e.message + ')');

@@ -16,7 +16,7 @@ describe('Validator', () => {
   describe('.response', () => {
     describe('when no errors are present', () => {
       it('should fall through quietely', () => {
-        let validator = new Validator();
+        let validator = new Validator(new Emitter());
         expect(validator.response(null, {})).to.be.undefined;
       });
     });
