@@ -333,6 +333,8 @@ npm test # to run all tests
 npm run watch:test # to watch for changes and run tests
 ```
 
+You can run any `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+
 # License
 
 This library is released under the [MIT License][license]

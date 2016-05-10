@@ -101,6 +101,15 @@ class Request {
       this.client.instance().deleteApplication(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
+
+  // links
+
+  linkCreate(msisdn, app_id) {
+    this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
+      let options = { voiceCallbackType: 'app', voiceCallbackValue: app_id };
+      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkCreate.bind(this.response));
+    }));
+  }
 }
 
 export default Request;

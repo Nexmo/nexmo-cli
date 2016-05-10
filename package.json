@@ -1,6 +1,6 @@
 {
   "name": "nexmo-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Nexmo Command Line Interface",
   "main": "distribution/request.js",
   "scripts": {
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "easynexmo": "^0.8.1",
+    "easynexmo": "^0.8.2",
     "ini": "^1.3.4"
   }
 }

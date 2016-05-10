@@ -19,7 +19,7 @@ export default Client;
 let initialize = function(config, emitter) {
   try {
     let credentials = config.read().credentials;
-    nexmo.initialize(credentials.api_key, credentials.api_secret);
+    nexmo.initialize(credentials.api_key, credentials.api_secret, emitter.debugging);
   } catch(e) {
     if (e instanceof TypeError) {
       emitter.error(`Could not initialize Nexmo SDK. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);

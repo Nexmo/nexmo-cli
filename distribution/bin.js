@@ -38,7 +38,7 @@ var validator = new _validator2.default(emitter);
 var response = new _response2.default(validator, emitter);
 var request = new _request2.default(config, client, response);
 
-_commander2.default.version('0.0.1').option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter)).option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter));
+_commander2.default.version('0.0.1').option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter)).option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter)).option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
 
 // account level
 _commander2.default.command('setup <api_key> <api_secret>').description('Set up your API credentials').alias('s').option('-l, --local', 'write config to current folder (./.nexmo) instead of the user root (~/.nexmo)').action(request.accountSetup.bind(request));
@@ -141,6 +141,22 @@ _commander2.default.command('app:update <app_id> <name> <answer_url> <event_url>
 // Application Delete
 
 _commander2.default.command('app:delete <app_id>').description('Delete a Nexmo Application').alias('ad').option('--confirm', 'skip confirmation step and directly delete the app').action(request.applicationDelete.bind(request));
+
+// Create a link
+
+_commander2.default.command('link:create <number> <app_id>').description('Link a number to an application').alias('lc').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log(' ');
+}).action(request.linkCreate.bind(request));
+
+_commander2.default.command('link <number> <app_id>', null, { noHelp: true }).description('Link a number to an application').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log(' ');
+}).action(request.linkCreate.bind(request));
 
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
