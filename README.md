@@ -319,6 +319,25 @@ Application deleted
 
 Alias: `nexmo ad`.
 
+### Linking numbers to apps
+
+#### Link a number to an app
+
+```
+> nexmo link:create 12057200555 asdasdas-asdd-2344-2344-asdasdasd345
+```
+
+Alias: `lc` or `link`
+
+#### Unlink a number from an app
+
+```
+> nexmo link:delete 12057200555 
+```
+
+Alias: `ld` or `unlink`
+
+
 ## Contributing
 
 This projects is written in ES2015 and compiled using Babel. The source can be found in the `/source` folder, and the build is compiled to the `/distribution` folder.

@@ -174,6 +174,16 @@ var Request = function () {
         _this4.client.instance().updateNumber(response.country_code, msisdn, options, _this4.response.linkCreate.bind(_this4.response));
       }));
     }
+  }, {
+    key: 'linkDelete',
+    value: function linkDelete(msisdn) {
+      var _this5 = this;
+
+      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
+        var options = { voiceCallbackType: 'app' };
+        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.linkDelete.bind(_this5.response));
+      }));
+    }
   }]);
 
   return Request;

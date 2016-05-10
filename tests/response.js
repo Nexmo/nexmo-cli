@@ -148,4 +148,13 @@ describe('Response', () => {
       expect(emitter.log).to.have.been.calledWith('Number linked');
     });
   });
+
+  describe('.linkDelete', () => {
+    it('should print the response', () => {
+      let data = 'response';
+      response.linkDelete(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith('Number unlinked');
+    });
+  });
 });
