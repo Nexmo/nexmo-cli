@@ -29,11 +29,15 @@ This will save the config to your local folder instead.
 
 ## Usage
 
+[Flags](#flags) | [Account](#account) | [Numbers](#numbers) | [Applications](#applications) | [Linking](#linking)
+
 ### Flags
 
 Use `--quiet` to silence all but errors and warnings, and use `--verbose` to get more detailed output.
 
-### Account login
+### Account
+
+#### Account login
 
 ```
 > nexmo setup 123 abc
@@ -42,7 +46,7 @@ Credentials written to /home/username/.nexmorc
 
 Alias: `nexmo s`.
 
-### Account balance
+#### Account balance
 
 ```
 > nexmo balance
@@ -319,7 +323,7 @@ Application deleted
 
 Alias: `nexmo ad`.
 
-### Linking numbers to apps
+### Linking
 
 #### Link a number to an app
 
