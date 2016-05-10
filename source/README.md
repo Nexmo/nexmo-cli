@@ -2,22 +2,26 @@
 
 All source files are in ES6.
 
-## Client
+## Client(Config, Emitter)
 
-Reads the config for the Nexmo SDK from file and instantiates a Nexmo client.
+Allows for initializing of the Nexmo Node library.
 
-## Emitter
+## Config(Emitter)
 
-Handles output to the console. Will keep check of the global `--quiet` flag to hide debug level logging.
+Allows for reading and writing of user credentials to the `.nexmorc` file
 
-## Request
+## Emitter()
 
-Passes the CLI request to the Nexmo client and response handler.
+Handles output to the console. Will keep check of the global `--quiet`, `--verbose` and `--debug` flags to show and hide the right logs.
 
-## Response
+## Request(Config, Client, Response)
 
-Passes a response from the Nexmo client.
+Takes input from the CLI and passes this on to the Client or the Config. Binds results to be handled by the Response.
 
-## Validator
+## Response(Validator, Emitter)
 
-Validates the response from the Nexmo client.
+Parses responses from Config and Client. Passes the initial results to the Validator and if it all passes uses the Emitter to output the results.
+
+## Validator(Emitter)
+
+Validates error and response objects and outputs errors using the Emitter.
