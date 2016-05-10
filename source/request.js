@@ -110,13 +110,6 @@ class Request {
       this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkCreate.bind(this.response));
     }));
   }
-
-  linkDelete(msisdn) {
-    this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
-      let options = { voiceCallbackType: null, voiceCallbackValue: null };
-      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkDelete.bind(this.response));
-    }));
-  }
 }
 
 export default Request;

@@ -113,12 +113,6 @@ var Response = function () {
       this.validator.response(error, response);
       this.emitter.log('Number linked');
     }
-  }, {
-    key: 'linkDelete',
-    value: function linkDelete(error, response) {
-      this.validator.response(error, response);
-      this.emitter.log('Number unlinked');
-    }
   }]);
 
   return Response;

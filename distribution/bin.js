@@ -158,22 +158,6 @@ _commander2.default.command('link <number> <app_id>', null, { noHelp: true }).de
   emitter.log(' ');
 }).action(request.linkCreate.bind(request));
 
-// Delete a link
-
-_commander2.default.command('link:delete <number>').description('Unlink a number from any applications').alias('ld').on('--help', function () {
-  emitter.log('  Examples:');
-  emitter.log(' ');
-  emitter.log('    $ nexmo link:delete 445555555555');
-  emitter.log(' ');
-}).action(request.linkDelete.bind(request));
-
-_commander2.default.command('unlink <number>', null, { noHelp: true }).description('Unlink a number from any applications').on('--help', function () {
-  emitter.log('  Examples:');
-  emitter.log(' ');
-  emitter.log('    $ nexmo link:delete 445555555555');
-  emitter.log(' ');
-}).action(request.linkDelete.bind(request));
-
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
   _commander2.default.help();
