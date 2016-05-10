@@ -325,6 +325,7 @@ Alias: `nexmo ad`.
 
 ```
 > nexmo link:create 12057200555 asdasdas-asdd-2344-2344-asdasdasd345
+Number linked
 ```
 
 Alias: `lc` or `link`
@@ -332,7 +333,8 @@ Alias: `lc` or `link`
 #### Unlink a number from an app
 
 ```
-> nexmo link:delete 12057200555 
+> nexmo link:delete 12057200555
+Number unlinked
 ```
 
 Alias: `ld` or `unlink`
