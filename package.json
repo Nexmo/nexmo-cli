@@ -1,6 +1,6 @@
 {
   "name": "nexmo-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nexmo Command Line Interface",
   "main": "distribution/request.js",
   "scripts": {
@@ -30,7 +30,8 @@
     "url": "https://github.com/nexmo/nexmo-cli/issues"
   },
   "contributors": [
-    "cbetta"
+    "cbetta",
+    "leggetter"
   ],
   "homepage": "https://github.com/nexmo/nexmo-cli",
   "devDependencies": {
