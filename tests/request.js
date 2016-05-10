@@ -240,5 +240,14 @@ describe('Request', () => {
         expect(nexmo.numberInsightBasic).to.have.been.called;
       }));
     });
+
+    describe('.linkDelete', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.linkDelete('123');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
   });
 });

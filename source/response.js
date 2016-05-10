@@ -87,6 +87,11 @@ class Response {
     this.validator.response(error, response);
     this.emitter.log('Number linked');
   }
+
+  linkDelete(error, response) {
+    this.validator.response(error, response);
+    this.emitter.log('Number unlinked');
+  }
 }
 
 export default Response;

@@ -255,6 +255,32 @@ commander
   })
   .action(request.linkCreate.bind(request));
 
+// Delete a link
+
+commander
+  .command('link:delete <number>')
+  .description('Unlink a number from any applications')
+  .alias('ld')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:delete 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.linkDelete.bind(request));
+
+commander
+  .command('unlink <number>', null, { noHelp: true })
+  .description('Unlink a number from any applications')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo link:delete 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.linkDelete.bind(request));
+
+
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })
