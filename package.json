@@ -10,7 +10,7 @@
     "pretest": "eslint tests",
     "test": "mocha  --compilers js:babel-register tests/*",
     "watch:test": "watch 'npm test' tests source",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "easynexmo": "^0.8.2",
+    "easynexmo": "cbetta/nexmo-node",
     "ini": "^1.3.4"
   }
 }
