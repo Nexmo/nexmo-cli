@@ -62,7 +62,7 @@ commander
 
 // Number Buy
 commander
-  .command('number:buy <msisdn>')
+  .command('number:buy <number>')
   .description('Buy a number to use for voice or SMS')
   .alias('nb')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
@@ -77,7 +77,7 @@ commander
   .action(request.numberBuy.bind(request));
 
 commander
-  .command('numbers:buy [country_code] <msisdn>', null, { noHelp: true })
+  .command('numbers:buy [country_code] <number>', null, { noHelp: true })
   .description('Buy a number to use for voice or SMS')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
@@ -134,7 +134,7 @@ commander
 
 // Number Cancel
 commander
-  .command('number:cancel <msisdn>')
+  .command('number:cancel <number>')
   .description('Cancel a number you own')
   .option('--confirm', 'skip confirmation step and directly cancel the number' )
   .alias('nc')
@@ -149,7 +149,7 @@ commander
   .action(request.numberCancel.bind(request));
 
 commander
-  .command('numbers:cancel <msisdn>', null, { noHelp: true })
+  .command('numbers:cancel <number>', null, { noHelp: true })
   .description('Cancel a number you own')
   .option('--confirm', 'skip confirmation step and directly cancel the number' )
   .on('--help', () => {

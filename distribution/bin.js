@@ -57,7 +57,7 @@ _commander2.default.command('numbers', null, { noHelp: true }).description('List
 _commander2.default.command('number:list', null, { noHelp: true }).description('List of numbers assigned to the account').option('--page <page>', 'the page of results to return').option('--size <size>', 'the amount of results to return').action(request.numbersList.bind(request));
 
 // Number Buy
-_commander2.default.command('number:buy <msisdn>').description('Buy a number to use for voice or SMS').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
+_commander2.default.command('number:buy <number>').description('Buy a number to use for voice or SMS').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
   emitter.log('    $ nexmo number:buy 445555555555');
@@ -66,7 +66,7 @@ _commander2.default.command('number:buy <msisdn>').description('Buy a number to 
   emitter.log(' ');
 }).action(request.numberBuy.bind(request));
 
-_commander2.default.command('numbers:buy [country_code] <msisdn>', null, { noHelp: true }).description('Buy a number to use for voice or SMS').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
+_commander2.default.command('numbers:buy [country_code] <number>', null, { noHelp: true }).description('Buy a number to use for voice or SMS').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
   emitter.log('    $ nexmo number:buy 445555555555');
@@ -99,7 +99,7 @@ _commander2.default.command('numbers:search <country_code>', null, { noHelp: tru
 }).action(request.numberSearch.bind(request));
 
 // Number Cancel
-_commander2.default.command('number:cancel <msisdn>').description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').alias('nc').on('--help', function () {
+_commander2.default.command('number:cancel <number>').description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').alias('nc').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
   emitter.log('    $ nexmo number:cancel 445555555555');
@@ -108,7 +108,7 @@ _commander2.default.command('number:cancel <msisdn>').description('Cancel a numb
   emitter.log(' ');
 }).action(request.numberCancel.bind(request));
 
-_commander2.default.command('numbers:cancel <msisdn>', null, { noHelp: true }).description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').on('--help', function () {
+_commander2.default.command('numbers:cancel <number>', null, { noHelp: true }).description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
   emitter.log('    $ nexmo number:cancel 445555555555');

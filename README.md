@@ -111,7 +111,7 @@ Alias: `nexmo ns` and `nexmo numbers:search`.
 
 Parameters:
 
-* `msisdn` - The number to buy
+* `number` - The number to buy
 * or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.
 
 ```
