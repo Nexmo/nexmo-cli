@@ -68,9 +68,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy GB 445555555555');
-    emitter.log('    $ nexmo number:buy NL 31555555555');
-    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log('    $ nexmo number:buy 445555555555');
+    emitter.log('    $ nexmo number:buy 31555555555');
+    emitter.log('    $ nexmo number:buy 17136738555');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
@@ -82,9 +82,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy GB 445555555555');
-    emitter.log('    $ nexmo number:buy NL 31555555555');
-    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log('    $ nexmo number:buy 445555555555');
+    emitter.log('    $ nexmo number:buy 31555555555');
+    emitter.log('    $ nexmo number:buy 17136738555');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
@@ -136,9 +136,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:cancel GB 445555555555');
-    emitter.log('    $ nexmo number:cancel NL 31555555555');
-    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log('    $ nexmo number:cancel 445555555555');
+    emitter.log('    $ nexmo number:cancel 31555555555');
+    emitter.log('    $ nexmo number:cancel 17136738555');
     emitter.log(' ');
   })
   .action(request.numberCancel.bind(request));
@@ -150,9 +150,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:cancel GB 445555555555');
-    emitter.log('    $ nexmo number:cancel NL 31555555555');
-    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log('    $ nexmo number:cancel 445555555555');
+    emitter.log('    $ nexmo number:cancel 31555555555');
+    emitter.log('    $ nexmo number:cancel 17136738555');
     emitter.log(' ');
   })
   .action(request.numberCancel.bind(request));
