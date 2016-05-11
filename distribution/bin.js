@@ -56,18 +56,18 @@ _commander2.default.command('number:list', null, { noHelp: true }).description('
 _commander2.default.command('number:buy <msisdn>').description('Buy a number to use for voice or SMS').alias('nb').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo number:buy GB 445555555555');
-  emitter.log('    $ nexmo number:buy NL 31555555555');
-  emitter.log('    $ nexmo number:buy US 17136738555');
+  emitter.log('    $ nexmo number:buy 445555555555');
+  emitter.log('    $ nexmo number:buy 31555555555');
+  emitter.log('    $ nexmo number:buy 17136738555');
   emitter.log(' ');
 }).action(request.numberBuy.bind(request));
 
-_commander2.default.command('numbers:buy <msisdn>', null, { noHelp: true }).description('Buy a number to use for voice or SMS').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
+_commander2.default.command('numbers:buy [country_code] <msisdn>', null, { noHelp: true }).description('Buy a number to use for voice or SMS').option('--confirm', 'skip confirmation step and directly buy the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo number:buy GB 445555555555');
-  emitter.log('    $ nexmo number:buy NL 31555555555');
-  emitter.log('    $ nexmo number:buy US 17136738555');
+  emitter.log('    $ nexmo number:buy 445555555555');
+  emitter.log('    $ nexmo number:buy 31555555555');
+  emitter.log('    $ nexmo number:buy 17136738555');
   emitter.log(' ');
 }).action(request.numberBuy.bind(request));
 
@@ -94,18 +94,18 @@ _commander2.default.command('numbers:search <country_code>', null, { noHelp: tru
 _commander2.default.command('number:cancel <msisdn>').description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').alias('nc').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo number:cancel GB 445555555555');
-  emitter.log('    $ nexmo number:cancel NL 31555555555');
-  emitter.log('    $ nexmo number:cancel US 17136738555');
+  emitter.log('    $ nexmo number:cancel 445555555555');
+  emitter.log('    $ nexmo number:cancel 31555555555');
+  emitter.log('    $ nexmo number:cancel 17136738555');
   emitter.log(' ');
 }).action(request.numberCancel.bind(request));
 
 _commander2.default.command('numbers:cancel <msisdn>', null, { noHelp: true }).description('Cancel a number you own').option('--confirm', 'skip confirmation step and directly cancel the number').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo number:cancel GB 445555555555');
-  emitter.log('    $ nexmo number:cancel NL 31555555555');
-  emitter.log('    $ nexmo number:cancel US 17136738555');
+  emitter.log('    $ nexmo number:cancel 445555555555');
+  emitter.log('    $ nexmo number:cancel 31555555555');
+  emitter.log('    $ nexmo number:cancel 17136738555');
   emitter.log(' ');
 }).action(request.numberCancel.bind(request));
 

@@ -85,23 +85,51 @@ var Request = function () {
     }
   }, {
     key: 'numberBuy',
-    value: function numberBuy(msisdn, flags) {
+    value: function numberBuy(first, command) {
+      var args = command.parent.rawArgs.filter(function (arg) {
+        return arg.indexOf('--') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1;
+      });
+      if (args.length == 2) {
+        this.numberBuyFromNumber(args[1], command);
+      } else if (args.length == 3) {
+        this.numberBuyFromPattern(args[1], args[2], command);
+      }
+    }
+  }, {
+    key: 'numberBuyFromNumber',
+    value: function numberBuyFromNumber(msisdn, flags) {
       var _this = this;
 
-      confirm('This is operation will charge your account.', this.response.emitter, flags, function () {
+      confirm('Buying ' + msisdn + '. This operation will charge your account.', this.response.emitter, flags, function () {
         _this.client.instance().numberInsightBasic(msisdn, _this.response.numberInsight(function (response) {
-          _this.client.instance().buyNumber(response.country_code, msisdn, _this.response.numberBuy.bind(_this.response));
+          _this.client.instance().buyNumber(response.country_code, msisdn, _this.response.numberBuyFromNumber.bind(_this.response));
         }));
       });
     }
   }, {
-    key: 'numberCancel',
-    value: function numberCancel(msisdn, flags) {
+    key: 'numberBuyFromPattern',
+    value: function numberBuyFromPattern(country_code, pattern, flags) {
       var _this2 = this;
 
-      confirm('This is operation can not be reversed.', this.response.emitter, flags, function () {
-        _this2.client.instance().numberInsightBasic(msisdn, _this2.response.numberInsight(function (response) {
-          _this2.client.instance().cancelNumber(response.country_code, msisdn, _this2.response.numberCancel.bind(_this2.response));
+      var options = { features: ['VOICE'] };
+
+      options.pattern = pattern;
+      options.search_pattern = 1;
+      if (pattern[0] === '*') options.search_pattern = 2;
+      if (pattern.slice(-1) === '*') options.search_pattern = 0;
+
+      this.client.instance().searchNumbers(country_code, options, this.response.numberBuyFromPattern(function (msisdn) {
+        _this2.numberBuyFromNumber(msisdn, flags);
+      }));
+    }
+  }, {
+    key: 'numberCancel',
+    value: function numberCancel(msisdn, flags) {
+      var _this3 = this;
+
+      confirm('This operation can not be reversed.', this.response.emitter, flags, function () {
+        _this3.client.instance().numberInsightBasic(msisdn, _this3.response.numberInsight(function (response) {
+          _this3.client.instance().cancelNumber(response.country_code, msisdn, _this3.response.numberCancel.bind(_this3.response));
         }));
       });
     }
@@ -155,10 +183,10 @@ var Request = function () {
   }, {
     key: 'applicationDelete',
     value: function applicationDelete(app_id, flags) {
-      var _this3 = this;
+      var _this4 = this;
 
-      return confirm('This is operation can not be reversed.', this.response.emitter, flags, function () {
-        _this3.client.instance().deleteApplication(app_id, _this3.response.applicationDelete.bind(_this3.response));
+      return confirm('This operation can not be reversed.', this.response.emitter, flags, function () {
+        _this4.client.instance().deleteApplication(app_id, _this4.response.applicationDelete.bind(_this4.response));
       });
     }
 
@@ -167,21 +195,21 @@ var Request = function () {
   }, {
     key: 'linkCreate',
     value: function linkCreate(msisdn, app_id) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
         var options = { voiceCallbackType: 'app', voiceCallbackValue: app_id };
-        _this4.client.instance().updateNumber(response.country_code, msisdn, options, _this4.response.linkCreate.bind(_this4.response));
+        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.linkCreate.bind(_this5.response));
       }));
     }
   }, {
     key: 'linkDelete',
     value: function linkDelete(msisdn) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
         var options = { voiceCallbackType: 'app' };
-        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.linkDelete.bind(_this5.response));
+        _this6.client.instance().updateNumber(response.country_code, msisdn, options, _this6.response.linkDelete.bind(_this6.response));
       }));
     }
   }]);

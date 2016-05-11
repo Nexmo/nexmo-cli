@@ -10,7 +10,7 @@
     "pretest": "eslint tests",
     "test": "mocha  --compilers js:babel-register tests/*",
     "watch:test": "watch 'npm test' tests source",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
