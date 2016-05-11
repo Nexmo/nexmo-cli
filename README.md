@@ -50,7 +50,7 @@ Alias: `nexmo s`.
 
 ```
 > nexmo balance
-18.9686
+18.9686 EUR
 ```
 
 Alias: `nexmo b`
