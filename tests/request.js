@@ -131,8 +131,15 @@ describe('Request', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.numberBuy('123', { confirm: true });
+        request.numberBuy(null, { confirm: true, parent: { rawArgs: ['nb', '123'] } });
         expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+
+      it('should handle search', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.numberBuy(null, { parent: { rawArgs: ['nb', 'GB', '123'] } });
+        expect(nexmo.searchNumbers).to.have.been.called;
       }));
     });
 

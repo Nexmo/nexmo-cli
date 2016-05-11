@@ -29,7 +29,7 @@ describe('Response', () => {
     it('should validate the response and emit the result', sinon.test(function() {
       response.accountBalance(null, { value: 123 });
       expect(validator.response).to.have.been.calledWith(null, { value: 123});
-      expect(emitter.log).to.have.been.calledWith(123);
+      expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
   });
 
@@ -61,12 +61,23 @@ describe('Response', () => {
     });
   });
 
-  describe('.numberBuy', () => {
+  describe('.numberBuyFromNumber', () => {
     it('should print the response', () => {
       let data = 'response';
-      response.numberBuy(null, data);
+      response.numberBuyFromNumber(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Number purchased');
+    });
+  });
+
+  describe('.numberBuyFromPattern', () => {
+    it('should call the callback', (done) => {
+      let method = response.numberBuyFromPattern(() => {
+        done();
+      });
+
+      expect(method).to.be.a('function');
+      method(null, { numbers: [{msisdn: '123'}]});
     });
   });
 
