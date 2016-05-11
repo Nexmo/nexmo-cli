@@ -69,6 +69,10 @@ _commander2.default.command('numbers:buy [country_code] <msisdn>', null, { noHel
   emitter.log('    $ nexmo number:buy 31555555555');
   emitter.log('    $ nexmo number:buy 17136738555');
   emitter.log(' ');
+  emitter.log('  Optionally directly search and buy a number:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo number:buy GB 445*');
+  emitter.log(' ');
 }).action(request.numberBuy.bind(request));
 
 // Number Search
