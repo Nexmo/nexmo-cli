@@ -32,10 +32,20 @@ class Response {
     }
   }
 
-  numberBuy(error, response) {
+  numberBuyFromNumber(error, response) {
     this.validator.response(error, response);
     this.emitter.log('Number purchased');
+  }
 
+  numberBuyFromPattern(callback) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      if (response.numbers && response.numbers.length > 0) {
+        callback(response.numbers[0].msisdn);
+      } else {
+        this.emitter.error('No numbers match your search');
+      }
+    };
   }
 
   numberCancel(error, response) {

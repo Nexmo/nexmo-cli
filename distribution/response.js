@@ -46,10 +46,24 @@ var Response = function () {
       }
     }
   }, {
-    key: 'numberBuy',
-    value: function numberBuy(error, response) {
+    key: 'numberBuyFromNumber',
+    value: function numberBuyFromNumber(error, response) {
       this.validator.response(error, response);
       this.emitter.log('Number purchased');
+    }
+  }, {
+    key: 'numberBuyFromPattern',
+    value: function numberBuyFromPattern(callback) {
+      var _this = this;
+
+      return function (error, response) {
+        _this.validator.response(error, response);
+        if (response.numbers && response.numbers.length > 0) {
+          callback(response.numbers[0].msisdn);
+        } else {
+          _this.emitter.error('No numbers match your search');
+        }
+      };
     }
   }, {
     key: 'numberCancel',
@@ -60,10 +74,10 @@ var Response = function () {
   }, {
     key: 'numberInsight',
     value: function numberInsight(callback) {
-      var _this = this;
+      var _this2 = this;
 
       return function (error, response) {
-        _this.validator.response(error, response);
+        _this2.validator.response(error, response);
         callback(response);
       };
     }

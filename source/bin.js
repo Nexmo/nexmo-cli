@@ -8,6 +8,7 @@ import Client    from './client';
 import Response  from './response';
 import Request   from './request';
 import Validator from './validator';
+import pckg      from '../package.json';
 
 let emitter   = new Emitter();
 let config    = new Config(emitter);
@@ -17,7 +18,7 @@ let response  = new Response(validator, emitter);
 let request   = new Request(config, client, response);
 
 commander
-  .version('0.0.1')
+  .version(pckg.version)
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
   .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter))
   .option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
@@ -68,23 +69,27 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy GB 445555555555');
-    emitter.log('    $ nexmo number:buy NL 31555555555');
-    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log('    $ nexmo number:buy 445555555555');
+    emitter.log('    $ nexmo number:buy 31555555555');
+    emitter.log('    $ nexmo number:buy 17136738555');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
 
 commander
-  .command('numbers:buy <msisdn>', null, { noHelp: true })
+  .command('numbers:buy [country_code] <msisdn>', null, { noHelp: true })
   .description('Buy a number to use for voice or SMS')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy GB 445555555555');
-    emitter.log('    $ nexmo number:buy NL 31555555555');
-    emitter.log('    $ nexmo number:buy US 17136738555');
+    emitter.log('    $ nexmo number:buy 445555555555');
+    emitter.log('    $ nexmo number:buy 31555555555');
+    emitter.log('    $ nexmo number:buy 17136738555');
+    emitter.log(' ');
+    emitter.log('  Optionally directly search and buy a number:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo number:buy GB 445*');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
@@ -136,9 +141,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:cancel GB 445555555555');
-    emitter.log('    $ nexmo number:cancel NL 31555555555');
-    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log('    $ nexmo number:cancel 445555555555');
+    emitter.log('    $ nexmo number:cancel 31555555555');
+    emitter.log('    $ nexmo number:cancel 17136738555');
     emitter.log(' ');
   })
   .action(request.numberCancel.bind(request));
@@ -150,9 +155,9 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:cancel GB 445555555555');
-    emitter.log('    $ nexmo number:cancel NL 31555555555');
-    emitter.log('    $ nexmo number:cancel US 17136738555');
+    emitter.log('    $ nexmo number:cancel 445555555555');
+    emitter.log('    $ nexmo number:cancel 31555555555');
+    emitter.log('    $ nexmo number:cancel 17136738555');
     emitter.log(' ');
   })
   .action(request.numberCancel.bind(request));

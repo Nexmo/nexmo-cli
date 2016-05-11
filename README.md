@@ -109,9 +109,21 @@ Alias: `nexmo ns` and `nexmo numbers:search`.
 
 #### Buying a number
 
+Parameters:
+
+* `msisdn` - The number to buy
+* or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.
+
 ```
 > nexmo number:buy 12069396555
-This is operation will charge your account.
+Buying 12069396555. This is operation will charge your account.
+
+Please type "confirm" to continue: confirm
+
+Number purchased
+
+> nexmo number:buy US *555
+Buying 12069396555. This is operation will charge your account.
 
 Please type "confirm" to continue: confirm
 
