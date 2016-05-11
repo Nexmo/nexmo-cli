@@ -29,6 +29,10 @@ var _validator = require('./validator');
 
 var _validator2 = _interopRequireDefault(_validator);
 
+var _package = require('../package.json');
+
+var _package2 = _interopRequireDefault(_package);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var emitter = new _emitter2.default();
@@ -38,7 +42,7 @@ var validator = new _validator2.default(emitter);
 var response = new _response2.default(validator, emitter);
 var request = new _request2.default(config, client, response);
 
-_commander2.default.version('0.0.1').option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter)).option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter)).option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
+_commander2.default.version(_package2.default.version).option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter)).option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter)).option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
 
 // account level
 _commander2.default.command('setup <api_key> <api_secret>').description('Set up your API credentials').alias('s').option('-l, --local', 'write config to current folder (./.nexmo) instead of the user root (~/.nexmo)').action(request.accountSetup.bind(request));

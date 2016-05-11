@@ -8,6 +8,7 @@ import Client    from './client';
 import Response  from './response';
 import Request   from './request';
 import Validator from './validator';
+import pckg      from '../package.json';
 
 let emitter   = new Emitter();
 let config    = new Config(emitter);
@@ -17,7 +18,7 @@ let response  = new Response(validator, emitter);
 let request   = new Request(config, client, response);
 
 commander
-  .version('0.0.1')
+  .version(pckg.version)
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
   .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter))
   .option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
