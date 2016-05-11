@@ -20,7 +20,7 @@ var Response = function () {
     key: 'accountBalance',
     value: function accountBalance(error, response) {
       this.validator.response(error, response);
-      this.emitter.log(response.value, 'Balance: ' + response.value);
+      this.emitter.log(response.value + ' EUR', 'Balance: ' + response.value + ' Euro');
     }
 
     // numbers
