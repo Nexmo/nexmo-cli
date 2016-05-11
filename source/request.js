@@ -51,7 +51,7 @@ class Request {
   }
 
   numberBuy(msisdn, flags) {
-    confirm('This is operation will charge your account.', this.response.emitter, flags, () => {
+    confirm('This operation will charge your account.', this.response.emitter, flags, () => {
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
         this.client.instance().buyNumber(response.country_code, msisdn, this.response.numberBuy.bind(this.response));
       }));
@@ -59,7 +59,7 @@ class Request {
   }
 
   numberCancel(msisdn, flags) {
-    confirm('This is operation can not be reversed.', this.response.emitter, flags, () => {
+    confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
         this.client.instance().cancelNumber(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
       }));
@@ -97,7 +97,7 @@ class Request {
   }
 
   applicationDelete(app_id, flags) {
-    return confirm('This is operation can not be reversed.', this.response.emitter, flags, () => {
+    return confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
       this.client.instance().deleteApplication(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
