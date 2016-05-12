@@ -138,10 +138,10 @@ _commander2.default.command('apps', null, { noHelp: true }).description('List yo
 
 // Application Create
 
-_commander2.default.command('app:create <name> <answer_url> <event_url>').description('Create a new Nexmo Application').alias('ac').option('--type <type>', 'the type of application', /^(voice)$/i, 'voice').option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)').option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)').on('--help', function () {
+_commander2.default.command('app:create <name> <answer_url> <event_url>').description('Create a new Nexmo Application').alias('ac').option('--type <type>', 'the type of application', /^(voice)$/i, 'voice').option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)').option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)').option('--keyfile <keyfile>', 'the file to save your private key to').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo app:create "Test Application 1" http://example.com http://example.com');
+  emitter.log('    $ nexmo app:create "Test Application 1" http://example.com http://example.com --keyfile private.key');
   emitter.log(' ');
 }).action(request.applicationCreate.bind(request));
 
