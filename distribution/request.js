@@ -275,6 +275,23 @@ var Request = function () {
         _this6.client.instance().updateNumber(response.country_code, msisdn, options, _this6.response.numberUpdate.bind(_this6.response));
       }));
     }
+
+    // Insight
+
+  }, {
+    key: 'insightBasic',
+    value: function insightBasic(msisdn) {
+      this.client.instance().numberInsightBasic(msisdn, this.response.insightBasic.bind(this.response));
+    }
+  }, {
+    key: 'insightStandard',
+    value: function insightStandard(msisdn, flags) {
+      var _this7 = this;
+
+      confirm('This operation will charge your account.', this.response.emitter, flags, function () {
+        _this7.client.instance().numberInsightStandard(msisdn, _this7.response.insightStandard.bind(_this7.response));
+      });
+    }
   }]);
 
   return Request;

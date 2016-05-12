@@ -262,7 +262,6 @@ describe('Request', () => {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
         request.linkSms('123', 'abc');
-        expect(nexmo.numberInsightBasic).to.have.been.called;
       }));
     });
 
@@ -327,6 +326,24 @@ describe('Request', () => {
           expect(nexmo.numberInsightBasic).to.have.been.called;
         }));
       });
+    });
+
+    describe('.insightBasic', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.insightBasic('4555555', { confirm: true });
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
+
+    describe('.insightStandard', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.insightStandard('4555555', { confirm: true });
+        expect(nexmo.numberInsightStandard).to.have.been.called;
+      }));
     });
   });
 });

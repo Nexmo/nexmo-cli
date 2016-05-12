@@ -127,6 +127,21 @@ var Response = function () {
       this.validator.response(error, response);
       this.emitter.log('Number updated');
     }
+
+    // insight
+
+  }, {
+    key: 'insightBasic',
+    value: function insightBasic(error, response) {
+      this.validator.response(error, response);
+      this.emitter.list(response.international_format_number + ' | ' + response.country_code, response);
+    }
+  }, {
+    key: 'insightStandard',
+    value: function insightStandard(error, response) {
+      this.validator.response(error, response);
+      this.emitter.list(response.international_format_number + ' | ' + response.country_code + ' | ' + response.current_carrier.name, response);
+    }
   }]);
 
   return Response;
