@@ -29,7 +29,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Numbers](#numbers) | [Applications](#applications) | [Linking](#linking)
+[Flags](#flags) | [Account](#account) | [Numbers](#numbers) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)
 
 ### Flags
 
@@ -355,6 +355,31 @@ Number unlinked
 
 Alias: `ld` or `unlink`
 
+### Insight
+
+#### Insight Basic
+
+This is the free Number Insight API:
+
+```
+> nexmo insight:basic 447555555555
+447555555555 | GB
+```
+
+Alias: `nexmo insight` and `nexmo ib`
+
+#### Insight Standard
+
+This API will charge your account but provide additional details:
+
+```
+> nexmo insight:standard 447555555555 --confirm
+447555555555 | GB | Telefonica UK Limited
+```
+
+Verbose mode will return additional information.
+
+Alias: `nexmo is`
 
 ## Contributing
 

@@ -139,6 +139,18 @@ class Request {
       this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkDelete.bind(this.response));
     }));
   }
+
+  // Insight
+
+  insightBasic(msisdn) {
+    this.client.instance().numberInsightBasic(msisdn, this.response.insightBasic.bind(this.response));
+  }
+
+  insightStandard(msisdn, flags) {
+    confirm('This operation will charge your account.', this.response.emitter, flags, () => {
+      this.client.instance().numberInsightStandard(msisdn, this.response.insightStandard.bind(this.response));
+    });
+  }
 }
 
 export default Request;

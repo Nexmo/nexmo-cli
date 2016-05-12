@@ -102,6 +102,18 @@ class Response {
     this.validator.response(error, response);
     this.emitter.log('Number unlinked');
   }
+
+  // insight
+
+  insightBasic(error, response) {
+    this.validator.response(error, response);
+    this.emitter.list(`${response.international_format_number} | ${response.country_code}`, response);
+  }
+
+  insightStandard(error, response) {
+    this.validator.response(error, response);
+    this.emitter.list(`${response.international_format_number} | ${response.country_code} | ${response.current_carrier.name}`, response);
+  }
 }
 
 export default Response;
