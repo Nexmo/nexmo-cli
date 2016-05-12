@@ -261,6 +261,14 @@ _commander2.default.command('insight:standard <number>').alias('is').option('--c
   emitter.log(' ');
 }).action(request.insightStandard.bind(request));
 
+_commander2.default.command('price:country <country_id>').alias('p').description('Gives you the cost of sending an outbound text message to the given country ID.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo price GB');
+  emitter.log('    $ nexmo price GB');
+  emitter.log(' ');
+}).action(request.priceCountry.bind(request));
+
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
   _commander2.default.help();

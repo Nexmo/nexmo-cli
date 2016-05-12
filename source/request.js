@@ -21,6 +21,12 @@ class Request {
     }, flags.local);
   }
 
+  // Pricing
+
+  priceCountry(country_id) {
+    this.client.instance().getPricing(country_id, this.response.priceCountry.bind(this.response));
+  }
+
   // Numbers
 
   numbersList(flags) {

@@ -427,6 +427,19 @@ commander
   })
   .action(request.insightStandard.bind(request));
 
+commander
+  .command('price:country <country_id>')
+  .alias('pc')
+  .description('Gives you the cost of sending an outbound text message to the given country ID.')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo price:country GB');
+    emitter.log('    $ nexmo price:country GB');
+    emitter.log(' ');
+  })
+  .action(request.priceCountry.bind(request));
+
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })

@@ -46,6 +46,15 @@ describe('Request', () => {
       }));
     });
 
+    describe('.priceCountry', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.priceCountry();
+        expect(nexmo.getPricing).to.have.been.called;
+      }));
+    });
+
     describe('.numbersList', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);

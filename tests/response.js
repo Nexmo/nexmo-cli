@@ -33,6 +33,14 @@ describe('Response', () => {
     }));
   });
 
+  describe('.priceCountry', () => {
+    it('should validate the response and emit the result', sinon.test(function() {
+      response.priceCountry(null, { mt: 123, networks: []});
+      expect(validator.response).to.have.been.calledWith(null, { mt: 123, networks: []});
+      expect(emitter.log).to.have.been.calledWith('123 EUR');
+    }));
+  });
+
   describe('.numbersList', () => {
     it('should print a list of numbers', () => {
       let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};

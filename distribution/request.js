@@ -40,6 +40,14 @@ var Request = function () {
       }, flags.local);
     }
 
+    // Pricing
+
+  }, {
+    key: 'priceCountry',
+    value: function priceCountry(country_id) {
+      this.client.instance().getPricing(country_id, this.response.priceCountry.bind(this.response));
+    }
+
     // Numbers
 
   }, {
