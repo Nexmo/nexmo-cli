@@ -182,6 +182,28 @@ _commander2.default.command('unlink <number>', null, { noHelp: true }).descripti
   emitter.log(' ');
 }).action(request.linkDelete.bind(request));
 
+// Insight
+
+_commander2.default.command('insight:basic <number>').alias('ib').description('Get details about this number').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo insight:basic 445555555555');
+  emitter.log(' ');
+}).action(request.insightBasic.bind(request));
+
+_commander2.default.command('insight <number>', null, { noHelp: true }).description('Get details about this number').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo insight:basic 445555555555');
+  emitter.log(' ');
+}).action(request.insightBasic.bind(request));
+
+_commander2.default.command('insight:standard <number>').alias('is').option('--confirm', 'skip fee confirmation step and directly get the information').description('Get more details about this number like the current carrier. This operation will incur a fee.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo insight:standard 445555555555');
+  emitter.log(' ');
+}).action(request.insightStandard.bind(request));
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {
   _commander2.default.help();

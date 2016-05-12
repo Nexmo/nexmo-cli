@@ -285,7 +285,43 @@ commander
   })
   .action(request.linkDelete.bind(request));
 
+// Insight
 
+commander
+  .command('insight:basic <number>')
+  .alias('ib')
+  .description('Get details about this number')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo insight:basic 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.insightBasic.bind(request));
+
+commander
+  .command('insight <number>', null, { noHelp: true })
+  .description('Get details about this number')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo insight:basic 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.insightBasic.bind(request));
+
+commander
+  .command('insight:standard <number>')
+  .alias('is')
+  .option('--confirm', 'skip fee confirmation step and directly get the information' )
+  .description('Get more details about this number like the current carrier. This operation will incur a fee.')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo insight:standard 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.insightStandard.bind(request));
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })
