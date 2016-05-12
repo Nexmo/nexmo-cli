@@ -30,7 +30,7 @@ var Response = function () {
     value: function numbersList(error, response) {
       this.validator.response(error, response);
       if (response.numbers && response.numbers.length > 0) {
-        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue']);
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
       } else {
         this.emitter.warn('No numbers');
       }
@@ -122,16 +122,10 @@ var Response = function () {
     // links
 
   }, {
-    key: 'linkCreate',
-    value: function linkCreate(error, response) {
+    key: 'numberUpdate',
+    value: function numberUpdate(error, response) {
       this.validator.response(error, response);
-      this.emitter.log('Number linked');
-    }
-  }, {
-    key: 'linkDelete',
-    value: function linkDelete(error, response) {
-      this.validator.response(error, response);
-      this.emitter.log('Number unlinked');
+      this.emitter.log('Number updated');
     }
 
     // insight
