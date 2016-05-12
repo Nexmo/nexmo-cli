@@ -168,4 +168,22 @@ describe('Response', () => {
       expect(emitter.log).to.have.been.calledWith('Number unlinked');
     });
   });
+
+  describe('.insightBasic', () => {
+    it('should print the response', () => {
+      let data = { international_format_number: 123, country_code: 'GB' };
+      response.insightBasic(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith('123 | GB', data);
+    });
+  });
+
+  describe('.insightStandard', () => {
+    it('should print the response', () => {
+      let data = { international_format_number: 123, country_code: 'GB', current_carrier: { name: 'Telco' } };
+      response.insightStandard(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith('123 | GB | Telco', data);
+    });
+  });
 });
