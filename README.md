@@ -183,13 +183,15 @@ Parameters:
 * `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
 * `event_url` - the url the platform sends event information asynchronously to when the call_status changes
 * Optional flags:
+  * `--keyfile <keyfile>` the file to save your private key to
   * `--type <type>` the product you want to access with this application. (Default: voice)
   * `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
   * `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
 
 ```
-> nexmo app:create "Test Application 1" http://example.com http://example.com   
+> nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
 Application created: asdasdas-asdd-2344-2344-asdasdasd345
+Private Key saved to: private.key
 
 > nexmo app:create "Test Application 1" http://example.com http://example.com -v
 [id]
@@ -261,6 +263,9 @@ GET
 
 [_links.self.href]
 /applications/asdasdas-asdd-2344-2344-asdasdasd345
+
+
+Private Key saved to: private.key
 ```
 
 Alias: `nexmo as` and `nexmo app`.

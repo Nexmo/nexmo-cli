@@ -103,7 +103,7 @@ class Request {
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
-    this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate.bind(this.response));
+    this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags));
   }
 
   applicationShow(app_id) {

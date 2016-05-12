@@ -117,10 +117,15 @@ describe('Response', () => {
 
   describe('.applicationCreate', () => {
     it('should print the response', () => {
-      let data = { id: 123 };
-      response.applicationCreate(null, data);
+      let method = response.applicationCreate({ keys: {}});
+      let data = { id: 123, keys: { private_key: 'asdasdasd' } };
+
+      expect(method).to.be.a('function');
+      method(null, data);
+
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('Application created: 123', data);
+      expect(emitter.log).to.have.been.calledWith('\nPrivate Key:\n');
     });
   });
 

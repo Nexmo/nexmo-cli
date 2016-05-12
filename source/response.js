@@ -1,3 +1,6 @@
+import colors from 'colors';
+import fs from 'fs';
+
 class Response {
   constructor(validator, emitter) {
     this.emitter = emitter;
@@ -71,9 +74,12 @@ class Response {
     }
   }
 
-  applicationCreate(error, response) {
-    this.validator.response(error, response);
-    this.emitter.list(`Application created: ${response.id}`, response);
+  applicationCreate(flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      this.emitter.list(`Application created: ${response.id}`, response);
+      this._writeKey(flags.keyfile, response.keys.private_key);
+    };
   }
 
   applicationShow(error, response) {
@@ -113,6 +119,27 @@ class Response {
   insightStandard(error, response) {
     this.validator.response(error, response);
     this.emitter.list(`${response.international_format_number} | ${response.country_code} | ${response.current_carrier.name}`, response);
+  }
+
+  _writeKey(keyfile, private_key) {
+    if (keyfile) {
+      fs.writeFile(keyfile, private_key, (error) => {
+        if(error) {
+          this.emitter.warn(error.message);
+          this._promptKey(private_key);
+        } else {
+          this.emitter.log(`Private Key saved to: ${keyfile}`);
+        }
+      });
+    } else {
+      this._promptKey(private_key);
+    }
+  }
+
+  _promptKey(private_key) {
+    this.emitter.log('\nPrivate Key:\n');
+    this.emitter.log(colors.red.bgWhite(`${private_key}\n`));
+    this.emitter.log('WARNING: You should save this key somewhere safe and secure now, it will not be provided again.');
   }
 }
 

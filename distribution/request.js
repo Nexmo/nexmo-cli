@@ -160,7 +160,7 @@ var Request = function () {
         options.event_method = flags.event_method;
       }
 
-      this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate.bind(this.response));
+      this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags));
     }
   }, {
     key: 'applicationShow',
