@@ -193,23 +193,86 @@ var Request = function () {
     // links
 
   }, {
-    key: 'linkCreate',
-    value: function linkCreate(msisdn, app_id) {
+    key: 'linkApp',
+    value: function linkApp(msisdn, app_id) {
+      this._link(msisdn, null, 'app', app_id);
+    }
+  }, {
+    key: 'linkSms',
+    value: function linkSms(msisdn, callback_url) {
+      this._link(msisdn, callback_url, 'sms', null);
+    }
+  }, {
+    key: 'linkTel',
+    value: function linkTel(msisdn, other_msisdn, flags) {
+      this._link(msisdn, null, 'tel', other_msisdn, flags.voice_status_callback);
+    }
+  }, {
+    key: 'linkSip',
+    value: function linkSip(msisdn, sip_uri, flags) {
+      this._link(msisdn, null, 'sip', sip_uri, flags.voice_status_callback);
+    }
+  }, {
+    key: 'linkVxml',
+    value: function linkVxml(msisdn, calback_url, flags) {
+      this._link(msisdn, null, 'vxml', calback_url, flags.voice_status_callback);
+    }
+  }, {
+    key: 'unlinkApp',
+    value: function unlinkApp(msisdn) {
+      this._link(msisdn, null, 'app');
+    }
+  }, {
+    key: 'unlinkSms',
+    value: function unlinkSms(msisdn) {
+      this._link(msisdn, '', 'sms');
+    }
+  }, {
+    key: 'unlinkTel',
+    value: function unlinkTel(msisdn) {
+      this._link(msisdn, null, 'tel');
+    }
+  }, {
+    key: 'unlinkSip',
+    value: function unlinkSip(msisdn) {
+      this._link(msisdn, null, 'sip');
+    }
+  }, {
+    key: 'unlinkVxml',
+    value: function unlinkVxml(msisdn) {
+      this._link(msisdn, null, 'vxml');
+    }
+  }, {
+    key: 'numberUpdate',
+    value: function numberUpdate(msisdn, flags) {
       var _this5 = this;
 
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
-        var options = { voiceCallbackType: 'app', voiceCallbackValue: app_id };
-        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.linkCreate.bind(_this5.response));
+        var options = {};
+        if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
+        if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
+        if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
+        if (flags.voice_status_callback) options.voiceStatusCallback = flags.voice_status_callback;
+        _this5.client.instance().updateNumber(response.country_code, msisdn, options, _this5.response.numberUpdate.bind(_this5.response));
       }));
     }
   }, {
-    key: 'linkDelete',
-    value: function linkDelete(msisdn) {
+    key: '_link',
+    value: function _link(msisdn, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
       var _this6 = this;
 
       this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight(function (response) {
-        var options = { voiceCallbackType: 'app' };
-        _this6.client.instance().updateNumber(response.country_code, msisdn, options, _this6.response.linkDelete.bind(_this6.response));
+        var options = {};
+
+        if (voice_callback_type == 'sms') {
+          options.moHttpUrl = mo_http_url;
+        } else {
+          options.voiceCallbackType = voice_callback_type;
+          if (voice_callback_value) options.voiceCallbackValue = voice_callback_value;
+          if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
+        }
+
+        _this6.client.instance().updateNumber(response.country_code, msisdn, options, _this6.response.numberUpdate.bind(_this6.response));
       }));
     }
   }]);

@@ -151,6 +151,20 @@ Number cancelled
 
 Alias: `nexmo nc` and `nexmo numbers:cancel`.
 
+
+#### Update a number
+
+
+For shortcuts of these options see [Linking](#linking).
+
+```
+> nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345
+Number updated
+```
+
+Alias: `nexmo nu` and `nexmo numbers:update`.
+
+
 ### Applications
 
 #### List your Applications
@@ -340,21 +354,62 @@ Alias: `nexmo ad`.
 #### Link a number to an app
 
 ```
-> nexmo link:create 12057200555 asdasdas-asdd-2344-2344-asdasdasd345
-Number linked
+> nexmo link:app 12057200555 asdasdas-asdd-2344-2344-asdasdasd345
+Number updated
+
+> nexmo unlink:app 12057200555
+Number updated
 ```
 
-Alias: `lc` or `link`
+Alias: `nexmo la`
 
-#### Unlink a number from an app
+#### Link a number to another phone number
 
 ```
-> nexmo link:delete 12057200555
-Number unlinked
+> nexmo link:tel 12057200555 4455555555
+Number updated
+
+> nexmo unlink:tel 12057200555
+Number updated
 ```
 
-Alias: `ld` or `unlink`
+Alias: `nexmo lt`
 
+#### Link a number to an sms callback url
+
+```
+> nexmo link:sms 12057200555 http://example.com/callback
+Number updated
+
+> nexmo unlink:sms 12057200555
+Number updated
+```
+
+Alias: `nexmo lsms`
+
+#### Link a number to a Voice XML callback url
+
+```
+> nexmo link:vxml 12057200555 http://example.com/callback
+Number updated
+
+> nexmo unlink:vxml 12057200555
+Number updated
+```
+
+Alias: `nexmo lv`
+
+#### Link a number to SIP URI
+
+```
+> nexmo link:sip 12057200555 sip:123@example.com
+Number updated
+
+> nexmo unlink:sip 12057200555
+Number updated
+```
+
+Alias: `nexmo lsip`
 
 ## Contributing
 

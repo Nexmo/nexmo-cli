@@ -117,6 +117,20 @@ _commander2.default.command('numbers:cancel <number>', null, { noHelp: true }).d
   emitter.log(' ');
 }).action(request.numberCancel.bind(request));
 
+_commander2.default.command('number:update <number>').description('Link a number to an application').alias('nu').option('--mo_http_url <mo_http_url>', 'used for SMS callbacks').option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)').option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type').option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log(' ');
+}).action(request.numberUpdate.bind(request));
+
+_commander2.default.command('number:update <number>', null, { noHelp: true }).description('Link a number to an application').option('--mo_http_url <mo_http_url>', 'used for SMS callbacks').option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)').option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type').option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log(' ');
+}).action(request.numberUpdate.bind(request));
+
 // Application List
 _commander2.default.command('app:list').description('List your Nexmo Applications').option('--page <page>', 'the page of results to return').option('--size <size>', 'the amount of results to return').alias('al').description('List of numbers assigned to the account').action(request.applicationsList.bind(request));
 
@@ -152,35 +166,77 @@ _commander2.default.command('app:delete <app_id>').description('Delete a Nexmo A
 
 // Create a link
 
-_commander2.default.command('link:create <number> <app_id>').description('Link a number to an application').alias('lc').on('--help', function () {
+_commander2.default.command('link:app <number> <app_id>').alias('la').description('Link a number to an application').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log('    $ nexmo link:app 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
   emitter.log(' ');
-}).action(request.linkCreate.bind(request));
+}).action(request.linkApp.bind(request));
 
-_commander2.default.command('link <number> <app_id>', null, { noHelp: true }).description('Link a number to an application').on('--help', function () {
+_commander2.default.command('link:sms <number> <callback_url>').alias('lsms').description('Link a number to an sms callback URL').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo link:create 445555555555 asdasdas-asdd-2344-2344-asdasdasd345');
+  emitter.log('    $ nexmo link:sms 445555555555 http://example.com/callback');
   emitter.log(' ');
-}).action(request.linkCreate.bind(request));
+}).action(request.linkSms.bind(request));
+
+_commander2.default.command('link:vxml <number> <callback_url>').alias('lv').description('Link a number to a vxml callback URL').option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo link:vxml 445555555555 http://example.com/callback');
+  emitter.log(' ');
+}).action(request.linkVxml.bind(request));
+
+_commander2.default.command('link:tel <number> <other_number>').alias('lt').description('Link a number to another number').option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo link:tel 445555555555 1275555555');
+  emitter.log(' ');
+}).action(request.linkTel.bind(request));
+
+_commander2.default.command('link:sip <number> <sip_uri>').alias('lsip').description('Link a number to SIP URI').option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo link:sip 445555555555 sip:1275555555@sip.example.com');
+  emitter.log(' ');
+}).action(request.linkSip.bind(request));
 
 // Delete a link
 
-_commander2.default.command('link:delete <number>').description('Unlink a number from any applications').alias('ld').on('--help', function () {
+_commander2.default.command('unlink:app <number>').description('Unlink a number from an application').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo link:delete 445555555555');
+  emitter.log('    $ nexmo unlink:app 4455555555555');
   emitter.log(' ');
-}).action(request.linkDelete.bind(request));
+}).action(request.unlinkApp.bind(request));
 
-_commander2.default.command('unlink <number>', null, { noHelp: true }).description('Unlink a number from any applications').on('--help', function () {
+_commander2.default.command('unlink:sms <number>').description('Unlink a number from a sms callback URL').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo link:delete 445555555555');
+  emitter.log('    $ nexmo unlink:sms 445555555555');
   emitter.log(' ');
-}).action(request.linkDelete.bind(request));
+}).action(request.unlinkSms.bind(request));
+
+_commander2.default.command('unlink:vxml <number>').description('Unlink a number from a vxml callback URL').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo unlink:vxml 445555555555');
+  emitter.log(' ');
+}).action(request.unlinkVxml.bind(request));
+
+_commander2.default.command('unlink:tel <number>').description('Unlink a number from another number').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo unlink:tel 445555555555 ');
+  emitter.log(' ');
+}).action(request.unlinkTel.bind(request));
+
+_commander2.default.command('unlink:sip <number>').description('Unlink a number from a SIP URI').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo unlink:sip 445555555555');
+  emitter.log(' ');
+}).action(request.unlinkSip.bind(request));
 
 // catch unknown commands
 _commander2.default.command('*', null, { noHelp: true }).action(function () {

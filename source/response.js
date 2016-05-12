@@ -17,7 +17,7 @@ class Response {
   numbersList(error, response) {
     this.validator.response(error, response);
     if (response.numbers && response.numbers.length > 0) {
-      this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue']);
+      this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
     } else {
       this.emitter.warn('No numbers');
     }
@@ -93,14 +93,9 @@ class Response {
 
   // links
 
-  linkCreate(error, response) {
+  numberUpdate(error, response) {
     this.validator.response(error, response);
-    this.emitter.log('Number linked');
-  }
-
-  linkDelete(error, response) {
-    this.validator.response(error, response);
-    this.emitter.log('Number unlinked');
+    this.emitter.log('Number updated');
   }
 }
 

@@ -126,19 +126,73 @@ class Request {
 
   // links
 
-  linkCreate(msisdn, app_id) {
+  linkApp(msisdn, app_id) {
+    this._link(msisdn, null, 'app', app_id);
+  }
+
+  linkSms(msisdn, callback_url) {
+    this._link(msisdn, callback_url, 'sms', null);
+  }
+
+  linkTel(msisdn, other_msisdn, flags) {
+    this._link(msisdn, null, 'tel', other_msisdn, flags.voice_status_callback);
+  }
+
+  linkSip(msisdn, sip_uri, flags) {
+    this._link(msisdn, null, 'sip', sip_uri, flags.voice_status_callback);
+  }
+
+  linkVxml(msisdn, calback_url, flags) {
+    this._link(msisdn, null, 'vxml', calback_url, flags.voice_status_callback);
+  }
+
+  unlinkApp(msisdn) {
+    this._link(msisdn, null, 'app');
+  }
+
+  unlinkSms(msisdn) {
+    this._link(msisdn, '', 'sms');
+  }
+
+  unlinkTel(msisdn) {
+    this._link(msisdn, null, 'tel');
+  }
+
+  unlinkSip(msisdn) {
+    this._link(msisdn, null, 'sip');
+  }
+
+  unlinkVxml(msisdn) {
+    this._link(msisdn, null, 'vxml');
+  }
+
+  numberUpdate(msisdn, flags) {
     this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
-      let options = { voiceCallbackType: 'app', voiceCallbackValue: app_id };
-      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkCreate.bind(this.response));
+      let options = {};
+      if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
+      if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
+      if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
+      if (flags.voice_status_callback) options.voiceStatusCallback = flags.voice_status_callback;
+      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
     }));
   }
 
-  linkDelete(msisdn) {
+  _link(msisdn, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
     this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
-      let options = { voiceCallbackType: 'app' };
-      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.linkDelete.bind(this.response));
+      let options = {};
+
+      if (voice_callback_type == 'sms') {
+        options.moHttpUrl = mo_http_url;
+      } else {
+        options.voiceCallbackType = voice_callback_type;
+        if (voice_callback_value) options.voiceCallbackValue = voice_callback_value;
+        if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
+      }
+
+      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
     }));
   }
+
 }
 
 export default Request;

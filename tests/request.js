@@ -239,22 +239,94 @@ describe('Request', () => {
       }));
     });
 
-    describe('.linkCreate', () => {
+    describe('.linkApp', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.linkCreate('123', 'abc');
+        request.linkApp('123', 'abc');
         expect(nexmo.numberInsightBasic).to.have.been.called;
       }));
     });
 
-    describe('.linkDelete', () => {
+    describe('.unlinkApp', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);
         client.instance.returns(nexmo);
-        request.linkDelete('123');
+        request.unlinkApp('123');
         expect(nexmo.numberInsightBasic).to.have.been.called;
       }));
+    });
+
+    describe('.linkSms', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.linkSms('123', 'abc');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
+
+    describe('.unlinkSms', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.unlinkSms('123');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
+
+    describe('.linkTel', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.linkTel('123', 'abc', {});
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+    });
+
+    describe('.unlinkTel', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.unlinkTel('123');
+        expect(nexmo.numberInsightBasic).to.have.been.called;
+      }));
+
+      describe('.linkVxml', () => {
+        it('should call the SDK', sinon.test(function() {
+          nexmo = this.stub(easynexmo);
+          client.instance.returns(nexmo);
+          request.linkVxml('123', 'abc', {});
+          expect(nexmo.numberInsightBasic).to.have.been.called;
+        }));
+      });
+
+      describe('.unlinkVxml', () => {
+        it('should call the SDK', sinon.test(function() {
+          nexmo = this.stub(easynexmo);
+          client.instance.returns(nexmo);
+          request.unlinkVxml('123');
+          expect(nexmo.numberInsightBasic).to.have.been.called;
+        }));
+      });
+
+      describe('.linkSip', () => {
+        it('should call the SDK', sinon.test(function() {
+          nexmo = this.stub(easynexmo);
+          client.instance.returns(nexmo);
+          request.linkSip('123', 'abc', {});
+          expect(nexmo.numberInsightBasic).to.have.been.called;
+        }));
+      });
+
+      describe('.unlinkSip', () => {
+        it('should call the SDK', sinon.test(function() {
+          nexmo = this.stub(easynexmo);
+          client.instance.returns(nexmo);
+          request.unlinkSip('123');
+          expect(nexmo.numberInsightBasic).to.have.been.called;
+        }));
+      });
     });
   });
 });
