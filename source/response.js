@@ -17,6 +17,16 @@ class Response {
 
   // Pricing
 
+  priceSms(error, response) {
+    this.validator.response(error, response);
+    this.emitter.log(`${response.price} EUR`);
+  }
+
+  priceVoice(error, response) {
+    this.validator.response(error, response);
+    this.emitter.log(`${response.price} EUR`);
+  }
+
   priceCountry(error, response) {
     this.validator.response(error, response);
     if (response.networks && this.emitter.amplified) {

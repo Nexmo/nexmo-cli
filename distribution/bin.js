@@ -261,11 +261,24 @@ _commander2.default.command('insight:standard <number>').alias('is').option('--c
   emitter.log(' ');
 }).action(request.insightStandard.bind(request));
 
-_commander2.default.command('price:country <country_id>').alias('p').description('Gives you the cost of sending an outbound text message to the given country ID.').on('--help', function () {
+_commander2.default.command('price:sms <number>').alias('ps').description('Gives you the cost of sending an outbound text to a number.').on('--help', function () {
   emitter.log('  Examples:');
   emitter.log(' ');
-  emitter.log('    $ nexmo price GB');
-  emitter.log('    $ nexmo price GB');
+  emitter.log('    $ nexmo price:sms 445555555555');
+  emitter.log(' ');
+}).action(request.priceSms.bind(request));
+
+_commander2.default.command('price:voice <number>').alias('pv').description('Gives you the cost of making an outbound call to a number.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo price:voice 445555555555');
+  emitter.log(' ');
+}).action(request.priceVoice.bind(request));
+
+_commander2.default.command('price:country <country_id>').alias('pc').description('Gives you the cost of sending an outbound text message to the given country ID.').on('--help', function () {
+  emitter.log('  Examples:');
+  emitter.log(' ');
+  emitter.log('    $ nexmo price:country GB');
   emitter.log(' ');
 }).action(request.priceCountry.bind(request));
 

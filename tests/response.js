@@ -33,10 +33,26 @@ describe('Response', () => {
     }));
   });
 
+  describe('.priceSms', () => {
+    it('should validate the response and emit the result', sinon.test(function() {
+      response.priceSms(null, { price: 123 });
+      expect(validator.response).to.have.been.called;
+      expect(emitter.log).to.have.been.calledWith('123 EUR');
+    }));
+  });
+
+  describe('.priceVoice', () => {
+    it('should validate the response and emit the result', sinon.test(function() {
+      response.priceVoice(null, { price: 123 });
+      expect(validator.response).to.have.been.called;
+      expect(emitter.log).to.have.been.calledWith('123 EUR');
+    }));
+  });
+
   describe('.priceCountry', () => {
     it('should validate the response and emit the result', sinon.test(function() {
       response.priceCountry(null, { mt: 123, networks: []});
-      expect(validator.response).to.have.been.calledWith(null, { mt: 123, networks: []});
+      expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
   });
