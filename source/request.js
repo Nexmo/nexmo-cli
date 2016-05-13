@@ -21,6 +21,20 @@ class Request {
     }, flags.local);
   }
 
+  // Pricing
+
+  priceSms(number) {
+    this.client.instance().getPhonePricing('sms', number, this.response.priceSms.bind(this.response));
+  }
+
+  priceVoice(number) {
+    this.client.instance().getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
+  }
+
+  priceCountry(country_id) {
+    this.client.instance().getPricing(country_id, this.response.priceCountry.bind(this.response));
+  }
+
   // Numbers
 
   numbersList(flags) {

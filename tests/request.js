@@ -46,6 +46,33 @@ describe('Request', () => {
       }));
     });
 
+    describe('.priceVoice', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.priceVoice();
+        expect(nexmo.getPhonePricing).to.have.been.called;
+      }));
+    });
+
+    describe('.priceSms', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.priceSms();
+        expect(nexmo.getPhonePricing).to.have.been.called;
+      }));
+    });
+
+    describe('.priceCountry', () => {
+      it('should call the SDK', sinon.test(function() {
+        nexmo = this.stub(easynexmo);
+        client.instance.returns(nexmo);
+        request.priceCountry();
+        expect(nexmo.getPricing).to.have.been.called;
+      }));
+    });
+
     describe('.numbersList', () => {
       it('should call the SDK', sinon.test(function() {
         nexmo = this.stub(easynexmo);

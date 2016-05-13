@@ -40,6 +40,24 @@ var Request = function () {
       }, flags.local);
     }
 
+    // Pricing
+
+  }, {
+    key: 'priceSms',
+    value: function priceSms(number) {
+      this.client.instance().getPhonePricing('sms', number, this.response.priceSms.bind(this.response));
+    }
+  }, {
+    key: 'priceVoice',
+    value: function priceVoice(number) {
+      this.client.instance().getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
+    }
+  }, {
+    key: 'priceCountry',
+    value: function priceCountry(country_id) {
+      this.client.instance().getPricing(country_id, this.response.priceCountry.bind(this.response));
+    }
+
     // Numbers
 
   }, {

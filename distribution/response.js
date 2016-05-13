@@ -33,6 +33,33 @@ var Response = function () {
       this.emitter.log(response.value + ' EUR', 'Balance: ' + response.value + ' Euro');
     }
 
+    // Pricing
+
+  }, {
+    key: 'priceSms',
+    value: function priceSms(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response.price + ' EUR');
+    }
+  }, {
+    key: 'priceVoice',
+    value: function priceVoice(error, response) {
+      this.validator.response(error, response);
+      this.emitter.log(response.price + ' EUR');
+    }
+  }, {
+    key: 'priceCountry',
+    value: function priceCountry(error, response) {
+      this.validator.response(error, response);
+      if (response.networks && this.emitter.amplified) {
+        this.emitter.table(response.networks, ['network', 'mtPrice'], ['network', 'mtPrice']);
+      } else if (response.mt) {
+        this.emitter.log(response.mt + ' EUR');
+      } else {
+        this.emitter.log('No price found');
+      }
+    }
+
     // numbers
 
   }, {
