@@ -1,7 +1,7 @@
 import Client  from '../source/client.js';
 import Config  from '../source/config.js';
 import Emitter from '../source/emitter.js';
-import easynexmo from 'easynexmo';
+import Nexmo from 'nexmo';
 
 import { expect } from 'chai';
 import sinon      from 'sinon';
@@ -16,28 +16,26 @@ describe('Client', () => {
     it('should initialize the SDK', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
-      let nexmo = this.stub(easynexmo);
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
 
       let client = new Client(config, emitter);
-      client.instance();
+      let nexmo = client.instance();
 
-      expect(nexmo.initialize).to.have.been.called;
+      expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
 
     it('should allow for debugging', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
-      let nexmo = this.stub(easynexmo);
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
       emitter.debugging = true;
 
       let client = new Client(config, emitter);
-      client.instance();
+      let nexmo = client.instance();
 
-      expect(nexmo.initialize).to.have.been.calledWith('123', 'abc', true);
+      expect(nexmo._options.debug).to.be.true;
     }));
   });
 });

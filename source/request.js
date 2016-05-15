@@ -9,7 +9,7 @@ class Request {
   // Account
 
   accountBalance() {
-    this.client.instance().checkBalance(this.response.accountBalance.bind(this.response));
+    this.client.instance().account.checkBalance(this.response.accountBalance.bind(this.response));
   }
 
   accountSetup(key, secret, flags) {
@@ -24,15 +24,15 @@ class Request {
   // Pricing
 
   priceSms(number) {
-    this.client.instance().getPhonePricing('sms', number, this.response.priceSms.bind(this.response));
+    this.client.instance().number.getPhonePricing('sms', number, this.response.priceSms.bind(this.response));
   }
 
   priceVoice(number) {
-    this.client.instance().getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
+    this.client.instance().number.getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
   }
 
   priceCountry(country_id) {
-    this.client.instance().getPricing(country_id, this.response.priceCountry.bind(this.response));
+    this.client.instance().number.getPricing(country_id, this.response.priceCountry.bind(this.response));
   }
 
   // Numbers
@@ -42,7 +42,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    this.client.instance().getNumbers(options, this.response.numbersList.bind(this.response));
+    this.client.instance().number.get(options, this.response.numbersList.bind(this.response));
   }
 
   numberSearch(country_code, flags) {
@@ -61,7 +61,7 @@ class Request {
       if (options.pattern.slice(-1) === '*') options.search_pattern = 0;
     }
 
-    this.client.instance().searchNumbers(country_code, options, this.response.numberSearch.bind(this.response));
+    this.client.instance().number.search(country_code, options, this.response.numberSearch.bind(this.response));
   }
 
   numberBuy(first, command) {
@@ -75,8 +75,8 @@ class Request {
 
   numberBuyFromNumber(msisdn, flags) {
     confirm(`Buying ${msisdn}. This operation will charge your account.`, this.response.emitter, flags, () => {
-      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
-        this.client.instance().buyNumber(response.country_code, msisdn, this.response.numberBuyFromNumber.bind(this.response));
+      this.client.instance().numberInsight.get({level:'advanced', number: msisdn}, this.response.numberInsight((response) => {
+        this.client.instance().number.buy(response.country_code, msisdn, this.response.numberBuyFromNumber.bind(this.response));
       }));
     });
   }
@@ -89,15 +89,15 @@ class Request {
     if (pattern[0] === '*') options.search_pattern = 2;
     if (pattern.slice(-1) === '*') options.search_pattern = 0;
 
-    this.client.instance().searchNumbers(country_code, options, this.response.numberBuyFromPattern((msisdn) => {
+    this.client.instance().number.search(country_code, options, this.response.numberBuyFromPattern((msisdn) => {
       this.numberBuyFromNumber(msisdn, flags);
     }));
   }
 
   numberCancel(msisdn, flags) {
     confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
-        this.client.instance().cancelNumber(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
+      this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.numberInsight((response) => {
+        this.client.instance().number.cancel(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
       }));
     });
   }
@@ -109,7 +109,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    this.client.instance().getApplications(options, this.response.applicationsList.bind(this.response));
+    this.client.instance().app.get(options, this.response.applicationsList.bind(this.response));
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
@@ -117,11 +117,11 @@ class Request {
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
-    this.client.instance().createApplication(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags));
+    this.client.instance().app.create(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags));
   }
 
   applicationShow(app_id) {
-    this.client.instance().getApplication(app_id, this.response.applicationShow.bind(this.response));
+    this.client.instance().app.get(app_id, this.response.applicationShow.bind(this.response));
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
@@ -129,12 +129,12 @@ class Request {
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
-    this.client.instance().updateApplication(app_id, name, flags.type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
+    this.client.instance().app.update(app_id, name, flags.type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
   }
 
   applicationDelete(app_id, flags) {
     return confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().deleteApplication(app_id, this.response.applicationDelete.bind(this.response));
+      this.client.instance().app.delete(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
 
@@ -181,18 +181,18 @@ class Request {
   }
 
   numberUpdate(msisdn, flags) {
-    this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
+    this.client.instance().numberInsight.get({level:'basic', number: msisdn}, this.response.numberInsight((response) => {
       let options = {};
       if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
       if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
       if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
       if (flags.voice_status_callback) options.voiceStatusCallback = flags.voice_status_callback;
-      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
+      this.client.instance().number.update(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
     }));
   }
 
   _link(msisdn, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
-    this.client.instance().numberInsightBasic(msisdn, this.response.numberInsight((response) => {
+    this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.numberInsight((response) => {
       let options = {};
 
       if (voice_callback_type == 'sms') {
@@ -203,19 +203,19 @@ class Request {
         if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
       }
 
-      this.client.instance().updateNumber(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
+      this.client.instance().number.update(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
     }));
   }
 
   // Insight
 
   insightBasic(msisdn) {
-    this.client.instance().numberInsightBasic(msisdn, this.response.insightBasic.bind(this.response));
+    this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.insightBasic.bind(this.response));
   }
 
   insightStandard(msisdn, flags) {
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsightStandard(msisdn, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({level: 'standard', number: msisdn}, this.response.insightStandard.bind(this.response));
     });
   }
 }
