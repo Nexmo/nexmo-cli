@@ -1,4 +1,4 @@
-import nexmo from 'easynexmo';
+import Nexmo from 'nexmo';
 
 class Client {
   constructor(config, emitter) {
@@ -7,7 +7,7 @@ class Client {
   }
 
   instance() {
-    initialize(this.config, this.emitter);
+    let nexmo = initialize(this.config, this.emitter);
     return nexmo;
   }
 }
@@ -17,9 +17,18 @@ export default Client;
 // private methods
 
 let initialize = function(config, emitter) {
+  let nexmo = null;
   try {
     let credentials = config.read().credentials;
-    nexmo.initialize(credentials.api_key, credentials.api_secret, emitter.debugging);
+    nexmo = new Nexmo(
+      {
+        key: credentials.api_key, 
+        secret: credentials.api_secret
+      },
+      {
+        debug: emitter.debugging
+      }
+    );
   } catch(e) {
     if (e instanceof TypeError) {
       emitter.error(`Could not initialize Nexmo SDK. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
@@ -27,4 +36,5 @@ let initialize = function(config, emitter) {
       emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
     }
   }
+  return nexmo;
 };
