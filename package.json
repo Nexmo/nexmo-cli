@@ -1,16 +1,15 @@
 {
   "name": "nexmo-cli",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Nexmo Command Line Interface",
   "main": "distribution/request.js",
   "scripts": {
-    "prebuild": "eslint source",
-    "build": "babel source --out-dir distribution",
+    "prebuild": "eslint src",
+    "build": "babel -d lib src/ -s inline",
     "pretest": "eslint tests",
     "test": "mocha  --compilers js:babel-register tests/*",
-    "watch:test": "watch 'npm test' tests source",
-    "prerelease": "npm run build",
-    "release": "npm publish"
+    "watch:test": "watch 'npm test' tests src",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,7 @@
     "cli"
   ],
   "bin": {
-    "nexmo": "distribution/bin.js"
+    "nexmo": "lib/bin.js"
   },
   "author": "nexmo",
   "license": "MIT",
