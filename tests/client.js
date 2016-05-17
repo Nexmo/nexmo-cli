@@ -1,6 +1,6 @@
-import Client  from '../source/client.js';
-import Config  from '../source/config.js';
-import Emitter from '../source/emitter.js';
+import Client  from '../src/client.js';
+import Config  from '../src/config.js';
+import Emitter from '../src/emitter.js';
 import Nexmo from 'nexmo';
 
 import { expect } from 'chai';

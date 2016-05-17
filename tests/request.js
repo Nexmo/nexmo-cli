@@ -1,7 +1,7 @@
-import Client   from '../source/client.js';
-import Config   from '../source/config.js';
-import Request  from '../source/request.js';
-import Response from '../source/response.js';
+import Client   from '../src/client.js';
+import Config   from '../src/config.js';
+import Request  from '../src/request.js';
+import Response from '../src/response.js';
 
 import Account  from 'nexmo/lib/Account';
 import Number  from 'nexmo/lib/Number';
