@@ -490,15 +490,14 @@ This projects is written in ES2015 and compiled using Babel. The source can be f
 To add changes fork (if needed) and clone the project.
 
 ```sh
-npm run build # to build the source
 npm install # to install all dependencies
-npm install -g # to install the `nexmo` binary into your PATH
+npm run build # to explicitly build the source
+npm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH
 npm test # to run all tests
 npm run watch:test # to watch for changes and run tests
-node lib/bin.js balance # to run the commands locally use this instead of the "nexmo" command
 ```
 
-You can run any command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
 
 # License
 
