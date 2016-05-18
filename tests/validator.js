@@ -1,5 +1,5 @@
-import Validator from '../source/validator.js';
-import Emitter   from '../source/emitter.js';
+import Validator from '../src/validator.js';
+import Emitter   from '../src/emitter.js';
 
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';

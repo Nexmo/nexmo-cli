@@ -1,4 +1,4 @@
-import Emitter   from '../source/emitter.js';
+import Emitter   from '../src/emitter.js';
 
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';

@@ -1,5 +1,5 @@
-import Config  from '../source/config.js';
-import Emitter  from '../source/emitter.js';
+import Config  from '../src/config.js';
+import Emitter  from '../src/emitter.js';
 
 import { expect } from 'chai';
 import sinon      from 'sinon';

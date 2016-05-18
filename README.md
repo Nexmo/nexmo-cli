@@ -485,19 +485,19 @@ Alias: `nexmo is`
 
 ## Contributing
 
-This projects is written in ES2015 and compiled using Babel. The source can be found in the `/source` folder, and the build is compiled to the `/distribution` folder.
+This projects is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
 To add changes fork (if needed) and clone the project.
 
 ```sh
-npm run build # to build the source
 npm install # to install all dependencies
-npm install -g # to install the `nexmo` binary into your PATH
+npm run build # to explicitly build the source
+npm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH
 npm test # to run all tests
 npm run watch:test # to watch for changes and run tests
 ```
 
-You can run any `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
 
 # License
 
