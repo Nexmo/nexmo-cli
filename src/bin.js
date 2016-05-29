@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import './blocked-io';
 import commander from 'commander';
 
 import Emitter   from './emitter';
