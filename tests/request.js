@@ -59,6 +59,14 @@ describe('Request', () => {
         request.priceVoice();
         expect(nexmo.number.getPhonePricing).to.have.been.called;
       }));
+
+      it('should accept a + in the number', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        request.priceVoice('+123123123123');
+        expect(nexmo.number.getPhonePricing).to.have.been.calledWith('voice', '123123123123');
+      }));
     });
 
     describe('.priceSms', () => {

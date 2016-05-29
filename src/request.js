@@ -24,10 +24,12 @@ class Request {
   // Pricing
 
   priceSms(number) {
+    number = stripPlus(number);
     this.client.instance().number.getPhonePricing('sms', number, this.response.priceSms.bind(this.response));
   }
 
   priceVoice(number) {
+    number = stripPlus(number);
     this.client.instance().number.getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
   }
 
@@ -73,10 +75,11 @@ class Request {
     }
   }
 
-  numberBuyFromNumber(msisdn, flags) {
-    confirm(`Buying ${msisdn}. This operation will charge your account.`, this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level:'advanced', number: msisdn}, this.response.numberInsight((response) => {
-        this.client.instance().number.buy(response.country_code, msisdn, this.response.numberBuyFromNumber.bind(this.response));
+  numberBuyFromNumber(number, flags) {
+    number = stripPlus(number);
+    confirm(`Buying ${number}. This operation will charge your account.`, this.response.emitter, flags, () => {
+      this.client.instance().numberInsight.get({level:'advanced', number: number}, this.response.numberInsight((response) => {
+        this.client.instance().number.buy(response.country_code, number, this.response.numberBuyFromNumber.bind(this.response));
       }));
     });
   }
@@ -89,15 +92,15 @@ class Request {
     if (pattern[0] === '*') options.search_pattern = 2;
     if (pattern.slice(-1) === '*') options.search_pattern = 0;
 
-    this.client.instance().number.search(country_code, options, this.response.numberBuyFromPattern((msisdn) => {
-      this.numberBuyFromNumber(msisdn, flags);
+    this.client.instance().number.search(country_code, options, this.response.numberBuyFromPattern((number) => {
+      this.numberBuyFromNumber(number, flags);
     }));
   }
 
-  numberCancel(msisdn, flags) {
+  numberCancel(number, flags) {
     confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.numberInsight((response) => {
-        this.client.instance().number.cancel(response.country_code, msisdn, this.response.numberCancel.bind(this.response));
+      this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
+        this.client.instance().number.cancel(response.country_code, number, this.response.numberCancel.bind(this.response));
       }));
     });
   }
@@ -140,59 +143,61 @@ class Request {
 
   // links
 
-  linkApp(msisdn, app_id) {
-    this._link(msisdn, null, 'app', app_id);
+  linkApp(number, app_id) {
+    this._link(number, null, 'app', app_id);
   }
 
-  linkSms(msisdn, callback_url) {
-    this._link(msisdn, callback_url, 'sms', null);
+  linkSms(number, callback_url) {
+    this._link(number, callback_url, 'sms', null);
   }
 
-  linkTel(msisdn, other_msisdn, flags) {
-    this._link(msisdn, null, 'tel', other_msisdn, flags.voice_status_callback);
+  linkTel(number, other_number, flags) {
+    this._link(number, null, 'tel', other_number, flags.voice_status_callback);
   }
 
-  linkSip(msisdn, sip_uri, flags) {
-    this._link(msisdn, null, 'sip', sip_uri, flags.voice_status_callback);
+  linkSip(number, sip_uri, flags) {
+    this._link(number, null, 'sip', sip_uri, flags.voice_status_callback);
   }
 
-  linkVxml(msisdn, calback_url, flags) {
-    this._link(msisdn, null, 'vxml', calback_url, flags.voice_status_callback);
+  linkVxml(number, calback_url, flags) {
+    this._link(number, null, 'vxml', calback_url, flags.voice_status_callback);
   }
 
-  unlinkApp(msisdn) {
-    this._link(msisdn, null, 'app');
+  unlinkApp(number) {
+    this._link(number, null, 'app');
   }
 
-  unlinkSms(msisdn) {
-    this._link(msisdn, '', 'sms');
+  unlinkSms(number) {
+    this._link(number, '', 'sms');
   }
 
-  unlinkTel(msisdn) {
-    this._link(msisdn, null, 'tel');
+  unlinkTel(number) {
+    this._link(number, null, 'tel');
   }
 
-  unlinkSip(msisdn) {
-    this._link(msisdn, null, 'sip');
+  unlinkSip(number) {
+    this._link(number, null, 'sip');
   }
 
-  unlinkVxml(msisdn) {
-    this._link(msisdn, null, 'vxml');
+  unlinkVxml(number) {
+    this._link(number, null, 'vxml');
   }
 
-  numberUpdate(msisdn, flags) {
-    this.client.instance().numberInsight.get({level:'basic', number: msisdn}, this.response.numberInsight((response) => {
+  numberUpdate(number, flags) {
+    number = stripPlus(number);
+    this.client.instance().numberInsight.get({level:'basic', number: number}, this.response.numberInsight((response) => {
       let options = {};
       if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
       if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
       if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
       if (flags.voice_status_callback) options.voiceStatusCallback = flags.voice_status_callback;
-      this.client.instance().number.update(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
+      this.client.instance().number.update(response.country_code, number, options, this.response.numberUpdate.bind(this.response));
     }));
   }
 
-  _link(msisdn, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
-    this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.numberInsight((response) => {
+  _link(number, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
+    number = stripPlus(number);
+    this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
       let options = {};
 
       if (voice_callback_type == 'sms') {
@@ -203,19 +208,21 @@ class Request {
         if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
       }
 
-      this.client.instance().number.update(response.country_code, msisdn, options, this.response.numberUpdate.bind(this.response));
+      this.client.instance().number.update(response.country_code, number, options, this.response.numberUpdate.bind(this.response));
     }));
   }
 
   // Insight
 
-  insightBasic(msisdn) {
-    this.client.instance().numberInsight.get({level: 'basic', number: msisdn}, this.response.insightBasic.bind(this.response));
+  insightBasic(number) {
+    number = stripPlus(number);
+    this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.insightBasic.bind(this.response));
   }
 
-  insightStandard(msisdn, flags) {
+  insightStandard(number, flags) {
+    number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'standard', number: msisdn}, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({level: 'standard', number: number}, this.response.insightStandard.bind(this.response));
     });
   }
 }
@@ -241,4 +248,12 @@ let confirm = function(message, emitter, flags, callback) {
       process.stdin.destroy();
     });
   }
+};
+
+let stripPlus = function(number) {
+  if (!number) { return number; }
+  while(number.charAt(0) === '+') {
+    number = number.substr(1);
+  }
+  return number;
 };
