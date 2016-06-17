@@ -10,8 +10,8 @@ class Response {
   accountBalance(error, response) {
     this.validator.response(error, response);
     this.emitter.log(
-      `${response.value} EUR`,
-      `Balance: ${response.value} Euro`
+      `${Number((response.value).toFixed(2))} EUR`,
+      `${response.value} EUR`
     );
   }
 
