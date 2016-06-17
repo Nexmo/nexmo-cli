@@ -187,7 +187,7 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.numberBuy(null, { confirm: true, parent: { rawArgs: ['nb', '123'] } });
-        expect(nexmo.numberInsight.get).to.have.been.called;
+        expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '123' });
       }));
 
       it('should handle search', sinon.test(function() {

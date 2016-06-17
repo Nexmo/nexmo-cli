@@ -78,7 +78,7 @@ class Request {
   numberBuyFromNumber(number, flags) {
     number = stripPlus(number);
     confirm(`Buying ${number}. This operation will charge your account.`, this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level:'advanced', number: number}, this.response.numberInsight((response) => {
+      this.client.instance().numberInsight.get({level:'basic', number: number}, this.response.numberInsight((response) => {
         this.client.instance().number.buy(response.country_code, number, this.response.numberBuyFromNumber.bind(this.response));
       }));
     });
