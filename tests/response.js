@@ -27,9 +27,9 @@ describe('Response', () => {
 
   describe('.accountBalance', () => {
     it('should validate the response and emit the result', sinon.test(function() {
-      response.accountBalance(null, { value: 123 });
-      expect(validator.response).to.have.been.calledWith(null, { value: 123});
-      expect(emitter.log).to.have.been.calledWith('123 EUR');
+      response.accountBalance(null, { value: 123.4567 });
+      expect(validator.response).to.have.been.calledWith(null, { value: 123.4567});
+      expect(emitter.log).to.have.been.calledWith('123.46 EUR', '123.4567 EUR');
     }));
   });
 

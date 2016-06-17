@@ -4,17 +4,15 @@
 
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
-
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above.
-If you don't have Node installed on your system goto (https://nodejs.org/en/download/) and download the appropriate installer for your system.
+The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
 
-Note: you may need root/admin privileges  to install the cli globally.
+Note: you may need root/admin privileges to install the cli globally.
+
 ```
 npm install nexmo-cli -g
 ```
-
 
 Then set up the CLI with your API key and secret:
 
@@ -53,7 +51,10 @@ Alias: `nexmo s`.
 
 ```
 > nexmo balance
-18.9686 EUR
+18.96 EUR
+
+> nexmo balance -v
+18.9589 EUR
 ```
 
 Alias: `nexmo b`
@@ -68,7 +69,6 @@ Alias: `nexmo b`
 ```
 
 Alias: `nexmo ps`
-
 
 #### Price to make a call to a number
 
@@ -101,9 +101,10 @@ Alias: `nexmo pc`
 
 #### List all numbers on your account
 
-* Optional flags:
-  * `--size` the amount of results to return
-  * `--page` the page of results to return
+- Optional flags:
+
+  - `--size` the amount of results to return
+  - `--page` the page of results to return
 
 ```
 > nexmo numbers:list
@@ -115,7 +116,7 @@ msisdn       | country | type       | features
 -----------------------------------------------
 31555555555  | NL      | landline   | VOICE    
 445555555555 | GB      | mobile-lvn | VOICE,SMS      
-445555555556 | GB      | mobile-lvn | SMS      
+445555555556 | GB      | mobile-lvn | SMS
 ```
 
 Alias: `nexmo nl`, `nexmo numbers` and `nexmo number:list`.
@@ -124,13 +125,14 @@ Alias: `nexmo nl`, `nexmo numbers` and `nexmo number:list`.
 
 Parameters:
 
-* `country_code` - an ISO 3166-2 country code for the country you are trying to find a number for.
-* Optional flags:
-  * `--pattern <pattern>`  to be matched in number (use * to match end or start of number)
-  * `--voice` to search for voice enabled numbers
-  * `--sms` search for SMS enabled numbers
-  * `--size` the amount of results to return
-  * `--page` the page of results to return
+- `country_code` - an ISO 3166-2 country code for the country you are trying to find a number for.
+- Optional flags:
+
+  - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
+  - `--voice` to search for voice enabled numbers
+  - `--sms` search for SMS enabled numbers
+  - `--size` the amount of results to return
+  - `--page` the page of results to return
 
 ```
 > nexmo number:search US
@@ -153,19 +155,19 @@ Alias: `nexmo ns` and `nexmo numbers:search`.
 
 Parameters:
 
-* `number` - The number to buy
-* or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.
+- `number` - The number to buy
+- or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.
 
 ```
 > nexmo number:buy 12069396555
-Buying 12069396555. This operation will charge your account.
+Buying 12069396555\. This operation will charge your account.
 
 Please type "confirm" to continue: confirm
 
 Number purchased
 
 > nexmo number:buy US *555
-Buying 12069396555. This operation will charge your account.
+Buying 12069396555\. This operation will charge your account.
 
 Please type "confirm" to continue: confirm
 
@@ -193,9 +195,7 @@ Number cancelled
 
 Alias: `nexmo nc` and `nexmo numbers:cancel`.
 
-
 #### Update a number
-
 
 For shortcuts of these options see [Linking](#linking).
 
@@ -206,14 +206,14 @@ Number updated
 
 Alias: `nexmo nu` and `nexmo numbers:update`.
 
-
 ### Applications
 
 #### List your Applications
 
-* Optional flags:
-  * `--size` the amount of results to return
-  * `--page` the page of results to return
+- Optional flags:
+
+  - `--size` the amount of results to return
+  - `--page` the page of results to return
 
 ```
 > nexmo app:list
@@ -235,14 +235,15 @@ Alias: `nexmo al` and `nexmo apps`.
 
 Parameters:
 
-* `name` - the custom name of your application.
-* `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-* `event_url` - the url the platform sends event information asynchronously to when the call_status changes
-* Optional flags:
-  * `--keyfile <keyfile>` the file to save your private key to
-  * `--type <type>` the product you want to access with this application. (Default: voice)
-  * `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  * `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+- `name` - the custom name of your application.
+- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
+- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- Optional flags:
+
+  - `--keyfile <keyfile>` the file to save your private key to
+  - `--type <type>` the product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
@@ -330,14 +331,15 @@ Alias: `nexmo as` and `nexmo app`.
 
 Parameters:
 
-* `app_id` - the UUID of your application.
-* `name` - the custom name of your application.
-* `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-* `event_url` - the url the platform sends event information asynchronously to when the call_status changes
-* Optional flags:
-  * `--type <type>` the product you want to access with this application. (Default: voice)
-  * `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  * `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+- `app_id` - the UUID of your application.
+- `name` - the custom name of your application.
+- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
+- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- Optional flags:
+
+  - `--type <type>` the product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
@@ -455,6 +457,7 @@ Number updated
 > nexmo unlink:sip 12057200555
 Number updated
 ```
+
 Alias: `nexmo lsip`
 
 ### Insight
