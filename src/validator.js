@@ -10,6 +10,8 @@ class Validator {
       this.emitter.error(error.message);
     } else if (response['error-code'] && response['error-code'] !== '200') {
       this.emitter.error(response['error-code-label']);
+    } else if (response['status'] && response['status'] !== '0') {
+      this.emitter.error(response['status_message']);
     }
   }
 

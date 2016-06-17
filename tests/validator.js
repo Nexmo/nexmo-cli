@@ -61,6 +61,20 @@ describe('Validator', () => {
           expect(stub).not.to.be.called;
         }));
       });
+
+      describe('due to status errors', () => {
+        it('should emit an error', sinon.test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
+
+          let stub = this.stub(emitter, 'error');
+
+          validator.response(null, {'status' : '3', 'status_message' : 'foobar'});
+
+          expect(stub).to.be.called;
+          expect(stub).to.be.calledWith('foobar');
+        }));
+      });
     });
   });
 });
