@@ -1,4 +1,4 @@
-[Account](docs/account.md) | [Pricing](docs/pricing.md) | [Numbers](docs/numbers.md) | [Applications](docs/applications.md) | [Linking](docs/linking.md) | [Insight](docs/insight.md)
+[Account](account.md) | [Pricing](pricing.md) | [Numbers](numbers.md) | [Applications](applications.md) | [Linking](linking.md) | [Insight](insight.md)
 
 # Linking
 
