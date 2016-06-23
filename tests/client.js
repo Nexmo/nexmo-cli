@@ -13,7 +13,7 @@ describe('Client', () => {
   });
 
   describe('.instance', () => {
-    it('should initialize the SDK', sinon.test(function () {
+    it('should initialize the library', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 

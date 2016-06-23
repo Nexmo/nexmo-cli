@@ -182,7 +182,7 @@ describe('Request', () => {
     });
 
     describe('.numberBuy', () => {
-      it('should call the SDK', sinon.test(function() {
+      it('should call the library', sinon.test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -262,7 +262,7 @@ describe('Request', () => {
     });
 
     describe('.applicationShow', () => {
-      it('should call the SDK', sinon.test(function() {
+      it('should call the library', sinon.test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -272,7 +272,7 @@ describe('Request', () => {
     });
 
     describe('.applicationUpdate', () => {
-      it('should call the SDK', sinon.test(function() {
+      it('should call the library', sinon.test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -299,7 +299,7 @@ describe('Request', () => {
     });
 
     describe('.applicationDelete', () => {
-      it('should call the SDK', sinon.test(function() {
+      it('should call the library', sinon.test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -329,7 +329,7 @@ describe('Request', () => {
     });
 
     describe('.linkSms', () => {
-      it('should call the SDK', sinon.test(function() {
+      it('should call the library', sinon.test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);

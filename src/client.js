@@ -31,7 +31,7 @@ let initialize = function(config, emitter) {
     );
   } catch(e) {
     if (e instanceof TypeError) {
-      emitter.error(`Could not initialize Nexmo SDK. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
+      emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
     } else {
       emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
     }
