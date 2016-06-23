@@ -22,8 +22,8 @@ let initialize = function(config, emitter) {
     let credentials = config.read().credentials;
     nexmo = new Nexmo(
       {
-        key: credentials.api_key, 
-        secret: credentials.api_secret
+        apiKey: credentials.api_key, 
+        apiSecret: credentials.api_secret
       },
       {
         debug: emitter.debugging
