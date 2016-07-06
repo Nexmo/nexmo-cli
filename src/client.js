@@ -22,8 +22,8 @@ let initialize = function(config, emitter) {
     let credentials = config.read().credentials;
     nexmo = new Nexmo(
       {
-        key: credentials.api_key, 
-        secret: credentials.api_secret
+        apiKey: credentials.api_key, 
+        apiSecret: credentials.api_secret
       },
       {
         debug: emitter.debugging
@@ -31,7 +31,7 @@ let initialize = function(config, emitter) {
     );
   } catch(e) {
     if (e instanceof TypeError) {
-      emitter.error(`Could not initialize Nexmo SDK. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
+      emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
     } else {
       emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
     }
