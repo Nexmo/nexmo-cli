@@ -3,7 +3,6 @@ import Emitter  from '../src/emitter.js';
 
 import { expect } from 'chai';
 import sinon      from 'sinon';
-import mockfs     from 'mock-fs';
 import fs         from 'fs';
 
 describe('Config', () => {
@@ -22,10 +21,6 @@ api_secret=abc
     credentials = { credentials: { api_key: '123', api_secret: 'abc'}};
   });
 
-  afterEach(() => {
-    mockfs.restore();
-  });
-
   it('should export a Config object', () => {
     expect(Config).to.not.be.null;
     expect(Config.name).to.equal('Config');
@@ -33,19 +28,25 @@ api_secret=abc
 
   describe('.read', () => {
     it('should read out the file contents', () => {
-      mockfs({
-        '.nexmorc' : ini_content
-      });
+      let readFileSync = fs.readFileSync;
+      fs.readFileSync = function() {
+        return ini_content;
+      };
       let data = config.read();
       expect(data).to.eql(credentials);
+      fs.readFileSync = readFileSync;
     });
   });
 
   describe('.write', () => {
     it('should write out the data', () => {
-      mockfs();
+      let writeFileSync = fs.writeFileSync;
+      fs.writeFileSync = function(filename, data){
+        expect(filename).to.match(/\/\.nexmorc$/);
+        expect(data).to.equal(ini_content);
+      };
       config.write(credentials);
-      expect(fs.readFileSync(config.readFilename(), 'utf-8')).to.equal(ini_content);
+      fs.writeFileSync = writeFileSync;
     });
   });
 
@@ -60,11 +61,13 @@ api_secret=abc
 
     it('should return the local path if a .nexmorc file exists locally', () => {
       let cwd = process.cwd();
-      let options = {};
-      options[`${cwd}/.nexmorc`] = 'empty content';
-      mockfs(options);
 
+      let existsSync = fs.existsSync;
+      fs.existsSync = function() {
+        return true;
+      };
       expect(config.readFilename()).to.have.string(cwd);
+      fs.existsSync = existsSync;
     });
   });
 
@@ -84,9 +87,15 @@ api_secret=abc
 
   describe('.putAndSave', () => {
     it('should write the new data', () => {
-      mockfs();
+      let writeFileSync = fs.writeFileSync;
+
+      fs.writeFileSync = function(filename, data){
+        expect(filename).to.match(config.readFilename());
+        expect(data).to.equal(ini_content);
+      };
+
       config.putAndSave(credentials, false);
-      expect(fs.readFileSync(config.readFilename(), 'utf-8')).to.equal(ini_content);
+      fs.writeFileSync = writeFileSync;
     });
 
     it('should merge additional data', () => {
@@ -103,9 +112,18 @@ api_secret=abc
 foobar=1
 `;
 
-      mockfs({
-        '.nexmorc' : initial_content
-      });
+      let writeFileSync = fs.writeFileSync;
+      let readFileSync = fs.readFileSync;
+
+      fs.readFileSync = function() {
+        return initial_content;
+      };
+
+      fs.writeFileSync = function(filename, data){
+        expect(filename).to.match(config.readFilename());
+        expect(data).to.equal(expected_content);
+      };
+
       config.putAndSave({
         'credentials': {
           'api_key': 234
@@ -114,7 +132,9 @@ foobar=1
           'foobar': 1
         }
       }, true);
-      expect(fs.readFileSync(config.readFilename(), 'utf-8')).to.equal(expected_content);
+
+      fs.readFileSync = readFileSync;
+      fs.writeFileSync = writeFileSync;
     });
   });
 });
