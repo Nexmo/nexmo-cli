@@ -48,6 +48,14 @@ Credentials written to /home/username/.nexmorc
 
 Alias: `nexmo s`.
 
+#### Account info
+
+```
+> nexmo account
+API Key:    123
+API Secret: abc
+```
+
 #### Account balance
 
 ```

@@ -33,6 +33,12 @@ commander
   .action(request.accountSetup.bind(request));
 
 commander
+  .command('account')
+  .description('Your account details')
+  .alias('a')
+  .action(request.accountInfo.bind(request));
+
+commander
   .command('balance')
   .description('Current account balance')
   .alias('b')

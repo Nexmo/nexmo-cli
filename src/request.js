@@ -8,10 +8,6 @@ class Request {
   }
   // Account
 
-  accountBalance() {
-    this.client.instance().account.checkBalance(this.response.accountBalance.bind(this.response));
-  }
-
   accountSetup(key, secret, flags) {
     this._verifyCredentials(key, secret, this.response.accountSetup(this.config, key, secret, flags).bind(this.response));
   }
@@ -19,6 +15,14 @@ class Request {
   _verifyCredentials(key, secret, callback) {
     let client = this.client.instanceWith(key, secret);
     client.account.checkBalance(callback);
+  }
+
+  accountInfo() {
+    this.response.accountInfo(this.config.read());
+  }
+
+  accountBalance() {
+    this.client.instance().account.checkBalance(this.response.accountBalance.bind(this.response));
   }
 
   // Pricing

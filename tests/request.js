@@ -47,6 +47,15 @@ describe('Request', () => {
       }));
     });
 
+    describe('.accountInfo', () => {
+      it('should read the credentials', sinon.test(function() {
+        nexmo = {};
+        request.accountInfo();
+        expect(config.read).to.have.been.called;
+        expect(response.accountInfo).to.have.been.called;
+      }));
+    });
+
     describe('.accountBalance', () => {
       it('should call nexmo.account.checkBalance', sinon.test(function() {
         nexmo = {};

@@ -19,6 +19,13 @@ class Response {
     };
   }
 
+  accountInfo(ini) {
+    this.emitter.log(
+`API Key:    ${ini.credentials.api_key}
+API Secret: ${ini.credentials.api_secret}`
+    );
+  }
+
   accountBalance(error, response) {
     this.validator.response(error, response);
     this.emitter.log(
