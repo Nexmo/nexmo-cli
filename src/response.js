@@ -32,10 +32,19 @@ class Response {
     if (response.networks && this.emitter.amplified) {
       this.emitter.table(response.networks, ['network', 'mtPrice'], ['network', 'mtPrice']);
     } else if (response.mt) {
-      this.emitter.log(`${response.mt} EUR`);
+      let price = this._maxPrice(response);
+      this.emitter.log(`${price} EUR`);
     } else {
       this.emitter.log('No price found');
     }
+  }
+
+  _maxPrice(response) {
+    let prices = response.networks.map((network) => {
+      return parseFloat(network.mtPrice);
+    });
+    prices.push(parseFloat(response.mt));
+    return Math.max.apply(null, prices);
   }
 
   // numbers

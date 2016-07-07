@@ -35,7 +35,7 @@ describe('Response', () => {
 
   describe('.priceSms', () => {
     it('should validate the response and emit the result', sinon.test(function() {
-      response.priceSms(null, { price: 123 });
+      response.priceSms(null, { price: '123' });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
@@ -43,7 +43,7 @@ describe('Response', () => {
 
   describe('.priceVoice', () => {
     it('should validate the response and emit the result', sinon.test(function() {
-      response.priceVoice(null, { price: 123 });
+      response.priceVoice(null, { price: '123' });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
@@ -51,9 +51,15 @@ describe('Response', () => {
 
   describe('.priceCountry', () => {
     it('should validate the response and emit the result', sinon.test(function() {
-      response.priceCountry(null, { mt: 123, networks: []});
+      response.priceCountry(null, { mt: '0.123', networks: []});
       expect(validator.response).to.have.been.called;
-      expect(emitter.log).to.have.been.calledWith('123 EUR');
+      expect(emitter.log).to.have.been.calledWith('0.123 EUR');
+    }));
+
+    it('should return the maximum value for a country', sinon.test(function() {
+      response.priceCountry(null, { mt: '0.123', networks: [{ mtPrice: '0.234' }]});
+      expect(validator.response).to.have.been.called;
+      expect(emitter.log).to.have.been.calledWith('0.234 EUR');
     }));
   });
 
