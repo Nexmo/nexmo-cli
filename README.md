@@ -30,7 +30,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)
+[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)
 
 ### Flags
 
@@ -205,6 +205,24 @@ Number updated
 ```
 
 Alias: `nexmo nu` and `nexmo numbers:update`.
+
+### SMS
+
+#### Send an SMS
+
+Send a message through Nexmo to any number. Either provide a from number, name, or leave it blank to sends as "Nexmo CLI".
+
+```
+> nexmo sms <destination_number> "Hello world!" --confirm
+Message sent to:   <destination_number>
+Remaining balance: 26.80110000 EUR
+Message price:     0.03330000 EUR
+
+> nexmo sms <from_name_or_number> <destination_number> "Hello world!" --confirm
+Message sent to:   <destination_number>
+Remaining balance: 26.80110000 EUR
+Message price:     0.03330000 EUR
+```
 
 ### Applications
 

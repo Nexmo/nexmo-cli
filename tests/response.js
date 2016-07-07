@@ -206,4 +206,26 @@ describe('Response', () => {
       expect(emitter.list).to.have.been.calledWith('123 | GB | Telco', data);
     });
   });
+
+  describe('.sensSms', () => {
+    it('should print the response', () => {
+      let data = { 'message-count': '1',
+                    messages: [
+                       { to: '447518397784',
+                         'message-id': '02000000E6ED9837',
+                         status: '0',
+                         'remaining-balance': '26.83440000',
+                         'message-price': '0.03330000',
+                         network: '23410'
+                       }
+                    ]
+                  };
+
+      response.sendSms(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith(`Message sent to:   447518397784
+Remaining balance: 26.83440000 EUR
+Message price:     0.03330000 EUR`);
+    });
+  });
 });

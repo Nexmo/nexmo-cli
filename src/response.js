@@ -159,6 +159,16 @@ class Response {
     this.emitter.log(colors.red.bgWhite(`${private_key}\n`));
     this.emitter.log('WARNING: You should save this key somewhere safe and secure now, it will not be provided again.');
   }
+
+  // sending messages
+
+  sendSms(error, response) {
+    this.validator.response(error, response);
+    const message = response.messages[0];
+    this.emitter.log(`Message sent to:   ${message.to}
+Remaining balance: ${message['remaining-balance']} EUR
+Message price:     ${message['message-price']} EUR`);
+  }
 }
 
 export default Response;

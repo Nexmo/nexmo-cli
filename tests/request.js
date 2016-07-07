@@ -3,10 +3,11 @@ import Config   from '../src/config.js';
 import Request  from '../src/request.js';
 import Response from '../src/response.js';
 
-import Account  from 'nexmo/lib/Account';
-import Number  from 'nexmo/lib/Number';
+import Account        from 'nexmo/lib/Account';
+import App            from 'nexmo/lib/App';
+import Message        from 'nexmo/lib/Message';
+import Number         from 'nexmo/lib/Number';
 import NumberInsight  from 'nexmo/lib/NumberInsight';
-import App  from 'nexmo/lib/App';
 
 import chai, { expect } from 'chai';
 import sinon      from 'sinon';
@@ -425,6 +426,24 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         request.insightStandard('4555555', { confirm: true });
         expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'standard'});
+      }));
+    });
+
+    describe('.sendSms', () => {
+      it('should call nexmo.message.sendSms', sinon.test(function() {
+        nexmo = {};
+        nexmo.message = sinon.createStubInstance(Message);
+        client.instance.returns(nexmo);
+        request.sendSms('from', 'to', 'message', { confirm: true, parent: { rawArgs: ['sms', 'from', 'to', 'message'] } });
+        expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'message');
+      }));
+
+      it('should allow for skipping the from name', sinon.test(function() {
+        nexmo = {};
+        nexmo.message = sinon.createStubInstance(Message);
+        client.instance.returns(nexmo);
+        request.sendSms('to', 'message', null, { confirm: true, parent: { rawArgs: ['sms', 'to', 'message'] } });
+        expect(nexmo.message.sendSms).to.have.been.calledWith('Nexmo CLI', 'to', 'message');
       }));
     });
   });

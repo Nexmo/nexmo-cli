@@ -464,6 +464,15 @@ commander
   })
   .action(request.priceCountry.bind(request));
 
+// sending sms
+
+commander
+  .command('sms [from] [to] [text]')
+  .option('--confirm', 'skip confirmation step and directly send the message' )
+  .description('Send an SMS')
+  .action(request.sendSms.bind(request));
+
+
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })

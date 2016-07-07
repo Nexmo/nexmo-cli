@@ -67,7 +67,7 @@ class Request {
   }
 
   numberBuy(first, command) {
-    let args = command.parent.rawArgs.filter(arg => (arg.indexOf('--') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1));
+    let args = command.parent.rawArgs.filter(arg => (arg.indexOf('-') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1));
     if (args.length == 2) {
       this.numberBuyFromNumber(args[1], command);
     } else if (args.length == 3) {
@@ -223,6 +223,23 @@ class Request {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
       this.client.instance().numberInsight.get({level: 'standard', number: number}, this.response.insightStandard.bind(this.response));
+    });
+  }
+
+  // sending messages
+
+  sendSms(first, second, third, command) {
+    let args = command.parent.rawArgs.filter(arg => (arg.indexOf('-') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1));
+    if (args.length == 3) {
+      this._sendSms('Nexmo CLI', first, second, command);
+    } else if (args.length == 4) {
+      this._sendSms(first, second, third, command);
+    }
+  }
+
+  _sendSms(from, to, text, flags) {
+    confirm('This operation will charge your account.', this.response.emitter, flags, () => {
+      this.client.instance().message.sendSms(from, to, text, this.response.sendSms.bind(this.response));
     });
   }
 }
