@@ -112,6 +112,8 @@ Alias: `nexmo pc`
 445555555555
 
 > nexmo numbers:list --verbose
+Item 1-3 of 3
+
 msisdn       | country | type       | features
 -----------------------------------------------
 31555555555  | NL      | landline   | VOICE    
@@ -222,6 +224,8 @@ asdasdas-asdd-2344-2344-asdasdasd234 | Test Application 1
 asdasdas-asdd-2344-2344-asdasdasd345 | Test Application 2
 
 > nexmo app:list --verbose
+Item 1-3 of 3
+
 id                                   | name
 ---------------------------------------------------------
 asdasdas-asdd-2344-2344-asdasdasd123 | Test Application 1

@@ -44,7 +44,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    this.client.instance().number.get(options, this.response.numbersList.bind(this.response));
+    this.client.instance().number.get(options, this.response.numbersList(flags).bind(this.response));
   }
 
   numberSearch(country_code, flags) {
@@ -63,7 +63,7 @@ class Request {
       if (options.pattern.slice(-1) === '*') options.search_pattern = 0;
     }
 
-    this.client.instance().number.search(country_code, options, this.response.numberSearch.bind(this.response));
+    this.client.instance().number.search(country_code, options, this.response.numberSearch(flags).bind(this.response));
   }
 
   numberBuy(first, command) {
@@ -112,7 +112,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    this.client.instance().app.get(options, this.response.applicationsList.bind(this.response));
+    this.client.instance().app.get(options, this.response.applicationsList(flags).bind(this.response));
   }
 
   applicationCreate(name, answer_url, event_url, flags) {

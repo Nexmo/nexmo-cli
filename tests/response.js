@@ -60,13 +60,13 @@ describe('Response', () => {
   describe('.numbersList', () => {
     it('should print a list of numbers', () => {
       let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
-      response.numbersList(null, data);
+      response.numbersList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
     });
 
     it('should warn if no numbers found', () => {
-      response.numbersList(null, { numbers: []});
+      response.numbersList({})(null, { numbers: []});
       expect(emitter.warn).to.have.been.called;
     });
   });
@@ -74,13 +74,13 @@ describe('Response', () => {
   describe('.numberSearch', () => {
     it('should print a list of numbers', () => {
       let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
-      response.numberSearch(null, data);
+      response.numberSearch({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
     });
 
     it('should warn if no numbers found', () => {
-      response.numberSearch(null, { numbers: []});
+      response.numberSearch({})(null, { numbers: []});
       expect(emitter.warn).to.have.been.called;
     });
   });
@@ -128,13 +128,13 @@ describe('Response', () => {
   describe('.applicationsList', () => {
     it('should print a list of application', () => {
       let data = {'_embedded':{'applications':[{'id':123}]}};
-      response.applicationsList(null, data);
+      response.applicationsList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{'id':123}], ['id', 'name'], ['id', 'name']);
     });
 
     it('should warn if no applications found', () => {
-      response.applicationsList(null, {'_embedded':{'applications':[]}});
+      response.applicationsList({})(null, {'_embedded':{'applications':[]}});
       expect(emitter.warn).to.have.been.called;
     });
   });

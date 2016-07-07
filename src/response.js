@@ -40,22 +40,28 @@ class Response {
 
   // numbers
 
-  numbersList(error, response) {
-    this.validator.response(error, response);
-    if (response.numbers && response.numbers.length > 0) {
-      this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
-    } else {
-      this.emitter.warn('No numbers');
-    }
+  numbersList(flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      if (response.numbers && response.numbers.length > 0) {
+        this.emitter.pagination(flags, response);
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
+      } else {
+        this.emitter.warn('No numbers');
+      }
+    };
   }
 
-  numberSearch(error, response) {
-    this.validator.response(error, response);
-    if (response.numbers && response.numbers.length > 0) {
-      this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
-    } else {
-      this.emitter.warn('No numbers');
-    }
+  numberSearch(flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      if (response.numbers && response.numbers.length > 0) {
+        this.emitter.pagination(flags, response);
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
+      } else {
+        this.emitter.warn('No numbers');
+      }
+    };
   }
 
   numberBuyFromNumber(error, response) {
@@ -88,13 +94,16 @@ class Response {
 
   // applications
 
-  applicationsList(error, response) {
-    this.validator.response(error, response);
-    if (response._embedded && response._embedded.applications && response._embedded.applications.length > 0) {
-      this.emitter.table(response._embedded.applications, ['id', 'name'], ['id', 'name']);
-    } else {
-      this.emitter.warn('No applications');
-    }
+  applicationsList(flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      if (response._embedded && response._embedded.applications && response._embedded.applications.length > 0) {
+        this.emitter.pagination(flags, response);
+        this.emitter.table(response._embedded.applications, ['id', 'name'], ['id', 'name']);
+      } else {
+        this.emitter.warn('No applications');
+      }
+    };
   }
 
   applicationCreate(flags) {
