@@ -171,10 +171,10 @@ Buying 12069396555\. This operation will charge your account.
 
 Please type "confirm" to continue: confirm
 
-Number purchased
+Number purchased: 12069396555
 
 > nexmo number:buy 12069396555 --confirm
-Number purchased
+Number purchased: 12069396555
 ```
 
 Alias: `nexmo nb` and `nexmo numbers:buy`.
@@ -187,10 +187,10 @@ This is operation can not be reversed.
 
 Please type "confirm" to continue: confirm
 
-Number cancelled
+Number cancelled: 12069396555
 
 > nexmo number:cancel 12069396555 --confirm
-Number cancelled
+Number cancelled: 12069396555
 ```
 
 Alias: `nexmo nc` and `nexmo numbers:cancel`.
