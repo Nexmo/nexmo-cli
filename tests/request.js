@@ -35,10 +35,15 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should call the Config', () => {
+      it('should verifiy the credentials', sinon.test(function(){
+        nexmo = {};
+        nexmo.account = sinon.createStubInstance(Account);
+        client.instanceWith.returns(nexmo);
+        response.accountSetup.returns(()=>{});
         request.accountSetup('123', 'abc', false);
-        expect(config.putAndSave).to.have.been.called;
-      });
+        expect(nexmo.account.checkBalance).to.have.been.called;
+        expect(response.accountSetup).to.have.been.called;
+      }));
     });
 
     describe('.accountBalance', () => {

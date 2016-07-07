@@ -17,13 +17,14 @@ npm install nexmo-cli -g
 Then set up the CLI with your API key and secret:
 
 ```
-nexmo setup a123b c345d
+> nexmo setup a123b c345d
+Credentials written to /Users/yourname/.nexmorc
 ```
 
 This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project you can pass the `--local` flag as follows:
 
 ```
-nexmo setup a123b c345d --local
+> nexmo setup a123b c345d --local
 ```
 
 This will save the config to your local folder instead.

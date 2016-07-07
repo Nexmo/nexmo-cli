@@ -1,6 +1,7 @@
 import Response  from '../src/response.js';
 import Validator from '../src/validator.js';
 import Emitter   from '../src/emitter.js';
+import Config    from '../src/config.js';
 
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';
@@ -24,6 +25,17 @@ describe('Response', () => {
     expect(Response).to.not.be.null;
     expect(Response.name).to.equal('Response');
   });
+
+  describe('.accountSetup', () => {
+    it('should validate the response and save the result', sinon.test(function() {
+      var config = sinon.createStubInstance(Config);
+
+      response.accountSetup(config, '123', 'abc', { local: false })(null, {});
+      expect(validator.response).to.have.been.called;
+      expect(config.putAndSave).to.have.been.called;
+    }));
+  });
+
 
   describe('.accountBalance', () => {
     it('should validate the response and emit the result', sinon.test(function() {

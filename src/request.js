@@ -13,12 +13,12 @@ class Request {
   }
 
   accountSetup(key, secret, flags) {
-    this.config.putAndSave({
-      'credentials': {
-        'api_key': key,
-        'api_secret': secret
-      }
-    }, flags.local);
+    this._verifyCredentials(key, secret, this.response.accountSetup(this.config, key, secret, flags).bind(this.response));
+  }
+
+  _verifyCredentials(key, secret, callback) {
+    let client = this.client.instanceWith(key, secret);
+    client.account.checkBalance(callback);
   }
 
   // Pricing

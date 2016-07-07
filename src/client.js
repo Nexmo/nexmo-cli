@@ -10,6 +10,10 @@ class Client {
     let nexmo = initialize(this.config, this.emitter);
     return nexmo;
   }
+
+  instanceWith(key, secret) {
+    return new Nexmo({apiKey: key, apiSecret: secret});
+  }
 }
 
 export default Client;
@@ -22,7 +26,7 @@ let initialize = function(config, emitter) {
     let credentials = config.read().credentials;
     nexmo = new Nexmo(
       {
-        apiKey: credentials.api_key, 
+        apiKey: credentials.api_key,
         apiSecret: credentials.api_secret
       },
       {
