@@ -196,7 +196,7 @@ commander
 
 // Application List
 commander
-  .command('app:list')
+  .command('apps:list')
   .description('List your Nexmo Applications')
   .option('--page <page>', 'the page of results to return')
   .option('--size <size>', 'the amount of results to return')
@@ -211,12 +211,34 @@ commander
   .option('--size <size>', 'the amount of results to return')
   .action(request.applicationsList.bind(request));
 
+commander
+  .command('app:list', null, { noHelp: true })
+  .description('List your Nexmo Applications')
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the amount of results to return')
+  .action(request.applicationsList.bind(request));
+
 // Application Create
 
 commander
   .command('app:create <name> <answer_url> <event_url>')
   .description('Create a new Nexmo Application')
   .alias('ac')
+  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo app:create "Test Application 1" http://example.com http://example.com --keyfile private.key');
+    emitter.log(' ');
+  })
+  .action(request.applicationCreate.bind(request));
+
+commander
+  .command('apps:create <name> <answer_url> <event_url>', null, { noHelp: true })
+  .description('Create a new Nexmo Application')
   .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
@@ -242,6 +264,11 @@ commander
   .description('Show details for a Nexmo Application')
   .action(request.applicationShow.bind(request));
 
+commander
+  .command('apps:show <app_id>', null, { noHelp: true })
+  .description('Show details for a Nexmo Application')
+  .action(request.applicationShow.bind(request));
+
 // Application Update
 
 commander
@@ -259,12 +286,33 @@ commander
   })
   .action(request.applicationUpdate.bind(request));
 
+commander
+  .command('apps:update <app_id> <name> <answer_url> <event_url>', null, { noHelp: true })
+  .description('Update a Nexmo Application')
+  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com');
+    emitter.log(' ');
+  })
+  .action(request.applicationUpdate.bind(request));
+
+
 // Application Delete
 
 commander
   .command('app:delete <app_id>')
   .description('Delete a Nexmo Application')
   .alias('ad')
+  .option('--confirm', 'skip confirmation step and directly delete the app' )
+  .action(request.applicationDelete.bind(request));
+
+commander
+  .command('apps:delete <app_id>', null, { noHelp: true })
+  .description('Delete a Nexmo Application')
   .option('--confirm', 'skip confirmation step and directly delete the app' )
   .action(request.applicationDelete.bind(request));
 
