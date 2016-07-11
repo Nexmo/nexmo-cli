@@ -213,12 +213,12 @@ Alias: `nexmo nu` and `nexmo numbers:update`.
 Send a message through Nexmo to any number. Either provide a from number, name, or leave it blank to sends as "Nexmo CLI".
 
 ```
-> nexmo sms <destination_number> "Hello world!" --confirm
+> nexmo sms <destination_number> Hello world! --confirm
 Message sent to:   <destination_number>
 Remaining balance: 26.80110000 EUR
 Message price:     0.03330000 EUR
 
-> nexmo sms <from_name_or_number> <destination_number> "Hello world!" --confirm
+> nexmo sms  <destination_number> Hello world! --from "Acme Inc" --confirm
 Message sent to:   <destination_number>
 Remaining balance: 26.80110000 EUR
 Message price:     0.03330000 EUR

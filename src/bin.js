@@ -467,11 +467,11 @@ commander
 // sending sms
 
 commander
-  .command('sms [from] [to] [text]')
+  .command('sms <to> <text...>')
   .option('--confirm', 'skip confirmation step and directly send the message' )
+  .option('-f, --from <from...>', 'the number or name to send the SMS message from (defaults to "Nexmo CLI")', 'Nexmo CLI')
   .description('Send an SMS')
   .action(request.sendSms.bind(request));
-
 
 // catch unknown commands
 commander

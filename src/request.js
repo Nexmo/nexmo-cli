@@ -228,18 +228,9 @@ class Request {
 
   // sending messages
 
-  sendSms(first, second, third, command) {
-    let args = command.parent.rawArgs.filter(arg => (arg.indexOf('-') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1));
-    if (args.length == 3) {
-      this._sendSms('Nexmo CLI', first, second, command);
-    } else if (args.length == 4) {
-      this._sendSms(first, second, third, command);
-    }
-  }
-
-  _sendSms(from, to, text, flags) {
+  sendSms(to, text, flags) {
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().message.sendSms(from, to, text, this.response.sendSms.bind(this.response));
+      this.client.instance().message.sendSms(flags.from, to, text.join(' '), this.response.sendSms.bind(this.response));
     });
   }
 }

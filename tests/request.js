@@ -434,16 +434,8 @@ describe('Request', () => {
         nexmo = {};
         nexmo.message = sinon.createStubInstance(Message);
         client.instance.returns(nexmo);
-        request.sendSms('from', 'to', 'message', { confirm: true, parent: { rawArgs: ['sms', 'from', 'to', 'message'] } });
-        expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'message');
-      }));
-
-      it('should allow for skipping the from name', sinon.test(function() {
-        nexmo = {};
-        nexmo.message = sinon.createStubInstance(Message);
-        client.instance.returns(nexmo);
-        request.sendSms('to', 'message', null, { confirm: true, parent: { rawArgs: ['sms', 'to', 'message'] } });
-        expect(nexmo.message.sendSms).to.have.been.calledWith('Nexmo CLI', 'to', 'message');
+        request.sendSms('to', ['Hello', 'World'], { 'from' : 'from', 'confirm' : true });
+        expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'Hello World');
       }));
     });
   });
