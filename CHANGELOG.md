@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.0]
+
+- Send an sms with `nexmo sms`
+- Add pagination headers to tables
+- Alias `nexmo app` to `nexmo apps`
+- Get your account info with `nexmo account`
+- Show number to be acted on when cancelling and buying
+- Add a changelog
+- Return the maximum prices across all carriers in `price:country`
+
 ## [0.0.18]
 
 - Update [nexmo-node] library to **1.0.0-beta-7**
@@ -104,6 +114,7 @@ List of commands:
   - `app:show`
   - `app:delete`
 
+[0.1.0]: https://github.com/Nexmo/nexmo-cli/tree/v0.1.0
 [0.0.18]: https://github.com/Nexmo/nexmo-cli/tree/v0.0.18
 [0.0.17]: https://github.com/Nexmo/nexmo-cli/tree/v0.0.17
 [0.0.16]: https://github.com/Nexmo/nexmo-cli/tree/v0.0.16
