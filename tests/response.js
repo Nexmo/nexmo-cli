@@ -36,6 +36,13 @@ describe('Response', () => {
     }));
   });
 
+  describe('.accountInfo', () => {
+    it('should emit the result', sinon.test(function() {
+      response.accountInfo({credentials: { 'api_key' : '123', 'api_secret' : '234' }});
+      expect(emitter.log).to.have.been.calledWith(`API Key:    123
+API Secret: 234`);
+    }));
+  });
 
   describe('.accountBalance', () => {
     it('should validate the response and emit the result', sinon.test(function() {
