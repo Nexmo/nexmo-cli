@@ -55,7 +55,16 @@ class Emitter {
     } else {
       this.log(message);
     }
+  }
 
+  pagination(flags, data) {
+    const page  = parseInt(flags.page || 1);
+    const size  = parseInt(flags.size || 10);
+    const total = data.count;
+    const start = size*(page-1) + 1;
+    const end   = start + size - 1;
+
+    if (this.amplified) this.log(`Item ${start}-${end} of ${total}\n`);
   }
 }
 

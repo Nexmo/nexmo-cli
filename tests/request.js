@@ -95,6 +95,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
         request.numbersList({});
         expect(nexmo.number.get).to.have.been.called;
       }));
@@ -103,6 +104,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
         request.numbersList({ page: 2 });
         expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
       }));
@@ -111,6 +113,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
         request.numbersList({ size: 25 });
         expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
       }));
@@ -121,6 +124,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', {});
         expect(nexmo.number.search).to.have.been.called;
       }));
@@ -129,6 +133,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { voice: true });
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE'] });
       }));
@@ -137,6 +142,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { sms: true });
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['SMS'] });
       }));
@@ -145,6 +151,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { sms: true, voice: true });
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE','SMS'] });
       }));
@@ -153,6 +160,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { page: 2 });
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], index: 2 });
       }));
@@ -161,6 +169,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { size: 25 });
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 25 });
       }));
@@ -169,6 +178,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { pattern: '020'});
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1 });
       }));
@@ -177,6 +187,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { pattern: '*020'});
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2 });
       }));
@@ -215,6 +226,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
+        response.applicationsList.returns(()=>{});
         request.applicationsList({});
         expect(nexmo.app.get).to.have.been.called;
       }));
@@ -223,6 +235,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
+        response.applicationsList.returns(()=>{});
         request.applicationsList({ page: 2 });
         expect(nexmo.app.get).to.have.been.calledWith({ index: 2 });
       }));
@@ -231,6 +244,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
+        response.applicationsList.returns(()=>{});
         request.applicationsList({ size: 25 });
         expect(nexmo.app.get).to.have.been.calledWith({ size: 25 });
       }));
