@@ -7,6 +7,18 @@ class Response {
     this.validator = validator;
   }
 
+  accountSetup(config, key, secret, flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      config.putAndSave({
+        'credentials': {
+          'api_key': key,
+          'api_secret': secret
+        }
+      }, flags.local);
+    };
+  }
+
   accountBalance(error, response) {
     this.validator.response(error, response);
     this.emitter.log(

@@ -13,7 +13,7 @@ describe('Client', () => {
   });
 
   describe('.instance', () => {
-    it('should initialize the library', sinon.test(function () {
+    it('should initialize the library of the filesystem', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
@@ -36,6 +36,18 @@ describe('Client', () => {
       let nexmo = client.instance();
 
       expect(nexmo._options.debug).to.be.true;
+    }));
+  });
+
+  describe('.instanceWith', () => {
+    it('should initialize a new library of the given credentials', sinon.test(function () {
+      let emitter = sinon.createStubInstance(Emitter);
+      let config = sinon.createStubInstance(Config);
+
+      let client = new Client(config, emitter);
+      let nexmo = client.instanceWith(123, 234);
+
+      expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
   });
 });
