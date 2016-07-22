@@ -79,7 +79,7 @@ class Request {
     number = stripPlus(number);
     confirm(`Buying ${number}. This operation will charge your account.`, this.response.emitter, flags, () => {
       this.client.instance().numberInsight.get({level:'basic', number: number}, this.response.numberInsight((response) => {
-        this.client.instance().number.buy(response.country_code, number, this.response.numberBuyFromNumber.bind(this.response));
+        this.client.instance().number.buy(response.country_code, number, this.response.numberBuyFromNumber(number).bind(this.response));
       }));
     });
   }
@@ -100,7 +100,7 @@ class Request {
   numberCancel(number, flags) {
     confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
       this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
-        this.client.instance().number.cancel(response.country_code, number, this.response.numberCancel.bind(this.response));
+        this.client.instance().number.cancel(response.country_code, number, this.response.numberCancel(number).bind(this.response));
       }));
     });
   }

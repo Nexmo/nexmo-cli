@@ -85,9 +85,11 @@ class Response {
     };
   }
 
-  numberBuyFromNumber(error, response) {
-    this.validator.response(error, response);
-    this.emitter.log('Number purchased');
+  numberBuyFromNumber(number) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      this.emitter.log(`Number purchased: ${number}`);
+    };
   }
 
   numberBuyFromPattern(callback) {
@@ -101,9 +103,11 @@ class Response {
     };
   }
 
-  numberCancel(error, response) {
-    this.validator.response(error, response);
-    this.emitter.log('Number cancelled');
+  numberCancel(number) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      this.emitter.log(`Number cancelled: ${number}`);
+    };
   }
 
   numberInsight(callback) {

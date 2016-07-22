@@ -106,9 +106,9 @@ describe('Response', () => {
   describe('.numberBuyFromNumber', () => {
     it('should print the response', () => {
       let data = 'response';
-      response.numberBuyFromNumber(null, data);
+      response.numberBuyFromNumber('123')(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.log).to.have.been.calledWith('Number purchased');
+      expect(emitter.log).to.have.been.calledWith('Number purchased: 123');
     });
   });
 
@@ -126,9 +126,9 @@ describe('Response', () => {
   describe('.numberCancel', () => {
     it('should print the response', () => {
       let data = 'response';
-      response.numberCancel(null, data);
+      response.numberCancel('123')(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.log).to.have.been.calledWith('Number cancelled');
+      expect(emitter.log).to.have.been.calledWith('Number cancelled: 123');
     });
   });
 
