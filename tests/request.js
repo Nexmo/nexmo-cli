@@ -216,13 +216,60 @@ describe('Request', () => {
         expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '123' });
       }));
 
-      it('should handle search', sinon.test(function() {
+      it('should handle search with a default search_pattern of 1', sinon.test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        request.numberBuy(null, { parent: { rawArgs: ['nb', 'GB', '123'] } });
-        expect(nexmo.number.search).to.have.been.called;
+        
+        const country_code = 'GB';
+        const pattern = '123';
+        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        expect(nexmo.number.search).to.have.been.calledWith(
+          country_code,
+          {
+            features: ['VOICE'],
+            pattern: pattern,
+            search_pattern: 1
+          }
+        );
       }));
+      
+      it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        
+        const country_code = 'GB';
+        const pattern = '*123';
+        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        expect(nexmo.number.search).to.have.been.calledWith(
+          country_code,
+          {
+            features: ['VOICE'],
+            pattern: pattern,
+            search_pattern: 2
+          }
+        );
+      }));
+      
+      it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        
+        const country_code = 'GB';
+        const pattern = '123*';
+        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        expect(nexmo.number.search).to.have.been.calledWith(
+          country_code,
+          {
+            features: ['VOICE'],
+            pattern: pattern,
+            search_pattern: 0
+          }
+        );
+      }));
+      
     });
 
     describe('.numberCancel', () => {
