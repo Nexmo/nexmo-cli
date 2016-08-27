@@ -212,7 +212,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
-        request.numberBuy(null, { confirm: true, parent: { rawArgs: ['nb', '123'] } });
+        request.numberBuy('123', { confirm: true });
         expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '123' });
       }));
 
@@ -223,7 +223,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '123';
-        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        request.numberBuy(pattern, { country_id: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -241,7 +241,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '*123';
-        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        request.numberBuy(pattern, { country_id: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -259,7 +259,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '123*';
-        request.numberBuy(null, { parent: { rawArgs: ['nb', country_code, pattern] } });
+        request.numberBuy(pattern, { country_id: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -270,6 +270,21 @@ describe('Request', () => {
         );
       }));
       
+      it('should buy the first number only country_id flag is set', () => {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        
+        const country_code = 'GB';
+        request.numberBuy(null, { country_id: country_code });
+        
+        expect(nexmo.number.search).to.have.been.calledWith(
+          country_code,
+          {
+            features: ['VOICE']
+          }
+        );
+      });
     });
 
     describe('.numberCancel', () => {

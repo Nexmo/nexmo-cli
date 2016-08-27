@@ -70,12 +70,12 @@ class Request {
     this.client.instance().number.search(country_code, options, this.response.numberSearch(flags).bind(this.response));
   }
 
-  numberBuy(first, command) {
-    let args = command.parent.rawArgs.filter(arg => (arg.indexOf('-') == -1 && arg.indexOf('nexmo') == -1 && arg.indexOf('node') == -1));
-    if (args.length == 2) {
-      this.numberBuyFromNumber(args[1], command);
-    } else if (args.length == 3) {
-      this.numberBuyFromPattern(args[1], args[2], command);
+  numberBuy(numberOrPattern, command) {
+    if(command.country_id) {
+      this.numberBuyFromSearch(command.country_id, numberOrPattern, command);
+    }
+    else {
+      this.numberBuyFromNumber(numberOrPattern, command);
     }
   }
 
@@ -88,13 +88,15 @@ class Request {
     });
   }
 
-  numberBuyFromPattern(country_code, pattern, flags) {
+  numberBuyFromSearch(country_code, pattern, flags) {
     let options = { features: ['VOICE'] };
 
-    options.pattern = pattern;
-    options.search_pattern = 1;
-    if (pattern[0] === '*') options.search_pattern = 2;
-    if (pattern.slice(-1) === '*') options.search_pattern = 0;
+    if(pattern) {
+      options.pattern = pattern;
+      options.search_pattern = 1;
+      if (pattern[0] === '*') options.search_pattern = 2;
+      if (pattern.slice(-1) === '*') options.search_pattern = 0;
+    }
 
     this.client.instance().number.search(country_code, options, this.response.numberBuyFromPattern((number) => {
       this.numberBuyFromNumber(number, flags);
