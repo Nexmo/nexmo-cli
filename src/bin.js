@@ -71,6 +71,7 @@ commander
 commander
   .command('number:buy [number_pattern]')
   .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
+  .alias('numbers:buy')
   .alias('nb')
   .option('-c, --country_code [country_code]', 'the country code')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
