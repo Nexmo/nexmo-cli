@@ -70,9 +70,9 @@ commander
 // Number Buy
 commander
   .command('number:buy [number_pattern]')
-  .description('Buy a number to use for voice or SMS. If a --country_id is provided then the number_pattern is used to search for a number in the given country.')
+  .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
   .alias('nb')
-  .option('-c, --country_id [country_id]', 'the country code')
+  .option('-c, --country_code [country_code]', 'the country code')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -495,7 +495,7 @@ commander
   .action(request.priceVoice.bind(request));
 
 commander
-  .command('price:country <country_id>')
+  .command('price:country <country_code>')
   .alias('pc')
   .description('Gives you the cost of sending an outbound text message to the given country ID.')
   .on('--help', () => {

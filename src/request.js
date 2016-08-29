@@ -37,8 +37,8 @@ class Request {
     this.client.instance().number.getPhonePricing('voice', number, this.response.priceVoice.bind(this.response));
   }
 
-  priceCountry(country_id) {
-    this.client.instance().number.getPricing(country_id, this.response.priceCountry.bind(this.response));
+  priceCountry(country_code) {
+    this.client.instance().number.getPricing(country_code, this.response.priceCountry.bind(this.response));
   }
 
   // Numbers
@@ -71,8 +71,8 @@ class Request {
   }
 
   numberBuy(numberOrPattern, command) {
-    if(command.country_id) {
-      this.numberBuyFromSearch(command.country_id, numberOrPattern, command);
+    if(command.country_code) {
+      this.numberBuyFromSearch(command.country_code, numberOrPattern, command);
     }
     else {
       this.numberBuyFromNumber(numberOrPattern, command);

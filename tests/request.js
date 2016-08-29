@@ -223,7 +223,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '123';
-        request.numberBuy(pattern, { country_id: country_code });
+        request.numberBuy(pattern, { country_code: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -241,7 +241,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '*123';
-        request.numberBuy(pattern, { country_id: country_code });
+        request.numberBuy(pattern, { country_code: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -259,7 +259,7 @@ describe('Request', () => {
         
         const country_code = 'GB';
         const pattern = '123*';
-        request.numberBuy(pattern, { country_id: country_code });
+        request.numberBuy(pattern, { country_code: country_code });
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -270,13 +270,13 @@ describe('Request', () => {
         );
       }));
       
-      it('should buy the first number only country_id flag is set', () => {
+      it('should buy the first number only country_code flag is set', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
         
         const country_code = 'GB';
-        request.numberBuy(null, { country_id: country_code });
+        request.numberBuy(null, { country_code: country_code });
         
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
