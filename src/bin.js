@@ -69,23 +69,11 @@ commander
 
 // Number Buy
 commander
-  .command('number:buy <number>')
-  .description('Buy a number to use for voice or SMS')
+  .command('number:buy [number_pattern]')
+  .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
+  .alias('numbers:buy')
   .alias('nb')
-  .option('--confirm', 'skip confirmation step and directly buy the number' )
-  .on('--help', () => {
-    emitter.log('  Examples:');
-    emitter.log(' ');
-    emitter.log('    $ nexmo number:buy 445555555555');
-    emitter.log('    $ nexmo number:buy 31555555555');
-    emitter.log('    $ nexmo number:buy 17136738555');
-    emitter.log(' ');
-  })
-  .action(request.numberBuy.bind(request));
-
-commander
-  .command('numbers:buy [country_code] <number>', null, { noHelp: true })
-  .description('Buy a number to use for voice or SMS')
+  .option('-c, --country_code [country_code]', 'the country code')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -96,7 +84,8 @@ commander
     emitter.log(' ');
     emitter.log('  Optionally directly search and buy a number:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy GB 445*');
+    emitter.log('    $ nexmo number:buy 445* -c GB');
+    emitter.log('    $ nexmo number:buy -c US');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
@@ -507,7 +496,7 @@ commander
   .action(request.priceVoice.bind(request));
 
 commander
-  .command('price:country <country_id>')
+  .command('price:country <country_code>')
   .alias('pc')
   .description('Gives you the cost of sending an outbound text message to the given country ID.')
   .on('--help', () => {
