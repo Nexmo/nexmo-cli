@@ -472,6 +472,19 @@ commander
   .action(request.insightStandard.bind(request));
 
 commander
+  .command('insight:advanced <number>')
+  .alias('ia')
+  .option('--confirm', 'skip fee confirmation step and directly get the information' )
+  .description('Get more details about this number like the roaming status and current country of the phone. This operation will incur a fee.')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo insight:advanced 445555555555');
+    emitter.log(' ');
+  })
+  .action(request.insightAdvanced.bind(request));
+
+commander
   .command('price:sms <number>')
   .alias('ps')
   .description('Gives you the cost of sending an outbound text to a number.')

@@ -232,6 +232,13 @@ class Request {
     });
   }
 
+  insightAdvanced(number, flags) {
+    number = stripPlus(number);
+    confirm('This operation will charge your account.', this.response.emitter, flags, () => {
+      this.client.instance().numberInsight.get({level: 'advanced', number: number}, this.response.insightStandard.bind(this.response));
+    });
+  }
+
   // sending messages
 
   sendSms(to, text, flags) {

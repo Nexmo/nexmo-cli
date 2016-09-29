@@ -35,7 +35,7 @@ describe('Client', () => {
       let client = new Client(config, emitter);
       let nexmo = client.instance();
 
-      expect(nexmo._options.debug).to.be.true;
+      expect(nexmo.options.debug).to.be.true;
     }));
   });
 
