@@ -241,7 +241,7 @@ Message price:     0.03330000 EUR
 **Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
 
 ```bash
-nexmo sms <destination_number> Hello world! --from <from_number> --confirm
+nexmo sms <to_number> Hello world! --from <from_number> --confirm
 ```
 
 ### Applications
