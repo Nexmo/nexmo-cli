@@ -18,7 +18,11 @@ class Request {
   }
 
   accountInfo() {
-    this.response.accountInfo(this.config.read());
+    if (this.config.authenticated()) {
+      this.response.accountInfo(null, this.config.read());
+    } else {
+      this.response.accountInfo({ message: 'Not authenticated. Run "nexmo setup <api_key> <api_secret>" to log in.' }, null);
+    }
   }
 
   accountBalance() {
