@@ -18,7 +18,7 @@ class Request {
   }
 
   accountInfo() {
-    this.response.accountInfo(this.config.read());
+    this.response.accountInfo(this.client.instance());
   }
 
   accountBalance() {
