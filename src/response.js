@@ -19,10 +19,11 @@ class Response {
     };
   }
 
-  accountInfo(ini) {
+  accountInfo(error, response) {
+    this.validator.response(error, response);
     this.emitter.log(
-`API Key:    ${ini.credentials.api_key}
-API Secret: ${ini.credentials.api_secret}`
+`API Key:    ${response.credentials.api_key}
+API Secret: ${response.credentials.api_secret}`
     );
   }
 

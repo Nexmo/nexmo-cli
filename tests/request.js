@@ -50,6 +50,7 @@ describe('Request', () => {
     describe('.accountInfo', () => {
       it('should read the credentials', sinon.test(function() {
         nexmo = {};
+        config.authenticated.returns(true);
         request.accountInfo();
         expect(config.read).to.have.been.called;
         expect(response.accountInfo).to.have.been.called;
@@ -220,7 +221,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '123';
         request.numberBuy(pattern, { country_code: country_code });
@@ -233,12 +234,12 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '*123';
         request.numberBuy(pattern, { country_code: country_code });
@@ -251,12 +252,12 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '123*';
         request.numberBuy(pattern, { country_code: country_code });
@@ -269,15 +270,15 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should buy the first number only country_code flag is set', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         request.numberBuy(null, { country_code: country_code });
-        
+
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {

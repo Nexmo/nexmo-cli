@@ -19,6 +19,15 @@ class Config {
     );
   }
 
+  authenticated() {
+    try {
+      fs.readFileSync(this.readFilename(), 'utf-8');
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   readFilename() {
     let filename = localFile();
     if (fs.existsSync(filename)) {
