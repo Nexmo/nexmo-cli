@@ -536,8 +536,8 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
         
-        request.generateJwt('path/to/private.key', 'application_id');
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
+        request.generateJwt('path/to/private.key', [], {});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key' );
       }));
       
       it('should deal with Nexmo.generateJwt with null claims', sinon.test(function() {
@@ -546,7 +546,7 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
         
-        request.generateJwt('path/to/private.key', 'application_id', null);
+        request.generateJwt('path/to/private.key', [], {app_id: 'application_id'});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
       }));
 
@@ -556,7 +556,7 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
         
-        request.generateJwt('path/to/private.key', 'application_id', ['subject=leggetter', 'jti=1475861732']);
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
       }));
       
@@ -568,7 +568,7 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
         
-        request.generateJwt('path/to/private.key', 'application_id', ['subject=leggetter', 'jti=1475861732']);
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
         expect(response.generateJwt).to.have.been.calledWith(null, 'a token!');
       }));
       
