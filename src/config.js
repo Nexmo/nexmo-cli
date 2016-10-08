@@ -7,9 +7,10 @@ class Config {
   }
 
   read() {
-    return ini.parse(
+    this.credentials = ini.parse(
       fs.readFileSync(this.readFilename(), 'utf-8')
     );
+    return this.credentials;
   }
 
   write(data, local=false) {
