@@ -215,7 +215,8 @@ Message price:     ${message['message-price']} EUR`);
   
   generateJwt(error, token) {
     this.validator.response(error, token);
-    this.emitter.log(`JWT:   ${token}`);
+    this.emitter.log('JWT:');
+    this.emitter.log(token);
   }
 }
 

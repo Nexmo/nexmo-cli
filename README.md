@@ -33,7 +33,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)
+[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
 
 ### Flags
 
@@ -525,6 +525,16 @@ This API will charge your account but provide additional details:
 Verbose mode will return additional information.
 
 Alias: `nexmo is`
+
+#### JWT
+
+Create a JWT (JSON Web Token) for use when authenticating with various Nexmo APIs.
+
+```
+› nexmo jwt:generate path/to/private.key subject=leggetter application_id=1234-5678
+JWT:
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NzU5MzM1OTUsImp0aSI6ImM0MWJkZWMwLThkNWItMTFlNi05OWY3LWE3ZWUxYzIyZmZlOSIsInN1YmplY3QiOiJsZWdnZXR0ZXIiLCJhcHBsaWNhdGlvbl9pZCI6IjEyMzQtNTY3OCJ9.ySyBS6lqV6CuOff7Et3cer0UBzG2kPxR91apQhVXydPbFXA4ajDL8NPDUcDjfo_G5_IoEcfLJSsFltE8QUZUBTHM8YVnHko7MQFiEMDItuf4J5he82Yq3dVBba7rB9-GssERb8BTBh8rJCCRqMxqLpsPtNutKVG04MqoI2mq1KMqYjLAz-I8M1qSnGRvsF9ZIQH7wyFUnTSsKqHFupxrcznm7Q1YwCDTfbJ-EEmZyiy67ESlT38lIy_WEgwdZRe9nJ6ehYIXRGuvdsHnT3xtA6vzYFheraVu5he7FlLzEROR-JnWIyW7vbOWW23yC1zmlxbPMDmBv0XCU83JHOk9KA
+```
 
 ## Contributing
 
