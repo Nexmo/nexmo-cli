@@ -210,6 +210,13 @@ API Secret: ${ini.credentials.api_secret}`
 Remaining balance: ${message['remaining-balance']} EUR
 Message price:     ${message['message-price']} EUR`);
   }
+  
+  // JWT
+  
+  generateJwt(error, token) {
+    this.validator.response(error, token);
+    this.emitter.log(`JWT:   ${token}`);
+  }
 }
 
 export default Response;

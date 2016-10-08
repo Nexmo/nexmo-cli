@@ -10,6 +10,10 @@ class Client {
     let nexmo = initialize(this.config, this.emitter);
     return nexmo;
   }
+  
+  definition() {
+    return Nexmo;
+  }
 
   instanceWith(key, secret) {
     return new Nexmo({apiKey: key, apiSecret: secret});
