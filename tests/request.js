@@ -49,10 +49,10 @@ describe('Request', () => {
 
     describe('.accountInfo', () => {
       it('should read the credentials', sinon.test(function() {
-        nexmo = {};
+        nexmo = { credentials: 'credentials' };
+        client.instance.returns(nexmo);
         request.accountInfo();
-        expect(config.read).to.have.been.called;
-        expect(response.accountInfo).to.have.been.called;
+        expect(response.accountInfo).to.have.been.calledWith({ credentials: 'credentials' });
       }));
     });
 
@@ -220,7 +220,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '123';
         request.numberBuy(pattern, { country_code: country_code });
@@ -233,12 +233,12 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '*123';
         request.numberBuy(pattern, { country_code: country_code });
@@ -251,12 +251,12 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         const pattern = '123*';
         request.numberBuy(pattern, { country_code: country_code });
@@ -269,15 +269,15 @@ describe('Request', () => {
           }
         );
       }));
-      
+
       it('should buy the first number only country_code flag is set', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        
+
         const country_code = 'GB';
         request.numberBuy(null, { country_code: country_code });
-        
+
         expect(nexmo.number.search).to.have.been.calledWith(
           country_code,
           {
@@ -528,5 +528,71 @@ describe('Request', () => {
         expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'Hello World');
       }));
     });
+    
+    describe('.generateJwt', () => {
+      it('should call Nexmo.generateJwt', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', [], {});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key' );
+      }));
+      
+      it('should deal with Nexmo.generateJwt with null claims', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', [], {app_id: 'application_id'});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
+      }));
+
+      it('should call Nexmo.generateJwt with additional claims', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
+      }));
+      
+      it('should call pass generated token to response.generateJwt', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: () => { 
+            return 'a token!';
+          }
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
+        expect(response.generateJwt).to.have.been.calledWith(null, 'a token!');
+      }));
+      
+      it('should call response with an exception when singular values are provided for claims', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', 'application_id', ['subject']);
+        expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
+      }));
+      
+      it('should call response with an exception when more than one = is supplied', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+        
+        request.generateJwt('path/to/private.key', 'application_id', ['subject=fish=monkey']);
+        expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
+      }));
+      
+    });
+    
   });
 });

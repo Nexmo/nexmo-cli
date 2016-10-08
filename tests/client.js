@@ -50,4 +50,16 @@ describe('Client', () => {
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
   });
+  
+  describe('.definition', () => {
+    it('should return the Nexmo definition', sinon.test(function () {
+      let emitter = sinon.createStubInstance(Emitter);
+      let config = sinon.createStubInstance(Config);
+      let client = new Client(config, emitter);
+      
+      var definition = client.definition();
+      expect(definition).to.equal(Nexmo);
+    }));
+  });
+  
 });

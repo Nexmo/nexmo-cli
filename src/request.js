@@ -18,7 +18,7 @@ class Request {
   }
 
   accountInfo() {
-    this.response.accountInfo(this.config.read());
+    this.response.accountInfo(this.client.instance());
   }
 
   accountBalance() {
@@ -245,6 +245,32 @@ class Request {
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
       this.client.instance().message.sendSms(flags.from, to, text.join(' '), this.response.sendSms.bind(this.response));
     });
+  }
+  
+  generateJwt(privateKey, claims, flags) {
+    let token = null;
+    let error = null;
+    
+    try {
+      const fullClaims = {};
+      if(flags.app_id) {
+        fullClaims['application_id'] = flags.app_id;
+      }
+      
+      claims.forEach((claim) => {
+        let nameValue = claim.split('=');
+        if(nameValue.length !== 2) {
+          throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
+        }
+        fullClaims[ nameValue[0] ] = nameValue[1];
+      });
+      
+      token = this.client.definition().generateJwt(privateKey, fullClaims);
+    }
+    catch(ex) {
+      error = ex;
+    }
+    this.response.generateJwt(error, token);
   }
 }
 
