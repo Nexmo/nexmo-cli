@@ -235,7 +235,7 @@ class Request {
   insightAdvanced(number, flags) {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'advanced', number: number}, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({level: 'advancedSync', number: number}, this.response.insightStandard.bind(this.response));
     });
   }
 
@@ -246,17 +246,17 @@ class Request {
       this.client.instance().message.sendSms(flags.from, to, text.join(' '), this.response.sendSms.bind(this.response));
     });
   }
-  
+
   generateJwt(privateKey, claims, flags) {
     let token = null;
     let error = null;
-    
+
     try {
       const fullClaims = {};
       if(flags.app_id) {
         fullClaims['application_id'] = flags.app_id;
       }
-      
+
       claims.forEach((claim) => {
         let nameValue = claim.split('=');
         if(nameValue.length !== 2) {
@@ -264,7 +264,7 @@ class Request {
         }
         fullClaims[ nameValue[0] ] = nameValue[1];
       });
-      
+
       token = this.client.definition().generateJwt(privateKey, fullClaims);
     }
     catch(ex) {
