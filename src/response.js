@@ -19,10 +19,10 @@ class Response {
     };
   }
 
-  accountInfo(ini) {
+  accountInfo(client) {
     this.emitter.log(
-`API Key:    ${ini.credentials.api_key}
-API Secret: ${ini.credentials.api_secret}`
+`API Key:    ${client.credentials.apiKey}
+API Secret: ${client.credentials.apiSecret}`
     );
   }
 
@@ -210,9 +210,9 @@ API Secret: ${ini.credentials.api_secret}`
 Remaining balance: ${message['remaining-balance']} EUR
 Message price:     ${message['message-price']} EUR`);
   }
-  
+
   // JWT
-  
+
   generateJwt(error, token) {
     this.validator.response(error, token);
     this.emitter.log(`JWT:   ${token}`);

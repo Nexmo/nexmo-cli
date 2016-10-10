@@ -38,7 +38,7 @@ describe('Response', () => {
 
   describe('.accountInfo', () => {
     it('should emit the result', sinon.test(function() {
-      response.accountInfo({credentials: { 'api_key' : '123', 'api_secret' : '234' }});
+      response.accountInfo({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
       expect(emitter.log).to.have.been.calledWith(`API Key:    123
 API Secret: 234`);
     }));
@@ -253,12 +253,12 @@ Remaining balance: 26.83440000 EUR
 Message price:     0.03330000 EUR`);
     });
   });
-  
+
   describe('.generateJwt', () => {
     it('should emit the result', sinon.test(function() {
       response.generateJwt(null, 'a token!');
       expect(emitter.log).to.have.been.calledWith('JWT:   a token!');
     }));
   });
-  
+
 });
