@@ -538,9 +538,9 @@ commander
     emitter.log(' ');
     emitter.log('    $ nexmo jwt:generate path/to/private.key');
     emitter.log(' ');
-    emitter.log('    $ nexmo jwt:generate path/to/private.key subject=username iat=1475861732');
+    emitter.log('    $ nexmo jwt:generate path/to/private.key sub=username iat=1475861732');
     emitter.log(' ');
-    emitter.log('    $ nexmo jwt:generate path/to/private.key subject=username iat=1475861732 --app_id asdasdas-asdd-2344-2344-asdasdasd345');
+    emitter.log('    $ nexmo jwt:generate path/to/private.key sub=username iat=1475861732 --app_id asdasdas-asdd-2344-2344-asdasdasd345');
     emitter.log(' ');
   })
   .action(request.generateJwt.bind(request));
