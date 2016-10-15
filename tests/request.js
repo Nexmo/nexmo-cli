@@ -322,7 +322,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({ size: 25 });
-        expect(nexmo.app.get).to.have.been.calledWith({ size: 25 });
+        expect(nexmo.app.get).to.have.been.calledWith({ page_size: 25 });
       }));
     });
 
@@ -528,24 +528,24 @@ describe('Request', () => {
         expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'Hello World');
       }));
     });
-    
+
     describe('.generateJwt', () => {
       it('should call Nexmo.generateJwt', sinon.test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', [], {});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key' );
       }));
-      
+
       it('should deal with Nexmo.generateJwt with null claims', sinon.test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', [], {app_id: 'application_id'});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
       }));
@@ -555,44 +555,44 @@ describe('Request', () => {
           generateJwt: sinon.spy()
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
       }));
-      
+
       it('should call pass generated token to response.generateJwt', sinon.test(function() {
         var Nexmo = {
-          generateJwt: () => { 
+          generateJwt: () => {
             return 'a token!';
           }
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
         expect(response.generateJwt).to.have.been.calledWith(null, 'a token!');
       }));
-      
+
       it('should call response with an exception when singular values are provided for claims', sinon.test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', 'application_id', ['subject']);
         expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
       }));
-      
+
       it('should call response with an exception when more than one = is supplied', sinon.test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
         client.definition.returns(Nexmo);
-        
+
         request.generateJwt('path/to/private.key', 'application_id', ['subject=fish=monkey']);
         expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
       }));
-      
+
     });
-    
+
   });
 });

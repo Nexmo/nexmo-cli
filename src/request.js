@@ -116,7 +116,7 @@ class Request {
   applicationsList(flags) {
     let options = {};
     if (flags.page) { options.index = flags.page; }
-    if (flags.size) { options.size = flags.size; }
+    if (flags.size) { options.page_size = flags.size; }
 
     this.client.instance().app.get(options, this.response.applicationsList(flags).bind(this.response));
   }
