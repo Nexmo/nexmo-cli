@@ -6,8 +6,10 @@ class Validator {
   response(error, response) {
     this.debug(error, response);
 
-    if (error) {
+    if (error && error.message) {
       this.emitter.error(error.message);
+    } else if (error && error['error-code']) {
+      this.emitter.error(error['error-code-label']);
     } else if (response['error-code'] && response['error-code'] !== '200') {
       this.emitter.error(response['error-code-label']);
     } else if (response['status'] && response['status'] !== '0') {
