@@ -1,0 +1,137 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/cbetta/.nvm/versions/node/v6.7.0/bin/node',
+1 verbose cli   '/Users/cbetta/.nvm/versions/node/v6.7.0/bin/npm',
+1 verbose cli   'publish',
+1 verbose cli   '--beta',
+1 verbose cli   '--force' ]
+2 info using npm@3.10.7
+3 info using node@v6.7.0
+4 warn using --force I sure hope you know what you are doing.
+5 verbose publish [ '.' ]
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   escapedName: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: '/Users/cbetta/code/nexmo/nexmo-cli',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package.tgz not in flight; packing
+10 verbose correctMkdir /Users/cbetta/.npm correctMkdir not in flight; initializing
+11 info lifecycle nexmo-cli@0.3.0-beta3~prepublish: nexmo-cli@0.3.0-beta3
+12 verbose lifecycle nexmo-cli@0.3.0-beta3~prepublish: unsafe-perm in lifecycle true
+13 verbose lifecycle nexmo-cli@0.3.0-beta3~prepublish: PATH: /Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/cbetta/code/nexmo/nexmo-cli/node_modules/.bin:/Users/cbetta/.nexustools:/Users/cbetta/.pyenv/shims:/Users/cbetta/.nvm/versions/node/v6.7.0/bin:/usr/local/opt/gnu-tar/libexec/gnubin:/Users/cbetta/.gem/ruby/2.3.1/bin:/Users/cbetta/.rubies/ruby-2.3.1/lib/ruby/gems/2.3.0/bin:/Users/cbetta/.rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/cbetta/.composer/vendor/bin:/Applications/Postgres.app/Contents/Versions/9.5/bin/:/usr/local/opt/go/libexec/bin:/Users/cbetta/.go/bin:/usr/local/sbin
+14 verbose lifecycle nexmo-cli@0.3.0-beta3~prepublish: CWD: /Users/cbetta/code/nexmo/nexmo-cli
+15 silly lifecycle nexmo-cli@0.3.0-beta3~prepublish: Args: [ '-c', 'npm run build' ]
+16 silly lifecycle nexmo-cli@0.3.0-beta3~prepublish: Returned: code: 0  signal: null
+17 verbose tar pack [ '/Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package.tgz',
+17 verbose tar pack   '/Users/cbetta/code/nexmo/nexmo-cli' ]
+18 verbose tarball /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package.tgz
+19 verbose folder /Users/cbetta/code/nexmo/nexmo-cli
+20 verbose addLocalTarball adding from inside cache /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package.tgz
+21 verbose correctMkdir /Users/cbetta/.npm correctMkdir not in flight; initializing
+22 silly cache afterAdd nexmo-cli@0.3.0-beta3
+23 verbose afterAdd /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package/package.json not in flight; writing
+24 verbose correctMkdir /Users/cbetta/.npm correctMkdir not in flight; initializing
+25 verbose afterAdd /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package/package.json written
+26 silly publish { name: 'nexmo-cli',
+26 silly publish   version: '0.3.0-beta3',
+26 silly publish   description: 'Nexmo Command Line Interface',
+26 silly publish   main: 'lib/request.js',
+26 silly publish   scripts:
+26 silly publish    { prebuild: 'eslint src',
+26 silly publish      build: 'babel -d lib src/ -s inline',
+26 silly publish      pretest: 'eslint tests',
+26 silly publish      test: 'mocha  --compilers js:babel-register tests/*',
+26 silly publish      'watch:test': 'watch \'npm test\' tests src',
+26 silly publish      prepublish: 'npm run build' },
+26 silly publish   repository: { type: 'git', url: 'git://github.com/nexmo/nexmo-cli.git' },
+26 silly publish   keywords: [ 'nexmo', 'sms', 'voice', 'cli' ],
+26 silly publish   bin: { nexmo: 'lib/bin.js' },
+26 silly publish   author: { name: 'nexmo' },
+26 silly publish   license: 'MIT',
+26 silly publish   bugs: { url: 'https://github.com/nexmo/nexmo-cli/issues' },
+26 silly publish   contributors: [ { name: 'cbetta' }, { name: 'leggetter' } ],
+26 silly publish   homepage: 'https://github.com/nexmo/nexmo-cli',
+26 silly publish   devDependencies:
+26 silly publish    { 'babel-cli': '^6.7.7',
+26 silly publish      'babel-preset-es2015': '^6.6.0',
+26 silly publish      'babel-register': '^6.7.2',
+26 silly publish      chai: '^3.5.0',
+26 silly publish      eslint: '^2.9.0',
+26 silly publish      mocha: '^2.4.5',
+26 silly publish      sinon: '^1.17.3',
+26 silly publish      'sinon-chai': '^2.8.0',
+26 silly publish      watch: '^0.18.0' },
+26 silly publish   dependencies:
+26 silly publish    { colors: '^1.1.2',
+26 silly publish      commander: '^2.9.0',
+26 silly publish      ini: '^1.3.4',
+26 silly publish      nexmo: '^1.1.0-beta1' },
+26 silly publish   readme: '# Nexmo CLI\n\n[![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli) [![Build Status](https://travis-ci.org/Nexmo/nexmo-cli.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-cli)\n\n[Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)\n\n## Installation\n\nThe Nexmo CLI requires NodeJS 4 or above. If you don\'t have Node installed on your system goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.\n\nInstall the `nexmo-cli` from NPM.\n\n```\nnpm install nexmo-cli -g\n```\n\n*Note: you may need root/admin privileges to install the CLI globally.*\n\nThen set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:\n\n```\n> nexmo setup <api_key> <api_secret>\nCredentials written to /Users/yourname/.nexmorc\n```\n\nThis will save your credentials to `~/.nexmorc`. If you want to use different credentials per project you can pass the `--local` flag as follows:\n\n```\n> nexmo setup <api_key> <api_secret> --local\n```\n\nThis will save the config to your local folder instead.\n\n## Usage\n\n[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)\n\n### Flags\n\nUse `--quiet` to silence all but errors and warnings, and use `--verbose` to get more detailed output.\n\n### Account\n\n#### Account login\n\n```\n> nexmo setup <api_key> <api_secret>\nCredentials written to /home/username/.nexmorc\n```\n\nAlias: `nexmo s`.\n\n#### Account info\n\n```\n> nexmo account\nAPI Key:    <api_key>\nAPI Secret: <api_secret>\n```\n\n#### Account balance\n\n```\n> nexmo balance\n18.96 EUR\n\n> nexmo balance -v\n18.9589 EUR\n```\n\nAlias: `nexmo b`\n\n### Pricing\n\n#### Price to send an SMS to a number\n\n```\n> nexmo price:sms 44555555555\n0.03140000 EUR\n```\n\nAlias: `nexmo ps`\n\n#### Price to make a call to a number\n\n```\n> nexmo price:voice 44555555555\n0.02400000 EUR\n```\n\nAlias: `nexmo pv`\n\n#### Price for outbound SMS per country\n\n```\n> nexmo price:country GB\n0.03140000 EUR\n\n> nexmo price:country LU -v\n\nnetwork           | mtPrice\n------------------------------\nPOST Luxembourg   | 0.01280000\nOrange Luxembourg | 0.01280000\nJoin Experience   | 0.01280000\nTango             | 0.01280000\n```\n\nAlias: `nexmo pc`\n\n### Numbers\n\n#### List all numbers on your account\n\n- Optional flags:\n\n  - `--size` the amount of results to return\n  - `--page` the page of results to return\n\n```\n> nexmo numbers:list\n31555555555\n44655555555\n44555555555\n\n> nexmo numbers:list --verbose\nItem 1-3 of 3\n\nmsisdn      | country | type       | features  | voiceCallbackType | voiceCallbackValue | moHttpUrl | voiceStatusCallbackUrl\n----------------------------------------------------------------------------------------------------------------------------\n31555555555 | NL      | mobile-lvn | VOICE,SMS | app               | b6d9f957           | undefined | https://example.com\n44655555555 | GB      | mobile-lvn | VOICE,SMS | app               | b6d9f957           | undefined | https://example.com\n44555555555 | GB      | mobile-lvn | SMS       | app               | b6d9f957           | undefined | https://example.com\n```\n\nAlias: `nexmo nl`, `nexmo numbers` and `nexmo number:list`.\n\n#### Search for new numbers\n\nParameters:\n\n- `country_code` - an ISO 3166-2 country code for the country you are trying to find a number for.\n- Optional flags:\n\n  - `--pattern <pattern>` to be matched in number (use * to match end or start of number)\n  - `--voice` to search for voice enabled numbers\n  - `--sms` search for SMS enabled numbers\n  - `--size` the amount of results to return\n  - `--page` the page of results to return\n\n```\n> nexmo number:search US\n12057200555\n12069396555\n12069396555\n12155961555\n\n> nexmo number:search NL --sms --pattern *007 --verbose\nmsisdn      | country | cost | type       | features\n-----------------------------------------------------\n31655551007 | NL      | 3.00 | mobile-lvn | VOICE,SMS\n31655552007 | NL      | 3.00 | mobile-lvn | VOICE,SMS\n31655553007 | NL      | 3.00 | mobile-lvn | VOICE,SMS\n```\n\nAlias: `nexmo ns` and `nexmo numbers:search`.\n\n#### Buying a number\n\nParameters:\n\n- `number` - The number to buy\n- or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.\n\n```\n> nexmo number:buy 12069396555\nBuying 12069396555\\. This operation will charge your account.\n\nPlease type "confirm" to continue: confirm\n\nNumber purchased\n\n> nexmo number:buy US *555\nBuying 12069396555\\. This operation will charge your account.\n\nPlease type "confirm" to continue: confirm\n\nNumber purchased: 12069396555\n\n> nexmo number:buy 12069396555 --confirm\nNumber purchased: 12069396555\n```\n\nAlias: `nexmo nb` and `nexmo numbers:buy`.\n\n#### Cancelling a number\n\n```\n> nexmo number:cancel 12069396555\nThis is operation can not be reversed.\n\nPlease type "confirm" to continue: confirm\n\nNumber cancelled: 12069396555\n\n> nexmo number:cancel 12069396555 --confirm\nNumber cancelled: 12069396555\n```\n\nAlias: `nexmo nc` and `nexmo numbers:cancel`.\n\n#### Update a number\n\nFor shortcuts of these options see [Linking](#linking).\n\n```\n> nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345\nNumber updated\n```\n\nAlias: `nexmo nu` and `nexmo numbers:update`.\n\n### SMS\n\n#### Send an SMS\n\nSend a message through Nexmo to any number. Either provide a from number, name, or leave it blank to sends as "Nexmo CLI".\n\n```\n> nexmo sms <destination_number> Hello world! --confirm\nMessage sent to:   <destination_number>\nRemaining balance: 26.80110000 EUR\nMessage price:     0.03330000 EUR\n\n> nexmo sms  <destination_number> Hello world! --from "Acme Inc" --confirm\nMessage sent to:   <destination_number>\nRemaining balance: 26.80110000 EUR\nMessage price:     0.03330000 EUR\n```\n\n**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases you must use one of your Nexmo virtual numbers in the `from` parameter. For example:\n\n```bash\nnexmo sms <to_number> Hello world! --from <from_number> --confirm\n```\n\n### Applications\n\n#### List your Applications\n\n- Optional flags:\n\n  - `--size` the amount of results to return\n  - `--page` the page of results to return\n\n```\n> nexmo app:list\nasdasdas-asdd-2344-2344-asdasdasd123 | Test Application 1\nasdasdas-asdd-2344-2344-asdasdasd234 | Test Application 1\nasdasdas-asdd-2344-2344-asdasdasd345 | Test Application 2\n\n> nexmo app:list --verbose\nItem 1-3 of 3\n\nid                                   | name\n---------------------------------------------------------\nasdasdas-asdd-2344-2344-asdasdasd123 | Test Application 1\nasdasdas-asdd-2344-2344-asdasdasd234 | Test Application 1\nasdasdas-asdd-2344-2344-asdasdasd345 | Test Application 2\n```\n\nAlias: `nexmo al` and `nexmo apps`.\n\n#### Create a new Application\n\nParameters:\n\n- `name` - the custom name of your application.\n- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.\n- `event_url` - the url the platform sends event information asynchronously to when the call_status changes\n- Optional flags:\n\n  - `--keyfile <keyfile>` the file to save your private key to\n  - `--type <type>` the product you want to access with this application. (Default: voice)\n  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)\n  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)\n\n```\n> nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key\nApplication created: asdasdas-asdd-2344-2344-asdasdasd345\nPrivate Key saved to: private.key\n\n> nexmo app:create "Test Application 1" http://example.com http://example.com -v\n[id]\nasdasdas-asdd-2344-2344-asdasdasd345\n\n[name]\nTest Application 1\n\n[voice.webhooks.0.endpoint_type]\nevent_url\n\n[voice.webhooks.0.endpoint]\nhttp://example.com\n\n[voice.webhooks.0.http_method]\nPOST\n\n[voice.webhooks.1.endpoint_type]\nanswer_url\n\n[voice.webhooks.1.endpoint]\nhttp://example.com\n\n[voice.webhooks.1.http_method]\nGET\n\n[keys.public_key]\n...\n\n[keys.private_key]\n...\n\n[_links.self.href]\n/applications/asdasdas-asdd-2344-2344-asdasdasd345\n```\n\nAlias: `nexmo ac`.\n\n#### Show details for an Application\n\n```\n> nexmo app:show asdasdas-asdd-2344-2344-asdasdasd345\n[id]\nasdasdas-asdd-2344-2344-asdasdasd345\n\n[name]\nTest Application 1\n\n[voice.webhooks.0.endpoint_type]\nevent_url\n\n[voice.webhooks.0.endpoint]\nhttp://example.com\n\n[voice.webhooks.0.http_method]\nPOST\n\n[voice.webhooks.1.endpoint_type]\nanswer_url\n\n[voice.webhooks.1.endpoint]\nhttp://example.com\n\n[voice.webhooks.1.http_method]\nGET\n\n[keys.public_key]\n...\n\n[_links.self.href]\n/applications/asdasdas-asdd-2344-2344-asdasdasd345\n\n\nPrivate Key saved to: private.key\n```\n\nAlias: `nexmo as` and `nexmo app`.\n\n#### Update an Application\n\nParameters:\n\n- `app_id` - the UUID of your application.\n- `name` - the custom name of your application.\n- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.\n- `event_url` - the url the platform sends event information asynchronously to when the call_status changes\n- Optional flags:\n\n  - `--type <type>` the product you want to access with this application. (Default: voice)\n  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)\n  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)\n\n```\n> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   \nApplication updated: asdasdas-asdd-2344-2344-asdasdasd345\n\n> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com -v\n[id]\nasdasdas-asdd-2344-2344-asdasdasd345\n\n[name]\nTest Application 1\n\n[voice.webhooks.0.endpoint_type]\nevent_url\n\n[voice.webhooks.0.endpoint]\nhttp://example.com\n\n[voice.webhooks.0.http_method]\nPOST\n\n[voice.webhooks.1.endpoint_type]\nanswer_url\n\n[voice.webhooks.1.endpoint]\nhttp://example.com\n\n[voice.webhooks.1.http_method]\nGET\n\n[keys.public_key]\n...\n\n[keys.private_key]\n...\n\n[_links.self.href]\n/applications/asdasdas-asdd-2344-2344-asdasdasd345\n```\n\nAlias: `nexmo au`.\n\n#### Delete an application\n\n```\n> nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345\nThis is operation can not be reversed.\n\nPlease type "confirm" to continue: confirm\n\nApplication deleted\n\n> nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345 --confirm\nApplication deleted\n```\n\nAlias: `nexmo ad`.\n\n### Linking\n\n#### Link a number to an app\n\n```\n> nexmo link:app 12057200555 asdasdas-asdd-2344-2344-asdasdasd345\nNumber updated\n\n> nexmo unlink:app 12057200555\nNumber updated\n```\n\nAlias: `nexmo la`\n\n#### Link a number to another phone number\n\n```\n> nexmo link:tel 12057200555 4455555555\nNumber updated\n\n> nexmo unlink:tel 12057200555\nNumber updated\n```\n\nAlias: `nexmo lt`\n\n#### Link a number to an sms callback url\n\n```\n> nexmo link:sms 12057200555 http://example.com/callback\nNumber updated\n\n> nexmo unlink:sms 12057200555\nNumber updated\n```\n\nAlias: `nexmo lsms`\n\n#### Link a number to a Voice XML callback url\n\n```\n> nexmo link:vxml 12057200555 http://example.com/callback\nNumber updated\n\n> nexmo unlink:vxml 12057200555\nNumber updated\n```\n\nAlias: `nexmo lv`\n\n#### Link a number to SIP URI\n\n```\n> nexmo link:sip 12057200555 sip:123@example.com\nNumber updated\n\n> nexmo unlink:sip 12057200555\nNumber updated\n```\n\nAlias: `nexmo lsip`\n\n### Insight\n\n#### Insight Basic\n\nThis is the free Number Insight API:\n\n```\n> nexmo insight:basic 447555555555\n447555555555 | GB\n```\n\nAlias: `nexmo insight` and `nexmo ib`\n\n#### Insight Standard\n\nThis API will charge your account but provide additional details:\n\n```\n> nexmo insight:standard 447555555555 --confirm\n447555555555 | GB | Telefonica UK Limited\n```\n\nVerbose mode will return additional information.\n\nAlias: `nexmo is`\n\n## Contributing\n\nThis projects is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.\n\nTo add changes fork (if needed) and clone the project.\n\n```sh\nnpm install # to install all dependencies\nnpm run build # to explicitly build the source\nnpm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH\nnpm test # to run all tests\nnpm run watch:test # to watch for changes and run tests\n```\n\nYou can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.\n\n# License\n\nThis library is released under the [MIT License][license]\n\n[license]: LICENSE.txt\n',
+26 silly publish   readmeFilename: 'README.md',
+26 silly publish   gitHead: '091a05504f32ef6d8f84612247f327e19a5ec386',
+26 silly publish   _id: 'nexmo-cli@0.3.0-beta3',
+26 silly publish   _shasum: 'f655583c2af8e52b1473f990378450cb9f32b741',
+26 silly publish   _from: '.' }
+27 verbose getPublishConfig undefined
+28 silly mapToRegistry name nexmo-cli
+29 silly mapToRegistry using default registry
+30 silly mapToRegistry registry https://registry.npmjs.org/
+31 silly mapToRegistry data Result {
+31 silly mapToRegistry   raw: 'nexmo-cli',
+31 silly mapToRegistry   scope: null,
+31 silly mapToRegistry   escapedName: 'nexmo-cli',
+31 silly mapToRegistry   name: 'nexmo-cli',
+31 silly mapToRegistry   rawSpec: '',
+31 silly mapToRegistry   spec: 'latest',
+31 silly mapToRegistry   type: 'tag' }
+32 silly mapToRegistry uri https://registry.npmjs.org/nexmo-cli
+33 verbose publish registryBase https://registry.npmjs.org/
+34 silly publish uploading /Users/cbetta/.npm/nexmo-cli/0.3.0-beta3/package.tgz
+35 verbose request uri https://registry.npmjs.org/nexmo-cli
+36 verbose request sending authorization for write operation
+37 info attempt registry request try #1 at 1:19:21 PM
+38 verbose request using bearer token for auth
+39 verbose request id 300112004e28bc5e
+40 http request PUT https://registry.npmjs.org/nexmo-cli
+41 http 403 https://registry.npmjs.org/nexmo-cli
+42 verbose headers { 'content-type': 'application/json',
+42 verbose headers   'cache-control': 'max-age=300',
+42 verbose headers   'content-length': '101',
+42 verbose headers   'accept-ranges': 'bytes',
+42 verbose headers   date: 'Tue, 25 Oct 2016 12:19:22 GMT',
+42 verbose headers   via: '1.1 varnish',
+42 verbose headers   connection: 'keep-alive',
+42 verbose headers   'x-served-by': 'cache-ams4441-AMS',
+42 verbose headers   'x-cache': 'MISS',
+42 verbose headers   'x-cache-hits': '0',
+42 verbose headers   'x-timer': 'S1477397961.165613,VS0,VE1394',
+42 verbose headers   vary: 'Accept-Encoding' }
+43 verbose request invalidating /Users/cbetta/.npm/registry.npmjs.org/nexmo-cli on PUT
+44 error publish Failed PUT 403
+45 verbose stack Error: "You cannot publish over the previously published version 0.3.0-beta3." : nexmo-cli
+45 verbose stack     at makeError (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+45 verbose stack     at CachingRegistryClient.<anonymous> (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+45 verbose stack     at Request._callback (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+45 verbose stack     at Request.self.callback (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/request/request.js:187:22)
+45 verbose stack     at emitTwo (events.js:106:13)
+45 verbose stack     at Request.emit (events.js:191:7)
+45 verbose stack     at Request.<anonymous> (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/request/request.js:1044:10)
+45 verbose stack     at emitOne (events.js:96:13)
+45 verbose stack     at Request.emit (events.js:188:7)
+45 verbose stack     at IncomingMessage.<anonymous> (/Users/cbetta/.nvm/versions/node/v6.7.0/lib/node_modules/npm/node_modules/request/request.js:965:12)
+46 verbose statusCode 403
+47 verbose pkgid nexmo-cli
+48 verbose cwd /Users/cbetta/code/nexmo/nexmo-cli
+49 error Darwin 16.1.0
+50 error argv "/Users/cbetta/.nvm/versions/node/v6.7.0/bin/node" "/Users/cbetta/.nvm/versions/node/v6.7.0/bin/npm" "publish" "--beta" "--force"
+51 error node v6.7.0
+52 error npm  v3.10.7
+53 error code E403
+54 error "You cannot publish over the previously published version 0.3.0-beta3." : nexmo-cli
+55 error If you need help, you may report this error at:
+55 error     <https://github.com/npm/npm/issues>
+56 verbose exit [ 1, true ]
