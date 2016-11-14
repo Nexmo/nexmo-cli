@@ -257,7 +257,7 @@ Message price:     0.03330000 EUR`);
   describe('.generateJwt', () => {
     it('should emit the result', sinon.test(function() {
       response.generateJwt(null, 'a token!');
-      expect(emitter.log).to.have.been.calledWith('JWT:   a token!');
+      expect(emitter.log).to.have.been.calledWith('a token!');
     }));
   });
 

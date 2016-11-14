@@ -33,7 +33,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight)
+[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
 
 ### Flags
 
@@ -525,6 +525,32 @@ This API will charge your account but provide additional details:
 Verbose mode will return additional information.
 
 Alias: `nexmo is`
+
+#### Insight Advanced
+
+This API will charge your account but provide additional details:
+
+```
+> nexmo insight:advanced 447555555555 --confirm
+447555555555 | GB | Telefonica UK Limited
+```
+
+Verbose mode will return additional information.
+
+Alias: `nexmo ia`
+
+### JWT
+
+#### Generate
+
+Generate a JWT for your application. Optionally supports extra claims to be passed in.
+
+```
+> nexmo jwt:generate path/to/private.key subject=username iat=1475861732
+[...JWT String...]
+> nexmo jwt:generate path/to/private.key subject=username iat=1475861732 --app_id asdasdas-asdd-2344-2344-asdasdasd345
+> JWT: [...JWT String...]
+```
 
 ## Contributing
 
