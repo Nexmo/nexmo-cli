@@ -10,7 +10,7 @@ class Client {
     let nexmo = initialize(this.config, this.emitter);
     return nexmo;
   }
-  
+
   definition() {
     return Nexmo;
   }
@@ -26,6 +26,8 @@ export default Client;
 
 let initialize = function(config, emitter) {
   let nexmo = null;
+  let packageDetails = require(`${__dirname}/../package.json`);
+
   try {
     let credentials = config.read().credentials;
     nexmo = new Nexmo(
@@ -34,7 +36,8 @@ let initialize = function(config, emitter) {
         apiSecret: credentials.api_secret
       },
       {
-        debug: emitter.debugging
+        debug: emitter.debugging,
+        appendToUserAgent: `nexmo-cli/${packageDetails.version.replace('v', '')}`
       }
     );
   } catch(e) {
