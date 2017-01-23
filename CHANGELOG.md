@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.1][]
+
+*   Update [nexmo-node][] library to **1.1.1**
+*   Pass User Agent to Nexmo library
+
 ## [0.3.0][]
 
 *   Add JWT generation with `jwt:generate`
