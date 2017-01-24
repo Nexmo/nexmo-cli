@@ -37,6 +37,19 @@ describe('Client', () => {
 
       expect(nexmo.options.debug).to.be.true;
     }));
+
+    it('should pass along the user agent to the nexmo client', sinon.test(function () {
+      let emitter = sinon.createStubInstance(Emitter);
+      let config = sinon.createStubInstance(Config);
+
+      config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
+
+      let client = new Client(config, emitter);
+      let nexmo = client.instance();
+
+      expect(nexmo.options.userAgent).to.match(/^nexmo-node\/[\d.]* node\/[\d.]* nexmo-cli\/[\d.]*$/);
+    }));
+
   });
 
   describe('.instanceWith', () => {
@@ -50,16 +63,16 @@ describe('Client', () => {
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
   });
-  
+
   describe('.definition', () => {
     it('should return the Nexmo definition', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
       let client = new Client(config, emitter);
-      
+
       var definition = client.definition();
       expect(definition).to.equal(Nexmo);
     }));
   });
-  
+
 });

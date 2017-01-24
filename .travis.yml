@@ -1,5 +1,13 @@
 language: node_js
 node_js:
-  - 4
-  - 5
-  - 6
+- 4
+- 5
+- 6
+deploy:
+  provider: npm
+  email: devrel@nexmo.com
+  api_key:
+    secure: Y6uMhvpmLYpOdCZE7wXMFVr4oUXAx/X18A0zoxCsR2qc4sN+b6yyrN8gGxSfgsEFx8I3rEQ6N/6KevOZ/KGKzkIXwUJIZZIewdrIoZMcuy1dFd+wRj03YOagfBakOMgUbGGhbfXY9UzzSnqsk6JtRRkoqNEACOp5YJlm7ZVKgNjf93Xe4ISZSUy34osZk6qP3R/RBrX9Cl0iNX4I5Xk1eT8J6uabjAgXW04qcNUi7mramO3JT8gkVttt8FiwYm9s9eZN5Ubh9hlHCJSbj+JiiNSoiKfwxJHu9L7csKZua94nrV5ty7zMviMrVpzdjh4jmAUmNtvcxrIrsZZWzDYxJdI+wxsLXjQ/ZHnwce71kFue9we3VV7C7J2ZSgzpJ5uEQg6jnJP/4tL+chiLDunckTiOrF9Gej3KLOim/vjq9Gqw2XzVCF0hXWkhl7x15D3Sg8xXs4SVa06skT4YzhAj7A1usfi79hhrl8+e4JWLDtaQrb0d1FnEfsojbBTaUUCwbmbypOxzK6IU/mZTe3w4HmrY2/FoQrp8KGcG9RUvz5e6K2P+rlaEWEXS/uNfpAt8zuenEfjBGEhGgZUUTotcx18WF+MJiPD79lDfDd4ig2kEyLAXyJdRsph8Ja4h6p6HA67zzJY3HlMhGeV9w5xS+G1u40eZIK6rBJb37rKXwcM=
+  on:
+    tags: true
+    repo: Nexmo/nexmo-cli
