@@ -438,6 +438,31 @@ Application deleted
 
 Alias: `nexmo ad`.
 
+#### Show numbers for an application
+
+- Optional flags:
+
+  - `--size` the amount of results to return
+  - `--page` the page of results to return
+
+```
+> nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345
+31555555555
+44655555555
+44555555555
+
+> nexmo app:numbers --verbose
+Item 1-3 of 3
+
+msisdn      | country | type       | features  | voiceCallbackType | voiceCallbackValue | moHttpUrl | voiceStatusCallbackUrl
+----------------------------------------------------------------------------------------------------------------------------
+31555555555 | NL      | mobile-lvn | VOICE,SMS | app               | b6d9f957           | undefined | https://example.com
+44655555555 | GB      | mobile-lvn | VOICE,SMS | app               | b6d9f957           | undefined | https://example.com
+44555555555 | GB      | mobile-lvn | SMS       | app               | b6d9f957           | undefined | https://example.com
+```
+
+Alias: `nexmo an` and `nexmo apps:numbers`.
+
 ### Linking
 
 #### Link a number to an app
