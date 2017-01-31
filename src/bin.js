@@ -562,7 +562,6 @@ commander
 
 commander
   .command('jwt:generate <private_key> [claims...]')
-  .option('--app_id <app_id>', 'the application ID to be included in the claim')
   .description('Generate a JWT (JSON Web Token)')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -571,7 +570,7 @@ commander
     emitter.log(' ');
     emitter.log('    $ nexmo jwt:generate path/to/private.key subject=username iat=1475861732');
     emitter.log(' ');
-    emitter.log('    $ nexmo jwt:generate path/to/private.key subject=username iat=1475861732 --app_id asdasdas-asdd-2344-2344-asdasdasd345');
+    emitter.log('    $ nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345');
     emitter.log(' ');
   })
   .action(request.generateJwt.bind(request));
