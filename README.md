@@ -548,7 +548,7 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 ```
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732
 [...JWT String...]
-> nexmo jwt:generate path/to/private.key subject=username iat=1475861732 --app_id asdasdas-asdd-2344-2344-asdasdasd345
+> nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345
 > JWT: [...JWT String...]
 ```
 
