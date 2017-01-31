@@ -205,6 +205,23 @@ API Secret: 234`);
     });
   });
 
+  describe('.applicationNumbers', () => {
+    it('should print a list of only the numbers that match', () => {
+      let data = {'count':1,'numbers':[
+        {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'app_id'},
+        {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'other_app_id'}
+      ]};
+      response.applicationNumbers('app_id', {})(null, data);
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline', voiceCallbackValue: 'app_id' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
+    });
+
+    it('should warn if no numbers found', () => {
+      response.applicationNumbers({})(null, { numbers: []});
+      expect(emitter.warn).to.have.been.called;
+    });
+  });
+
   describe('.numberUpdate', () => {
     it('should print the response', () => {
       let data = 'response';

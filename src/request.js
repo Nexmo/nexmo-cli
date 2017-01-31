@@ -147,6 +147,14 @@ class Request {
     });
   }
 
+  applicationNumbers(app_id, flags) {
+    let options = {};
+    if (flags.page) { options.index = flags.page; }
+    if (flags.size) { options.size = flags.size; }
+
+    this.client.instance().number.get(options, this.response.applicationNumbers(app_id, flags).bind(this.response));
+  }
+
   // links
 
   linkApp(number, app_id) {

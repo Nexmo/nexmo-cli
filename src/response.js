@@ -161,6 +161,22 @@ API Secret: ${client.credentials.apiSecret}`
     this.emitter.log('Application deleted');
   }
 
+  applicationNumbers(app_id, flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      if (response.numbers && response.numbers.length > 0) {
+        response.numbers = response.numbers.filter((number) => {
+          return number.voiceCallbackValue == app_id;
+        });
+
+        this.emitter.pagination(flags, response);
+        this.emitter.table(response.numbers, ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
+      } else {
+        this.emitter.warn('No numbers');
+      }
+    };
+  }
+
   // links
 
   numberUpdate(error, response) {

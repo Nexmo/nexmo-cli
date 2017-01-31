@@ -399,6 +399,35 @@ describe('Request', () => {
       }));
     });
 
+    describe('.applicationNumbers', () => {
+      it('should call nexmo.number.get', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.applicationNumbers.returns(()=>{});
+        request.applicationNumbers('app_id', {});
+        expect(nexmo.number.get).to.have.been.called;
+      }));
+
+      it('should parse a page flag', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.applicationNumbers.returns(()=>{});
+        request.applicationNumbers('app_id', { page: 2 });
+        expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
+      }));
+
+      it('should parse a size flag', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.applicationNumbers.returns(()=>{});
+        request.applicationNumbers('app_id', { size: 25 });
+        expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
+      }));
+    });
+
     describe('.linkApp', () => {
       it('should call the nexmo.number.get({level:"basic"})', sinon.test(function() {
         nexmo = {};
