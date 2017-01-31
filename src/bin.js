@@ -315,6 +315,23 @@ commander
   .option('--confirm', 'skip confirmation step and directly delete the app' )
   .action(request.applicationDelete.bind(request));
 
+// App numbers
+
+commander
+  .command('app:numbers <app_id>')
+  .description('Show numbers associated to a Nexmo Application')
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the amount of results to return')
+  .alias('an')
+  .action(request.applicationNumbers.bind(request));
+
+commander
+  .command('apps:numbers <app_id>', null, { noHelp: true })
+  .description('Show numbers associated to a Nexmo Application')
+  .option('--page <page>', 'the page of results to return')
+  .option('--size <size>', 'the amount of results to return')
+  .action(request.applicationNumbers.bind(request));
+
 // Create a link
 
 commander
@@ -542,7 +559,7 @@ commander
   .option('-f, --from <from...>', 'the number or name to send the SMS message from (defaults to "Nexmo CLI")', 'Nexmo CLI')
   .description('Send an SMS')
   .action(request.sendSms.bind(request));
-  
+
 commander
   .command('jwt:generate <private_key> [claims...]')
   .option('--app_id <app_id>', 'the application ID to be included in the claim')
