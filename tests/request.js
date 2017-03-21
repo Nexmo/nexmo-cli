@@ -112,6 +112,7 @@ describe('Request', () => {
         response.numbersList.returns(()=>{});
         request.numbersList({});
         expect(nexmo.number.get).to.have.been.called;
+        expect(nexmo.number.get).to.have.been.calledWith({ size: 100 });
       }));
 
       it('should parse a page flag', sinon.test(function() {
@@ -120,7 +121,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numbersList.returns(()=>{});
         request.numbersList({ page: 2 });
-        expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
+        expect(nexmo.number.get).to.have.been.calledWith({ index: 2, size: 100 });
       }));
 
       it('should parse a size flag', sinon.test(function() {
@@ -140,7 +141,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', {});
-        expect(nexmo.number.search).to.have.been.called;
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 100 });
       }));
 
       it('should parse a voice flag', sinon.test(function() {
@@ -149,7 +150,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { voice: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE'] });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE'], size: 100 });
       }));
 
       it('should parse a sms flag', sinon.test(function() {
@@ -158,7 +159,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { sms: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['SMS'] });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['SMS'], size: 100 });
       }));
 
       it('should parse both the sms and voice flag', sinon.test(function() {
@@ -167,7 +168,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { sms: true, voice: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE','SMS'] });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE','SMS'], size: 100 });
       }));
 
       it('should parse a page flag', sinon.test(function() {
@@ -176,7 +177,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { page: 2 });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], index: 2 });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], index: 2, size: 100 });
       }));
 
       it('should parse a size flag', sinon.test(function() {
@@ -194,7 +195,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { pattern: '020'});
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1 });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1, size: 100 });
       }));
 
       it('should pass the pattern flag with a start-of wildcard', sinon.test(function() {
@@ -203,7 +204,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.numberSearch.returns(()=>{});
         request.numberSearch('GB', { pattern: '*020'});
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2 });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2, size: 100 });
       }));
     });
 
@@ -314,7 +315,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({});
-        expect(nexmo.app.get).to.have.been.called;
+        expect(nexmo.app.get).to.have.been.calledWith({page_size: 100});
       }));
 
       it('should parse a page flag', sinon.test(function() {
@@ -323,7 +324,7 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({ page: 2 });
-        expect(nexmo.app.get).to.have.been.calledWith({ index: 2 });
+        expect(nexmo.app.get).to.have.been.calledWith({ index: 2, page_size: 100 });
       }));
 
       it('should parse a size flag', sinon.test(function() {
