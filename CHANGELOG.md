@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.3][]
+
+* Update methods that required Number Insight checks to operate to accept a static `country_code` flag
+* Change default pagination size for most calls to 100
+* Add `app:numbers` command to look up numbers for an application
+* Remove `--app_id` flag from `jwt:generate`
+
+## [0.3.2][]
+
+*   Update [nexmo-node][] library to **1.1.2**
+*   Better handling for 500 errors
+
 ## [0.3.1][]
 
 *   Update [nexmo-node][] library to **1.1.1**
@@ -129,6 +141,8 @@ List of commands:
     *   `app:show`
     *   `app:delete`
 
+[0.3.2]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.2
+[0.3.1]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.1
 [0.3.0]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.0
 [0.2.0]: https://github.com/Nexmo/nexmo-cli/tree/v0.2.0
 [0.1.0]: https://github.com/Nexmo/nexmo-cli/tree/v0.1.0
