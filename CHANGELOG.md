@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.5][]
+
+* FIXED: Update dependency to ^2.0.1 and handle v2.0.0 nexmo package response structure
+
 ## [0.3.4][]
 
 * FIXED: Update dependency on nexmo package to version 2.0.1
