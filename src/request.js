@@ -44,7 +44,7 @@ class Request {
   // Numbers
 
   numbersList(flags) {
-    let options = {};
+    let options = { size: 100 };
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
@@ -54,7 +54,7 @@ class Request {
   numberSearch(country_code, flags) {
     country_code = country_code.toUpperCase();
 
-    let options = { features: [] };
+    let options = { features: [], size: 100 };
     if (flags.voice) { options.features.push('VOICE'); }
     if (flags.sms) { options.features.push('SMS'); }
     if (flags.page) { options.index = flags.page; }
@@ -114,7 +114,7 @@ class Request {
   // Applications
 
   applicationsList(flags) {
-    let options = {};
+    let options = { page_size: 100 };
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.page_size = flags.size; }
 
