@@ -82,9 +82,9 @@ class Request {
   numberBuyFromNumber(number, flags) {
     number = stripPlus(number);
     confirm(`Buying ${number}. This operation will charge your account.`, this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level:'basic', number: number}, this.response.numberInsight((response) => {
-        this.client.instance().number.buy(response.country_code, number, this.response.numberBuyFromNumber(number).bind(this.response));
-      }));
+      this.getCountryCode(number, flags, (country_code) => {
+        this.client.instance().number.buy(country_code, number, this.response.numberBuyFromNumber(number).bind(this.response));
+      });
     });
   }
 
@@ -105,9 +105,9 @@ class Request {
 
   numberCancel(number, flags) {
     confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
-        this.client.instance().number.cancel(response.country_code, number, this.response.numberCancel(number).bind(this.response));
-      }));
+      this.getCountryCode(number, flags, (country_code) => {
+        this.client.instance().number.cancel(country_code, number, this.response.numberCancel(number).bind(this.response));
+      });
     });
   }
 
@@ -149,61 +149,62 @@ class Request {
 
   // links
 
-  linkApp(number, app_id) {
-    this._link(number, null, 'app', app_id);
+  linkApp(number, app_id, flags) {
+    this._link(number, flags, null, 'app', app_id);
   }
 
-  linkSms(number, callback_url) {
-    this._link(number, callback_url, 'sms', null);
+  linkSms(number, callback_url, flags) {
+    this._link(number, flags, callback_url, 'sms', null);
   }
 
   linkTel(number, other_number, flags) {
-    this._link(number, null, 'tel', other_number, flags.voice_status_callback);
+    this._link(number, flags, null, 'tel', other_number, flags.voice_status_callback);
   }
 
   linkSip(number, sip_uri, flags) {
-    this._link(number, null, 'sip', sip_uri, flags.voice_status_callback);
+    this._link(number, flags, null, 'sip', sip_uri, flags.voice_status_callback);
   }
 
   linkVxml(number, calback_url, flags) {
-    this._link(number, null, 'vxml', calback_url, flags.voice_status_callback);
+    this._link(number, flags, null, 'vxml', calback_url, flags.voice_status_callback);
   }
 
-  unlinkApp(number) {
-    this._link(number, null, 'app');
+  unlinkApp(number, flags) {
+    this._link(number, flags, null, 'app');
   }
 
-  unlinkSms(number) {
-    this._link(number, '', 'sms');
+  unlinkSms(number, flags) {
+    this._link(number, flags, '', 'sms');
   }
 
-  unlinkTel(number) {
-    this._link(number, null, 'tel');
+  unlinkTel(number, flags) {
+    this._link(number, flags, null, 'tel');
   }
 
-  unlinkSip(number) {
-    this._link(number, null, 'sip');
+  unlinkSip(number, flags) {
+    this._link(number, flags, null, 'sip');
   }
 
-  unlinkVxml(number) {
-    this._link(number, null, 'vxml');
+  unlinkVxml(number, flags) {
+    this._link(number, flags, null, 'vxml');
   }
 
   numberUpdate(number, flags) {
     number = stripPlus(number);
-    this.client.instance().numberInsight.get({level:'basic', number: number}, this.response.numberInsight((response) => {
+    this.getCountryCode(number, flags, (country_code) => {
       let options = {};
       if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
       if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
       if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
       if (flags.voice_status_callback) options.voiceStatusCallback = flags.voice_status_callback;
-      this.client.instance().number.update(response.country_code, number, options, this.response.numberUpdate.bind(this.response));
-    }));
+      this.client.instance().number.update(country_code, number, options, this.response.numberUpdate.bind(this.response));
+    });
   }
 
-  _link(number, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
+  _link(number, flags, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
+    if (flags == null) { flags = {}; }
     number = stripPlus(number);
-    this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
+    this.getCountryCode(number, flags, (country_code) => {
       let options = {};
 
       if (voice_callback_type == 'sms') {
@@ -214,8 +215,8 @@ class Request {
         if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
       }
 
-      this.client.instance().number.update(response.country_code, number, options, this.response.numberUpdate.bind(this.response));
-    }));
+      this.client.instance().number.update(country_code, number, options, this.response.numberUpdate.bind(this.response));
+    });
   }
 
   // Insight
@@ -272,6 +273,17 @@ class Request {
     }
     this.response.generateJwt(error, token);
   }
+
+  getCountryCode(number, flags, callback) {
+    if (flags.country_code) { 
+      callback(flags.country_code); 
+    }
+    else {
+      this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
+        callback(response.country_code);
+      }));
+    }
+  }
 }
 
 export default Request;
@@ -304,3 +316,4 @@ let stripPlus = function(number) {
   }
   return number;
 };
+
