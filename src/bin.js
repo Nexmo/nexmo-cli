@@ -133,6 +133,7 @@ commander
   .command('number:cancel <number>')
   .description('Cancel a number you own')
   .option('--confirm', 'skip confirmation step and directly cancel the number' )
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .alias('nc')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -148,6 +149,7 @@ commander
   .command('numbers:cancel <number>', null, { noHelp: true })
   .description('Cancel a number you own')
   .option('--confirm', 'skip confirmation step and directly cancel the number' )
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -166,6 +168,7 @@ commander
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
   .option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type')
   .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -181,6 +184,7 @@ commander
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
   .option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type')
   .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -317,6 +321,7 @@ commander
   .command('link:app <number> <app_id>')
   .alias('la')
   .description('Link a number to an application')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -329,6 +334,7 @@ commander
   .command('link:sms <number> <callback_url>')
   .alias('lsms')
   .description('Link a number to an sms callback URL')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -342,6 +348,7 @@ commander
   .alias('lv')
   .description('Link a number to a vxml callback URL')
   .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -355,6 +362,7 @@ commander
   .alias('lt')
   .description('Link a number to another number')
   .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -368,6 +376,7 @@ commander
   .alias('lsip')
   .description('Link a number to SIP URI')
   .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -381,6 +390,7 @@ commander
 commander
   .command('unlink:app <number>')
   .description('Unlink a number from an application')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -392,6 +402,7 @@ commander
 commander
   .command('unlink:sms <number>')
   .description('Unlink a number from a sms callback URL')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -403,6 +414,7 @@ commander
 commander
   .command('unlink:vxml <number>')
   .description('Unlink a number from a vxml callback URL')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -414,6 +426,7 @@ commander
 commander
   .command('unlink:tel <number>')
   .description('Unlink a number from another number')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -425,6 +438,7 @@ commander
 commander
   .command('unlink:sip <number>')
   .description('Unlink a number from a SIP URI')
+  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
