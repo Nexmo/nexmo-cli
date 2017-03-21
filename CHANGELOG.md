@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.4][]
+
+* FIXED: Update dependency on nexmo package to version 2.0.1
+
 ## [0.3.3][]
 
 * Update methods that required Number Insight checks to operate to accept a static `country_code` flag
