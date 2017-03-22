@@ -62,7 +62,7 @@ class Emitter {
     const size  = parseInt(flags.size || 100);
     const total = data.count;
     const start = size*(page-1) + 1;
-    const end   = start + size - 1;
+    const end   = Math.min(start + size - 1, total);
 
     if (this.amplified) this.log(`Item ${start}-${end} of ${total}\n`);
   }
