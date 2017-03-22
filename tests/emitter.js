@@ -130,4 +130,45 @@ describe('Emitter', () => {
       expect(log).not.to.have.been.calledWith(message);
     }));
   });
+
+  describe('.pagination', () => {
+    it('should output the current page', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = { count: 2 };
+      let flags = {};
+      
+      let message = 'Item 1-2 of 2\n';
+
+      emitter.verbose();
+      emitter.pagination(flags, data);
+      expect(log).to.have.been.calledOnce;
+      expect(log).to.have.been.calledWith(message);
+    }));
+
+    it('should handle different pages', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = { count: 102 };
+      let flags = { page: 2 };
+      
+      let message = 'Item 101-102 of 102\n';
+
+      emitter.verbose();
+      emitter.pagination(flags, data);
+      expect(log).to.have.been.calledOnce;
+      expect(log).to.have.been.calledWith(message);
+    }));
+
+    it('should handle different page sizes', sinon.test(function() {
+      let log = this.stub(console, 'log');
+      let data = { count: 102 };
+      let flags = { page: 4, size: 25 };
+      
+      let message = 'Item 76-100 of 102\n';
+
+      emitter.verbose();
+      emitter.pagination(flags, data);
+      expect(log).to.have.been.calledOnce;
+      expect(log).to.have.been.calledWith(message);
+    }));
+  });
 });
