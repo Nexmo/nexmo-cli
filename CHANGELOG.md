@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.6][]
+
+* FIXED: Support RTC application format
+* FIXED: Support shortcodes in number update and other commands 
+* Update dependency to ^2.0.2
+
+
 ## [0.3.5][]
 
 * FIXED: Update dependency to ^2.0.1 and handle v2.0.0 nexmo package response structure
@@ -149,6 +156,10 @@ List of commands:
     *   `app:show`
     *   `app:delete`
 
+[0.3.6]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.6
+[0.3.5]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.5
+[0.3.4]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.4
+[0.3.3]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.3
 [0.3.2]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.2
 [0.3.1]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.1
 [0.3.0]: https://github.com/Nexmo/nexmo-cli/tree/v0.3.0
