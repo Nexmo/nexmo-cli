@@ -48,23 +48,23 @@ commander
 commander
   .command('numbers:list')
   .description('List of numbers assigned to the account')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .alias('nl')
   .action(request.numbersList.bind(request));
 
 commander
   .command('numbers', null, { noHelp: true })
   .description('List of numbers assigned to the account')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .action(request.numbersList.bind(request));
 
 commander
   .command('number:list', null, { noHelp: true })
   .description('List of numbers assigned to the account')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .action(request.numbersList.bind(request));
 
 // Number Buy
@@ -98,8 +98,8 @@ commander
   .option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)')
   .option('--voice', 'search for voice enabled numbers' )
   .option('--sms', 'search for SMS enabled numbers')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -116,8 +116,8 @@ commander
   .option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)')
   .option('--voice', 'search for voice enabled numbers' )
   .option('--sms', 'search for SMS enabled numbers')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -197,8 +197,8 @@ commander
 commander
   .command('apps:list')
   .description('List your Nexmo Applications')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .alias('al')
   .description('List of numbers assigned to the account')
   .action(request.applicationsList.bind(request));
@@ -206,15 +206,15 @@ commander
 commander
   .command('apps', null, { noHelp: true })
   .description('List your Nexmo Applications')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .action(request.applicationsList.bind(request));
 
 commander
   .command('app:list', null, { noHelp: true })
   .description('List your Nexmo Applications')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .action(request.applicationsList.bind(request));
 
 // Application Create
@@ -320,16 +320,16 @@ commander
 commander
   .command('app:numbers <app_id>')
   .description('Show numbers associated to a Nexmo Application')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .alias('an')
   .action(request.applicationNumbers.bind(request));
 
 commander
   .command('apps:numbers <app_id>', null, { noHelp: true })
   .description('Show numbers associated to a Nexmo Application')
-  .option('--page <page>', 'the page of results to return')
-  .option('--size <size>', 'the amount of results to return')
+  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
+  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
   .action(request.applicationNumbers.bind(request));
 
 // Create a link
