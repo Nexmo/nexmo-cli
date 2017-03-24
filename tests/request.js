@@ -36,14 +36,23 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      beforeEach(() => {
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
         response.accountSetup.returns(()=>{});
+      });
+
+      it('should verify the credentials', sinon.test(function(){
         request.accountSetup('123', 'abc', false);
         expect(nexmo.account.checkBalance).to.have.been.called;
         expect(response.accountSetup).to.have.been.called;
+      }));
+
+      it('should convert API key to lower case', sinon.test(function(){
+        request.accountSetup('ABC123', 'abc', false);
+        expect(nexmo.account.checkBalance).to.have.been.called;
+        expect(response.accountSetup).to.have.been.calledWith(config, 'abc123', 'abc', false);
       }));
     });
 
