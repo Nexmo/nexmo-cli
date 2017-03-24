@@ -9,6 +9,7 @@ class Request {
   // Account
 
   accountSetup(key, secret, flags) {
+    key = key.toLowerCase();
     this._verifyCredentials(key, secret, this.response.accountSetup(this.config, key, secret, flags).bind(this.response));
   }
 
