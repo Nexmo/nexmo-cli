@@ -48,6 +48,13 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
+    if(flags.pattern) {
+      options.pattern = flags.pattern;
+      options.search_pattern = 1;
+      if (options.pattern[0] === '*') options.search_pattern = 2;
+      if (options.pattern.slice(-1) === '*') options.search_pattern = 0;
+    }
+
     this.client.instance().number.get(options, this.response.numbersList(flags).bind(this.response));
   }
 
@@ -283,8 +290,8 @@ class Request {
   }
 
   getCountryCode(number, flags, callback) {
-    if (flags.country_code) { 
-      callback(flags.country_code); 
+    if (flags.country_code) {
+      callback(flags.country_code);
     }
     else {
       this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
@@ -324,4 +331,3 @@ let stripPlus = function(number) {
   }
   return number;
 };
-
