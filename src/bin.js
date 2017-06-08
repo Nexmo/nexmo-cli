@@ -54,17 +54,21 @@ commander
   .action(request.numbersList.bind(request));
 
 commander
-  .command('numbers', null, { noHelp: true })
-  .description('List of numbers assigned to the account')
-  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
-  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
-  .action(request.numbersList.bind(request));
-
-commander
   .command('number:list', null, { noHelp: true })
+  .alias('numbers')
   .description('List of numbers assigned to the account')
   .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
   .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
+  .option('--pattern <pattern>', 'to be matched in number (use * to match end or start of number)')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo number:list --page 2');
+    emitter.log('    $ nexmo number:list --page 2 --size 20');
+    emitter.log('    $ nexmo number:list --pattern 445*');
+    emitter.log('    $ nexmo number:list --pattern *445');
+    emitter.log(' ');
+  })
   .action(request.numbersList.bind(request));
 
 // Number Buy
