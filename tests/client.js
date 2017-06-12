@@ -47,7 +47,7 @@ describe('Client', () => {
       let client = new Client(config, emitter);
       let nexmo = client.instance();
 
-      expect(nexmo.options.userAgent).to.match(/^nexmo-node\/[\d.]* node\/[\d.]* nexmo-cli\/[\d.]*$/);
+      expect(nexmo.options.userAgent).to.match(/^nexmo-node\/[\d.]* node\/[\d.]* nexmo-cli\/[\d|\w\-\d.]*$/);
     }));
 
   });
