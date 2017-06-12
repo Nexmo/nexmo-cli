@@ -271,7 +271,16 @@ class Request {
         if(nameValue.length !== 2) {
           throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
         }
-        fullClaims[ nameValue[0] ] = nameValue[1];
+        if (nameValue[0] === 'acl') {
+          try {
+            fullClaims[ nameValue[0] ] = JSON.parse(nameValue[1]);
+          } catch (e) {
+            fullClaims[ nameValue[0] ] = nameValue[1];
+          }
+        } else {
+          fullClaims[ nameValue[0] ] = nameValue[1];
+        }
+
       });
 
       token = this.client.definition().generateJwt(privateKey, fullClaims);
@@ -283,8 +292,8 @@ class Request {
   }
 
   getCountryCode(number, flags, callback) {
-    if (flags.country_code) { 
-      callback(flags.country_code); 
+    if (flags.country_code) {
+      callback(flags.country_code);
     }
     else {
       this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
@@ -324,4 +333,3 @@ let stripPlus = function(number) {
   }
   return number;
 };
-

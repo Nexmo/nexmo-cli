@@ -600,6 +600,26 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
       }));
 
+      it('should call Nexmo.generateJwt with the JSON acl claim if a valid JSON is passed', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+
+        request.generateJwt('path/to/private.key', ['acl={"paths": { "/**": {  } } }'], {app_id: 'application_id'});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: { paths: { '/**': {  } } }, application_id: 'application_id'});
+      }));
+
+      it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', sinon.test(function() {
+        var Nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.definition.returns(Nexmo);
+
+        request.generateJwt('path/to/private.key', ['acl=notAnObject'], {app_id: 'application_id'});
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: 'notAnObject', application_id: 'application_id'});
+      }));
+
       it('should call pass generated token to response.generateJwt', sinon.test(function() {
         var Nexmo = {
           generateJwt: () => {
