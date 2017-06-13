@@ -46,14 +46,6 @@ commander
 
 // Number List
 commander
-  .command('numbers:list')
-  .description('List of numbers assigned to the account')
-  .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
-  .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
-  .alias('nl')
-  .action(request.numbersList.bind(request));
-
-commander
   .command('number:list', null, { noHelp: true })
   .alias('numbers')
   .description('List of numbers assigned to the account')
