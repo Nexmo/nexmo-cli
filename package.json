@@ -1,6 +1,6 @@
 {
   "name": "nexmo-cli",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "description": "Nexmo Command Line Interface",
   "main": "lib/request.js",
   "scripts": {
