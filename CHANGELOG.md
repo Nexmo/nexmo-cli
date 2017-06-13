@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file. This projec
 
 ## [0.3.9][]
 
-* FIXED: Removed deprecated `numbers:list`
+* FIXED: Removed deprecated `numbers:list` command
+* FIXED: Adding `numbers:list` and `nl` as aliases for `number:list`
 
 ## [0.3.8][]
 

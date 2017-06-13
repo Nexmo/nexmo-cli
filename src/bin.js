@@ -48,6 +48,8 @@ commander
 commander
   .command('number:list', null, { noHelp: true })
   .alias('numbers')
+  .alias('numbers:list')
+  .alias('nl')
   .description('List of numbers assigned to the account')
   .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
   .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
