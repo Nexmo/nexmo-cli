@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## [0.3.8][]
 
-* Add pattern support to `number:list`
+* Adding search support to `number:list` using the `pattern` flag
 
 ## [0.3.6][]
 
