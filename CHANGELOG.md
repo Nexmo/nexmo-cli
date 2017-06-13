@@ -4,12 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## [0.3.9][]
 
-<<<<<<< HEAD
 * Added `numbers:list` and `nl` with search support using the `pattern` flag
-=======
-* FIXED: Removed deprecated `numbers:list` command
-* FIXED: Adding `numbers:list` and `nl` as aliases for `number:list`
->>>>>>> origin/develop
 
 ## [0.3.8][]
 
