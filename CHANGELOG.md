@@ -2,12 +2,19 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.9][]
+
+* Added `numbers:list` and `nl` with search support using the `pattern` flag
+
+## [0.3.8][]
+
+* Adding search support to `number:list` using the `pattern` flag
+
 ## [0.3.6][]
 
 * FIXED: Support RTC application format
-* FIXED: Support shortcodes in number update and other commands 
+* FIXED: Support shortcodes in number update and other commands
 * Update dependency to ^2.0.2
-
 
 ## [0.3.5][]
 

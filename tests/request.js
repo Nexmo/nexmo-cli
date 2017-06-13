@@ -132,6 +132,39 @@ describe('Request', () => {
         request.numbersList({ size: 25 });
         expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
       }));
+
+      it('should handle search with a default search_pattern of 1', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
+
+        const pattern = '123';
+        request.numbersList({ pattern: pattern });
+        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 1, size: 100 });
+      }));
+
+      it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
+
+        const pattern = '*123';
+        request.numbersList({ pattern: pattern });
+        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 2, size: 100 });
+      }));
+
+      it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
+        nexmo = {};
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.numbersList.returns(()=>{});
+
+        const pattern = '123*';
+        request.numbersList({ pattern: pattern });
+        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 0, size: 100 });
+      }));
     });
 
     describe('.numberSearch', () => {

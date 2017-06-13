@@ -116,6 +116,7 @@ Alias: `nexmo pc`
 
   - `--size` the amount of results to return
   - `--page` the page of results to return
+  - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
 
 ```
 > nexmo numbers:list
