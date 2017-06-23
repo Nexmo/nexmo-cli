@@ -175,7 +175,7 @@ commander
   .action(request.numberCancel.bind(request));
 
 commander
-  .command('number:update <number>')
+  .command('numbers:update <number>')
   .description('Link a number to an application')
   .alias('nu')
   .option('--mo_http_url <mo_http_url>', 'used for SMS callbacks')
@@ -186,7 +186,7 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345');
+    emitter.log('    $ nexmo numbers:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345');
     emitter.log(' ');
   })
   .action(request.numberUpdate.bind(request));
