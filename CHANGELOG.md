@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.10][]
+
+* FIXED: `number:update` had been duplicated resulting in multiple executions per `number:update` command. One version has now been renamed to `numbers:update`.
+
 ## [0.3.9][]
 
 * Added `numbers:list` and `nl` with search support using the `pattern` flag
