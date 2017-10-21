@@ -589,6 +589,54 @@ commander
   })
   .action(request.generateJwt.bind(request));
 
+commander
+  .command('conversation:create <keyfile> <app_id> [payload...]')
+  .description('Create a new Conversation')
+  .alias('cc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo conversation:create private.key aaaaaaaa-bbbb-cccc-dddd-0123456789ab display_name=nexmo-chat');
+    emitter.log(' ');
+  })
+  .action(request.conversationCreate.bind(request));
+
+commander
+  .command('user:create <keyfile> <app_id> [payload...]')
+  .description('Create a new User')
+  .alias('uc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo user:create private.key aaaaaaaa-bbbb-cccc-dddd-0123456789ab name=alex');
+    emitter.log(' ');
+  })
+  .action(request.userCreate.bind(request));
+
+commander
+  .command('member:add <keyfile> <app_id> <conversation_id> [payload...]')
+  .description('Adds a User to a Conversation')
+  .alias('ma')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo member:add private.key aaaaaaaa-bbbb-cccc-dddd-0123456789ab aaaaaaaa-bbbb-cccc-dddd-0123456789ab action=join channel=\'{"type":"app"}\' user_id=aaaaaaaa-bbbb-cccc-dddd-0123456789ab');
+    emitter.log(' ');
+  })
+  .action(request.memberAdd.bind(request));
+
+commander
+  .command('member:list <keyfile> <app_id> <conversation_id>')
+  .description('Lists Members for a Conversation')
+  .alias('ml')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo member:list private.key aaaaaaaa-bbbb-cccc-dddd-0123456789ab aaaaaaaa-bbbb-cccc-dddd-0123456789ab');
+    emitter.log(' ');
+  })
+  .action(request.memberList.bind(request));
+
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })

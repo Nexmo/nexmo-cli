@@ -233,6 +233,30 @@ Message price:     ${message['message-price']} EUR`);
     this.validator.response(error, token);
     this.emitter.log(`${token}`, `JWT:   ${token}`);
   }
+
+  conversationCreate(error, response) {
+    this.validator.response(error, response);
+    this.emitter.list(`Conversation created: ${response.id}`, response);
+  }
+
+  userCreate(error, response) {
+    this.validator.response(error, response);
+    this.emitter.list(`User created: ${response.id}`, response);
+  }
+
+  memberAdd(error, response) {
+    this.validator.response(error, response);
+    this.emitter.list(`Member added: ${response.id}`, response);
+  }
+
+  memberList(error, response) {
+    this.validator.response(error, response);
+    if (response && response.length > 0) {
+      this.emitter.table(response, ['name', 'user_id', 'user_name', 'state']);
+    } else {
+      this.emitter.warn('No members');
+    }
+  }
 }
 
 export default Response;

@@ -298,6 +298,49 @@ class Request {
     this.response.generateJwt(error, token);
   }
 
+  conversationCreate(privateKey, app_id, payload) {
+    this.client.instanceWithApp(app_id, privateKey).conversations.create(createPayload(payload), this.response.conversationCreate.bind(this.response));
+  }
+
+  userCreate(privateKey, app_id, payload) {
+    this.client.instanceWithApp(app_id, privateKey).users.create(createPayload(payload), this.response.userCreate.bind(this.response));
+  }
+
+  memberList(privateKey, app_id, conversation_id) {
+    this.client.instanceWithApp(app_id, privateKey).conversations.members.get(conversation_id, {}, this.response.memberList.bind(this.response));
+  }
+
+  memberAdd(privateKey, app_id, conversation_id, payload) {
+    let error = null;
+
+    try {
+      const fullPayload = {};
+
+      payload.forEach((p) => {
+        let nameValue = p.split('=');
+        if(nameValue.length !== 2) {
+          throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
+        }
+        if (nameValue[0] === 'channel') {
+          try {
+            fullPayload[ nameValue[0] ] = JSON.parse(nameValue[1]);
+          } catch (e) {
+            fullPayload[ nameValue[0] ] = nameValue[1];
+          }
+        } else {
+          fullPayload[ nameValue[0] ] = nameValue[1];
+        }
+
+      });
+
+      this.client.instanceWithApp(app_id, privateKey).conversations.members.add(conversation_id, fullPayload, this.response.memberAdd.bind(this.response));
+    }
+    catch(ex) {
+      error = ex;
+      this.response.memberAdd(error);
+    }
+  }
+
   getCountryCode(number, flags, callback) {
     if (flags.country_code) {
       callback(flags.country_code);
@@ -313,6 +356,22 @@ class Request {
 export default Request;
 
 // private methods
+
+let createPayload = function(payload) {
+  const finalPayload = {};
+
+  payload.forEach((p) => {
+    let nameValue = p.split('=');
+    if(nameValue.length !== 2) {
+      throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
+    }
+
+    finalPayload[ nameValue[0] ] = nameValue[1];
+
+  });
+
+  return finalPayload;
+};
 
 let confirm = function(message, emitter, flags, callback) {
   if (flags.confirm) {
