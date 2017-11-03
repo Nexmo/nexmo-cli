@@ -2,3 +2,4 @@ node_modules
 .nexmorc
 lib
 npm-debug.log
+package-lock.json
