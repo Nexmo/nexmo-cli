@@ -16,7 +16,8 @@ class Config {
   write(data, local=false) {
     fs.writeFileSync(
       this.writeFilename(local),
-      ini.stringify(data)
+      ini.stringify(data),
+      {'mode': 384} // 0600
     );
   }
 
