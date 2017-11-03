@@ -14,8 +14,12 @@ class Config {
   }
 
   write(data, local=false) {
+    var target = this.writeFilename(local);
+    if (fs.existsSync(target)) {
+      fs.chmodSync(target, '600');
+    }
     fs.writeFileSync(
-      this.writeFilename(local),
+      target,
       ini.stringify(data),
       {'mode': 384} // 0600
     );
