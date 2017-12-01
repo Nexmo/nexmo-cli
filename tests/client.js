@@ -64,6 +64,36 @@ describe('Client', () => {
     }));
   });
 
+  describe('.instanceWithApp', () => {
+    it('should initialize a new library with app credentials', sinon.test(function () {
+      let emitter = sinon.createStubInstance(Emitter);
+      let config = sinon.createStubInstance(Config);
+      let appConfig = sinon.createStubInstance(Config);
+
+      config.read = function() {
+        return {
+          credentials: {
+            api_key: 123,
+            api_secret: 234
+          }
+        };
+      };
+
+      appConfig.read = function() {
+        return {
+          app_config: {
+            app_id: 123,
+            private_key: '-----BEGIN PRIVATE KEY-----'
+          }
+        };
+      };
+
+      let client = new Client(config, emitter, appConfig);
+      let nexmo = client.instanceWithApp();
+      expect(nexmo).to.be.an.instanceof(Nexmo);
+    }));
+  });
+
   describe('.definition', () => {
     it('should return the Nexmo definition', sinon.test(function () {
       let emitter = sinon.createStubInstance(Emitter);

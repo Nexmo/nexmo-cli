@@ -8,6 +8,11 @@ import App            from 'nexmo/lib/App';
 import Message        from 'nexmo/lib/Message';
 import Number         from 'nexmo/lib/Number';
 import NumberInsight  from 'nexmo/lib/NumberInsight';
+import Conversations  from 'nexmo/lib/Conversations';
+import Users          from 'nexmo/lib/Users';
+import Members        from 'nexmo/lib/Members';
+
+
 
 import chai, { expect } from 'chai';
 import sinon      from 'sinon';
@@ -23,6 +28,7 @@ describe('Request', () => {
 
   describe('with an instance', () => {
     let client;
+    let appConfig;
     let config;
     let nexmo;
     let request;
@@ -31,8 +37,21 @@ describe('Request', () => {
     beforeEach(() => {
       client   = sinon.createStubInstance(Client);
       config   = sinon.createStubInstance(Config);
+      appConfig   = sinon.createStubInstance(Config);
       response = sinon.createStubInstance(Response);
-      request  = new Request(config, client, response);
+      request  = new Request(config, appConfig, client, response);
+    });
+
+    describe('.accountSetup', () => {
+      it('should verifiy the credentials', sinon.test(function(){
+        nexmo = {};
+        nexmo.account = sinon.createStubInstance(Account);
+        client.instanceWith.returns(nexmo);
+        response.accountSetup.returns(()=>{});
+        request.accountSetup('123', 'abc', false);
+        expect(nexmo.account.checkBalance).to.have.been.called;
+        expect(response.accountSetup).to.have.been.called;
+      }));
     });
 
     describe('.accountSetup', () => {
@@ -406,6 +425,18 @@ describe('Request', () => {
       }));
     });
 
+    describe('.applicationSetup', () => {
+      it('should verifiy the credentials', sinon.test(function(){
+        nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
+        client.instanceWithApp.returns(nexmo);
+        response.applicationSetup.returns(()=>{});
+        request.applicationSetup('123', 'abc', false);
+        expect(nexmo.app.get).to.have.been.called;
+        expect(response.applicationSetup).to.have.been.called;
+      }));
+    });
+
     describe('.applicationUpdate', () => {
       it('should call the library', sinon.test(function() {
         nexmo = {};
@@ -701,6 +732,48 @@ describe('Request', () => {
         client.instance.returns(nexmo);
         request.getCountryCode('44555666777', {}, callback);
         expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '44555666777' });
+      }));
+    });
+
+    describe('.conversationCreate', () => {
+      it('should call conversations.create', sinon.test(function() {
+        nexmo = {};
+        nexmo.conversations = sinon.createStubInstance(Conversations);
+        client.instanceWithApp.returns(nexmo);
+        request.conversationCreate([]);
+        expect(nexmo.conversations.create).to.have.been.called;
+      }));
+    });
+
+    describe('.userCreate', () => {
+      it('should call users.create', sinon.test(function() {
+        nexmo = {};
+        nexmo.users = sinon.createStubInstance(Users);
+        client.instanceWithApp.returns(nexmo);
+        request.userCreate([]);
+        expect(nexmo.users.create).to.have.been.called;
+      }));
+    });
+
+    describe('.memberAdd', () => {
+      it('should call conversations.members.add', sinon.test(function() {
+        nexmo = {};
+        nexmo.conversations = sinon.createStubInstance(Conversations);
+        nexmo.conversations.members = sinon.createStubInstance(Members);
+        client.instanceWithApp.returns(nexmo);
+        request.memberAdd('def', []);
+        expect(nexmo.conversations.members.add).to.have.been.called;
+      }));
+    });
+
+    describe('.memberList', () => {
+      it('should call conversations.members.get', sinon.test(function() {
+        nexmo = {};
+        nexmo.conversations = sinon.createStubInstance(Conversations);
+        nexmo.conversations.members = sinon.createStubInstance(Members);
+        client.instanceWithApp.returns(nexmo);
+        request.memberList('def', []);
+        expect(nexmo.conversations.members.get).to.have.been.calledWith('def', {});
       }));
     });
   });

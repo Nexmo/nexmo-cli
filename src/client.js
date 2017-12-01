@@ -1,9 +1,10 @@
 import Nexmo from 'nexmo';
 
 class Client {
-  constructor(config, emitter) {
+  constructor(config, emitter, appConfig) {
     this.emitter = emitter;
     this.config = config;
+    this.appConfig = appConfig;
   }
 
   instance() {
@@ -20,7 +21,7 @@ class Client {
   }
 
   instanceWithApp(appId, privateKey) {
-    let nexmo = initialize(this.config, this.emitter, appId, privateKey);
+    let nexmo = initialize(this.config, this.emitter, this.appConfig, appId, privateKey);
     return nexmo;
   }
 }
@@ -29,19 +30,20 @@ export default Client;
 
 // private methods
 
-let initialize = function(config, emitter, appId, privateKey) {
+let initialize = function(config, emitter, appConfig, appId, privateKey) {
   let nexmo = null;
   let packageDetails = require(`${__dirname}/../package.json`);
 
   try {
     let credentials = config.read().credentials;
-    if (appId && privateKey) {
+    if ((appId && privateKey) || appConfig) {
+      let app_config = appConfig.read().app_config;
       nexmo = new Nexmo(
         {
           apiKey: credentials.api_key,
           apiSecret: credentials.api_secret,
-          applicationId: appId,
-          privateKey: privateKey
+          applicationId: appId || app_config.app_id,
+          privateKey: privateKey || app_config.private_key
         },
         {
           debug: emitter.debugging,

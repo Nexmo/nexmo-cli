@@ -1,10 +1,11 @@
 import readline from 'readline';
 
 class Request {
-  constructor(config, client, response) {
+  constructor(config, appConfig, client, response) {
     this.config   = config;
     this.client   = client;
     this.response = response;
+    this.appConfig = appConfig;
   }
   // Account
 
@@ -133,11 +134,20 @@ class Request {
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
-    this.client.instance().app.create(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags));
+    this.client.instance().app.create(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
   }
 
   applicationShow(app_id) {
     this.client.instance().app.get(app_id, this.response.applicationShow.bind(this.response));
+  }
+
+  applicationSetup(app_id, private_key, flags) {
+    this._verifyApplication(app_id, private_key, this.response.applicationSetup(this.appConfig, app_id, private_key, flags).bind(this.response));
+  }
+
+  _verifyApplication(app_id, private_key, callback) {
+    let client = this.client.instanceWithApp(app_id, private_key);
+    client.app.get(app_id, callback);
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
@@ -298,19 +308,19 @@ class Request {
     this.response.generateJwt(error, token);
   }
 
-  conversationCreate(privateKey, app_id, payload) {
-    this.client.instanceWithApp(app_id, privateKey).conversations.create(createPayload(payload), this.response.conversationCreate.bind(this.response));
+  conversationCreate(payload) {
+    this.client.instanceWithApp().conversations.create(createPayload(payload), this.response.conversationCreate.bind(this.response));
   }
 
-  userCreate(privateKey, app_id, payload) {
-    this.client.instanceWithApp(app_id, privateKey).users.create(createPayload(payload), this.response.userCreate.bind(this.response));
+  userCreate(payload) {
+    this.client.instanceWithApp().users.create(createPayload(payload), this.response.userCreate.bind(this.response));
   }
 
-  memberList(privateKey, app_id, conversation_id) {
-    this.client.instanceWithApp(app_id, privateKey).conversations.members.get(conversation_id, {}, this.response.memberList.bind(this.response));
+  memberList(conversation_id) {
+    this.client.instanceWithApp().conversations.members.get(conversation_id, {}, this.response.memberList.bind(this.response));
   }
 
-  memberAdd(privateKey, app_id, conversation_id, payload) {
+  memberAdd(conversation_id, payload) {
     let error = null;
 
     try {
@@ -333,7 +343,7 @@ class Request {
 
       });
 
-      this.client.instanceWithApp(app_id, privateKey).conversations.members.add(conversation_id, fullPayload, this.response.memberAdd.bind(this.response));
+      this.client.instanceWithApp().conversations.members.add(conversation_id, fullPayload, this.response.memberAdd.bind(this.response));
     }
     catch(ex) {
       error = ex;
