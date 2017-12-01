@@ -289,6 +289,7 @@ Parameters:
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
 Application created: asdasdas-asdd-2344-2344-asdasdasd345
+Credentials written to /path/to/local/folder/.nexmo-app
 Private Key saved to: private.key
 
 > nexmo app:create "Test Application 1" http://example.com http://example.com -v
@@ -324,6 +325,8 @@ GET
 
 [_links.self.href]
 /applications/asdasdas-asdd-2344-2344-asdasdasd345
+
+Credentials written to /path/to/local/folder/.nexmo-app
 ```
 
 Alias: `nexmo ac`.
@@ -367,6 +370,26 @@ Private Key saved to: private.key
 ```
 
 Alias: `nexmo as` and `nexmo app`.
+
+#### Setup an Application
+
+Set up your Application ID and private key
+
+Parameters:
+
+- `app_id` - the UUID of your application.
+- `private_key` - the private key for your application
+- Optional flags:
+
+  - `--global` write config to user root folder `(~/.nexmo-app)` instead of the current folder `(./.nexmo-app)`
+
+```
+> nexmo app:setup asdasdas-asdd-2344-2344-asdasdasd345 private.key
+Credentials written to /path/to/local/folder/.nexmo-app
+
+```
+
+Alias: `nexmo aset`.
 
 #### Update an Application
 

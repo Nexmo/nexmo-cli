@@ -281,7 +281,7 @@ commander
 commander
   .command('app:setup <app_id> <private_key>')
   .description('Set up your Application ID and private key')
-  .alias('as')
+  .alias('aset')
   .option('-g, --global', 'write config to user root folder (~/.nexmo-app) instead of the current folder (./.nexmo-app)')
   .action(request.applicationSetup.bind(request));
 
