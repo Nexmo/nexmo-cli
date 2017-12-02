@@ -271,7 +271,7 @@ Message price:     ${message['message-price']} EUR`);
   memberList(error, response) {
     this.validator.response(error, response);
     if (response && response.length > 0) {
-      this.emitter.table(response, ['name', 'user_id', 'user_name', 'state']);
+      this.emitter.table(response, ['name', 'user_id', 'user_name', 'state'], ['name', 'user_id', 'user_name', 'state']);
     } else {
       this.emitter.warn('No members');
     }

@@ -33,7 +33,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
+[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Conversations](#conversations) | [Users](#users) | [Members](#members) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
 
 ### Flags
 
@@ -486,6 +486,104 @@ msisdn      | country | type       | features  | voiceCallbackType | voiceCallba
 ```
 
 Alias: `nexmo an` and `nexmo apps:numbers`.
+
+### Conversations
+
+#### Create a new Conversation
+
+Supports optional payloads:
+- `name=<name>` - the unique name of your conversation.
+- `display_name=<display_name>` - the custom name of your conversation.
+
+```
+> nexmo conversation:create display_name="My Conversation"
+Conversation created: CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo conversation:create display_name="My Conversation" -v
+[id]
+CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+[href]
+http://conversation.local/v1/conversations/CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+```
+
+Alias: `nexmo cc`.
+
+### Users
+
+#### Create a new User
+
+Supports optional payloads:
+- `name=<name>` - the name of your user.
+
+```
+> nexmo user:create name=alex
+User created: USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo user:create name=alex -v
+[id]
+USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+[href]
+http://conversation.local/v1/users/USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+```
+
+Alias: `nexmo uc`.
+
+### Members
+
+#### Add a new Member to a Conversation
+Parameters:
+
+- `conversation_id` - the UUID of your conversation.
+- Supports payloads:
+    - `user_id=<user_id>` - the UUID of your user.
+    - `action=<action>` - action to perform on conversation (invite | join | leave)
+    - `channel={type:<type>}` - channel type
+
+```
+> nexmo member:add CON-asdasdas-asdd-2344-2344-asdasdasd345 user_id=USR-asdasdas-asdd-2344-2344-asdasdasd345 channel='{"type":"app"}' action=join
+Member added: MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo member:add CON-asdasdas-asdd-2344-2344-asdasdasd345 user_id=USR-asdasdas-asdd-2344-2344-asdasdasd345 channel='{"type":"app"}' action=join -v
+[id]
+MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+[user_id]
+USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+[state]
+JOINED
+
+[timestamp.joined]
+1988-12-12T05:08:27.106Z
+
+[href]
+http://conversation.local/v1/conversations/CON-asdasdas-asdd-2344-2344-asdasdasd345/members/MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+
+```
+
+Alias: `nexmo ma`.
+
+#### List all Members in a Conversation
+Parameters:
+
+- `conversation_id` - the UUID of your conversation.
+
+```
+> nexmo member:list CON-asdasdas-asdd-2344-2344-asdasdasd345
+MEM-asdasdas-asdd-2344-2344-asdasdasd345 | USR-asdasdas-asdd-2344-2344-asdasdasd345 | NAM-asdasdas-asdd-2344-2344-asdasdasd345 | JOINED
+
+> nexmo member:list CON-asdasdas-asdd-2344-2344-asdasdasd345 -v
+name                                     | user_id                                  | user_name                                | state  
+----------------------------------------------------------------------------------------------------------------------------------------
+MEM-asdasdas-asdd-2344-2344-asdasdasd345 | USR-asdasdas-asdd-2344-2344-asdasdasd345 | NAM-asdasdas-asdd-2344-2344-asdasdasd345 | JOINED
+```
+
+Alias: `nexmo ml`.
 
 ### Linking
 
