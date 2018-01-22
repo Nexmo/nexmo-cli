@@ -425,6 +425,10 @@ Alias: `nexmo au`.
 
 #### Delete an application
 
+Parameters:
+
+- `app_id` - the UUID of your application.
+
 ```
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
 This is operation can not be reversed.
@@ -440,6 +444,10 @@ Application deleted
 Alias: `nexmo ad`.
 
 #### Show numbers for an application
+
+Parameters:
+
+- `app_id` - the UUID of your application.
 
 - Optional flags:
 
