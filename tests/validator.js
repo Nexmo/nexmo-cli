@@ -21,6 +21,13 @@ describe('Validator', () => {
       });
     });
 
+    describe('when no response is present', () => {
+      it('should fall through quietely', () => {
+        let validator = new Validator(new Emitter());
+        expect(validator.response(null, null)).to.be.undefined;
+      });
+    });
+
     describe('when errors are present', () => {
       describe('due to error objects', () => {
         it('should emit an error', sinon.test(function() {
