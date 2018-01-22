@@ -460,7 +460,7 @@ Parameters:
 44655555555
 44555555555
 
-> nexmo app:numbers --verbose
+> nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345 --verbose
 Item 1-3 of 3
 
 msisdn      | country | type       | features  | voiceCallbackType | voiceCallbackValue | moHttpUrl | voiceStatusCallbackUrl
