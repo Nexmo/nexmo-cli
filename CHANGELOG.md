@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.11][]
+
+* FIXED: `application:delete` was returning a null response and throwing a validation error.
+* FIXED: `application:numbers` example was missing the required `app_id` parameter.
+
+
 ## [0.3.10][]
 
 * FIXED: `number:update` had been duplicated resulting in multiple executions per `number:update` command. One version has now been renamed to `numbers:update`.

@@ -448,6 +448,10 @@ Alias: `nexmo au`.
 
 #### Delete an application
 
+Parameters:
+
+- `app_id` - the UUID of your application.
+
 ```
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
 This is operation can not be reversed.
@@ -464,6 +468,10 @@ Alias: `nexmo ad`.
 
 #### Show numbers for an application
 
+Parameters:
+
+- `app_id` - the UUID of your application.
+
 - Optional flags:
 
   - `--size` the amount of results to return
@@ -475,7 +483,7 @@ Alias: `nexmo ad`.
 44655555555
 44555555555
 
-> nexmo app:numbers --verbose
+> nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345 --verbose
 Item 1-3 of 3
 
 msisdn      | country | type       | features  | voiceCallbackType | voiceCallbackValue | moHttpUrl | voiceStatusCallbackUrl

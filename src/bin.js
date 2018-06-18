@@ -240,7 +240,7 @@ commander
   .alias('ac')
   .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
-  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
