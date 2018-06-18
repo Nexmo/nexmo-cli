@@ -2,3 +2,5 @@ node_modules
 .nexmorc
 lib
 npm-debug.log
+.nexmo-app
+.vscode
