@@ -278,6 +278,7 @@ class Request {
         if (nameValue.length !== 2) {
           throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
         }
+        // Using JSON.parse to cast 'exp' to number
         if (nameValue[0] === 'acl' || nameValue[0] === 'exp') {
           try {
             fullClaims[nameValue[0]] = JSON.parse(nameValue[1]);
