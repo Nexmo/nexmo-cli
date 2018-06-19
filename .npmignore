@@ -1,1 +1,4 @@
 src
+private.key
+.nexmo-app
+.nexmorc
