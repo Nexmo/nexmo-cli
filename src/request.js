@@ -2,8 +2,8 @@ import readline from 'readline';
 
 class Request {
   constructor(config, client, response) {
-    this.config   = config;
-    this.client   = client;
+    this.config = config;
+    this.client = client;
     this.response = response;
   }
   // Account
@@ -48,7 +48,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    if(flags.pattern) {
+    if (flags.pattern) {
       options.pattern = flags.pattern;
       options.search_pattern = 1;
       if (options.pattern[0] === '*') options.search_pattern = 2;
@@ -67,7 +67,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
-    if(flags.pattern) {
+    if (flags.pattern) {
       options.pattern = flags.pattern;
       options.search_pattern = 1;
       if (options.pattern[0] === '*') options.search_pattern = 2;
@@ -78,7 +78,7 @@ class Request {
   }
 
   numberBuy(numberOrPattern, command) {
-    if(command.country_code) {
+    if (command.country_code) {
       this.numberBuyFromSearch(command.country_code, numberOrPattern, command);
     }
     else {
@@ -98,7 +98,7 @@ class Request {
   numberBuyFromSearch(country_code, pattern, flags) {
     let options = { features: ['VOICE'] };
 
-    if(pattern) {
+    if (pattern) {
       options.pattern = pattern;
       options.search_pattern = 1;
       if (pattern[0] === '*') options.search_pattern = 2;
@@ -238,20 +238,20 @@ class Request {
 
   insightBasic(number) {
     number = stripPlus(number);
-    this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.insightBasic.bind(this.response));
+    this.client.instance().numberInsight.get({ level: 'basic', number: number }, this.response.insightBasic.bind(this.response));
   }
 
   insightStandard(number, flags) {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'standard', number: number}, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({ level: 'standard', number: number }, this.response.insightStandard.bind(this.response));
     });
   }
 
   insightAdvanced(number, flags) {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({level: 'advancedSync', number: number}, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({ level: 'advancedSync', number: number }, this.response.insightStandard.bind(this.response));
     });
   }
 
@@ -269,32 +269,42 @@ class Request {
 
     try {
       const fullClaims = {};
-      if(flags.app_id) {
+      if (flags.app_id) {
         fullClaims['application_id'] = flags.app_id;
       }
 
       claims.forEach((claim) => {
         let nameValue = claim.split('=');
-        if(nameValue.length !== 2) {
+        if (nameValue.length !== 2) {
           throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
         }
-        fullClaims[ nameValue[0] ] = nameValue[1];
+        // Using JSON.parse to cast 'exp' to number
+        if (nameValue[0] === 'acl' || nameValue[0] === 'exp') {
+          try {
+            fullClaims[nameValue[0]] = JSON.parse(nameValue[1]);
+          } catch (e) {
+            fullClaims[nameValue[0]] = nameValue[1];
+          }
+        } else {
+          fullClaims[nameValue[0]] = nameValue[1];
+        }
+
       });
 
       token = this.client.definition().generateJwt(privateKey, fullClaims);
     }
-    catch(ex) {
+    catch (ex) {
       error = ex;
     }
     this.response.generateJwt(error, token);
   }
 
   getCountryCode(number, flags, callback) {
-    if (flags.country_code) { 
-      callback(flags.country_code); 
+    if (flags.country_code) {
+      callback(flags.country_code);
     }
     else {
-      this.client.instance().numberInsight.get({level: 'basic', number: number}, this.response.numberInsight((response) => {
+      this.client.instance().numberInsight.get({ level: 'basic', number: number }, this.response.numberInsight((response) => {
         callback(response.country_code);
       }));
     }
@@ -305,7 +315,7 @@ export default Request;
 
 // private methods
 
-let confirm = function(message, emitter, flags, callback) {
+let confirm = function (message, emitter, flags, callback) {
   if (flags.confirm) {
     callback();
   } else {
@@ -324,9 +334,9 @@ let confirm = function(message, emitter, flags, callback) {
   }
 };
 
-let stripPlus = function(number) {
+let stripPlus = function (number) {
   if (!number) { return number; }
-  while(number.charAt(0) === '+') {
+  while (number.charAt(0) === '+') {
     number = number.substr(1);
   }
   return number;
