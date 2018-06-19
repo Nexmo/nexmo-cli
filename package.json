@@ -9,7 +9,8 @@
     "pretest": "eslint tests",
     "test": "mocha  --compilers js:babel-register tests/*",
     "watch:test": "watch 'npm test' tests src",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "debug": "node --nolazy --inspect-brk=9229 lib/bin.js jwt:generate ./private.key sub=alice exp=90000 application_id=e7b2a806-d817-46fd-8c27-8777448d994a"
   },
   "repository": {
     "type": "git",
