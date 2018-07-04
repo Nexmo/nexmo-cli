@@ -66,7 +66,11 @@ let initialize = function(config, emitter, appConfig, appId, privateKey) {
     if (e instanceof TypeError) {
       emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
     } else {
-      emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
+      if (e.path.indexOf(`.nexmo-app`) !== -1) {
+        emitter.error(`Could not read application credentials. Please run 'nexmo app:setup' to setup a Nexmo application. (${e.message})`);
+      } else {
+        emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
+      }
     }
   }
   return nexmo;
