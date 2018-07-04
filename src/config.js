@@ -2,8 +2,9 @@ import fs      from 'fs';
 import ini     from 'ini';
 
 class Config {
-  constructor(emitter) {
+  constructor(emitter, type="rc") {
     this.emitter = emitter;
+    this.type = type;
   }
 
   read() {
@@ -21,17 +22,17 @@ class Config {
   }
 
   readFilename() {
-    let filename = localFile();
+    let filename = localFile(this.type);
     if (fs.existsSync(filename)) {
       return filename;
     } else {
-      return homeFile();
+      return homeFile(this.type);
     }
   }
 
   writeFilename(local=false) {
-    if (local) { return localFile(); }
-    else { return homeFile(); }
+    if (local) { return localFile(this.type); }
+    else { return homeFile(this.type); }
   }
 
   putAndSave(values, writeLocal=false) {
@@ -65,11 +66,11 @@ export default Config;
 
 // private methods
 
-let localFile = function() {
-  return `${process.cwd()}/.nexmorc`;
+let localFile = function(type) {
+  return `${process.cwd()}/.nexmo${type}`;
 };
 
-let homeFile = function() {
+let homeFile = function(type) {
   let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
-  return `${process.env[key]}/.nexmorc`;
+  return `${process.env[key]}/.nexmo${type}`;
 };
