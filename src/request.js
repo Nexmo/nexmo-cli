@@ -322,34 +322,7 @@ class Request {
   }
 
   memberAdd(conversation_id, payload) {
-    let error = null;
-
-    try {
-      const fullPayload = {};
-
-      payload.forEach((p) => {
-        let nameValue = p.split('=');
-        if(nameValue.length !== 2) {
-          throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
-        }
-        if (nameValue[0] === 'channel') {
-          try {
-            fullPayload[ nameValue[0] ] = JSON.parse(nameValue[1]);
-          } catch (e) {
-            fullPayload[ nameValue[0] ] = nameValue[1];
-          }
-        } else {
-          fullPayload[ nameValue[0] ] = nameValue[1];
-        }
-
-      });
-
-      this.client.instanceWithApp().conversations.members.add(conversation_id, fullPayload, this.response.memberAdd.bind(this.response));
-    }
-    catch(ex) {
-      error = ex;
-      this.response.memberAdd(error);
-    }
+    this.client.instanceWithApp().conversations.members.add(conversation_id, createPayload(payload), this.response.memberAdd.bind(this.response));
   }
 
   getCountryCode(number, flags, callback) {
@@ -377,8 +350,11 @@ let createPayload = function(payload) {
       throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
     }
 
-    finalPayload[ nameValue[0] ] = nameValue[1];
-
+    try {
+      finalPayload[ nameValue[0] ] = JSON.parse(nameValue[1]);
+    } catch (e) {
+      finalPayload[ nameValue[0] ] = nameValue[1];
+    }
   });
 
   return finalPayload;
