@@ -255,17 +255,29 @@ Message price:     ${message['message-price']} EUR`);
 
   conversationCreate(error, response) {
     this.validator.response(error, response);
-    this.emitter.list(`Conversation created: ${response.id}`, response);
+    if (response) {
+      this.emitter.list(`Conversation created: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
   }
 
   userCreate(error, response) {
     this.validator.response(error, response);
-    this.emitter.list(`User created: ${response.id}`, response);
+    if (response) {
+      this.emitter.list(`User created: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
   }
 
   memberAdd(error, response) {
     this.validator.response(error, response);
-    this.emitter.list(`Member added: ${response.id}`, response);
+    if (response) {
+      this.emitter.list(`Member added: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
   }
 
   memberList(error, response) {
