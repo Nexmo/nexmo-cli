@@ -164,6 +164,51 @@ API Secret: 234`);
     });
   });
 
+  describe('.searchByPartialAppId', () => {
+    it('should return a full app_id from a single, partial match', () => {
+      let partialAppId = 'app_';
+      let data = { '_embedded': { 'applications': [{ 'id': 'app_id' }] } };
+      let fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(fullAppId).to.equal(data._embedded.applications[0].id);
+    });
+
+    it('should return a full app_id from a single, partial match from a response with multiple applications', () => {
+      let partialAppId = 'app_';
+      let data = {
+        '_embedded': {
+          'applications': [
+            { 'id': 'not_app_id' }, { 'id': 'app_id' }, { 'id': 'also_not_app_id' }]
+        }
+      };
+      let fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(fullAppId).to.equal(data._embedded.applications[1].id);
+    });
+
+    it('should warn if no match', () => {
+      let partialAppId = 'app_';
+      let data = { '_embedded': { 'applications': [{ 'id': 'not_app_id' }] } };
+      response.searchByPartialAppId(partialAppId)(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.warn).to.have.been.calledWith(`No applications found with ID beginning: ${partialAppId}`);
+    });
+
+    it('should warn if multiple matches', () => {
+      let partialAppId = 'app_';
+      let data = { '_embedded': { 'applications': [{ 'id': 'app_id_1' }, { 'id': 'app_id_2' }] } };
+      response.searchByPartialAppId(partialAppId)(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.warn).to.have.been.calledWith(
+        `Multiple applications found with ID beginning: ${partialAppId}\n` +
+        'Try again with a more specific ID');
+    });
+  });
+
   describe('.applicationCreate', () => {
     it('should print the response', () => {
       let method = response.applicationCreate({ keys: {}});

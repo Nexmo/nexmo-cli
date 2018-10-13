@@ -444,10 +444,24 @@ describe('Request', () => {
     });
 
     describe('.applicationNumbers', () => {
-      it('should call nexmo.number.get', sinon.test(function() {
+      it('should call nexmo.app.get', sinon.test(function () {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.applicationsList.returns(()=>{});
+        response.searchByPartialAppId.returns(()=>{});
+        response.applicationNumbers.returns(()=>{});
+        request.applicationNumbers('app_id', {});
+        expect(nexmo.app.get).to.have.been.calledWith({});
+      }));
+
+      it('should call nexmo.number.get', sinon.test(function() {
+        nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', {});
         expect(nexmo.number.get).to.have.been.called;
@@ -455,8 +469,10 @@ describe('Request', () => {
 
       it('should parse a page flag', sinon.test(function() {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', { page: 2 });
         expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
@@ -464,8 +480,10 @@ describe('Request', () => {
 
       it('should parse a size flag', sinon.test(function() {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', { size: 25 });
         expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
