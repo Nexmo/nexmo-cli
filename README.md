@@ -1,6 +1,7 @@
 # Nexmo CLI
 
 [![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli) [![Build Status](https://travis-ci.org/Nexmo/nexmo-cli.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-cli)
+[![Known Vulnerabilities](https://snyk.io/test/github/Nexmo/nexmo-cli/badge.svg)](https://snyk.io/test/github/Nexmo/nexmo-cli)
 
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
