@@ -6,7 +6,7 @@
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
 
 Install the `nexmo-cli` from NPM.
 
@@ -23,7 +23,7 @@ Then set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API 
 Credentials written to /Users/yourname/.nexmorc
 ```
 
-This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project you can pass the `--local` flag as follows:
+This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project, you can pass the `--local` flag as follows:
 
 ```
 > nexmo setup <api_key> <api_secret> --local
@@ -239,7 +239,7 @@ Remaining balance: 26.80110000 EUR
 Message price:     0.03330000 EUR
 ```
 
-**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
+**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases, you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
 
 ```bash
 nexmo sms <to_number> Hello world! --from <from_number> --confirm
