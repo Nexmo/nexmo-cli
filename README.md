@@ -602,6 +602,13 @@ npm run watch:test # to watch for changes and run tests
 
 You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
 
+**Windows**
+Before cloning the repo execute the following commands:
+```
+ git config --global core.eol lf
+ git config --global core.autocrlf input
+```
+
 # License
 
 This library is released under the [MIT License][license]
