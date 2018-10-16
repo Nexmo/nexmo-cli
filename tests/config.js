@@ -4,6 +4,7 @@ import Emitter  from '../src/emitter.js';
 import { expect } from 'chai';
 import sinon      from 'sinon';
 import fs         from 'fs';
+import os from 'os';
 
 describe('Config', () => {
   let emitter;
@@ -14,10 +15,12 @@ describe('Config', () => {
   beforeEach(() => {
     emitter = sinon.createStubInstance(Emitter);
     config = new Config(emitter);
-    ini_content = `[credentials]
-api_key=123
-api_secret=abc
-`;
+    ini_content = [
+      '[credentials]', 
+      'api_key=123', 
+      'api_secret=abc',
+      ''
+    ].join(os.EOL);
     credentials = { credentials: { api_key: '123', api_secret: 'abc'}};
   });
 
