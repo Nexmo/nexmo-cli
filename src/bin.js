@@ -176,7 +176,7 @@ commander
 
 commander
   .command('numbers:update <number>')
-  .description('Link a number to an application')
+  .description('Configure the handling of a number')
   .alias('nu')
   .option('--mo_http_url <mo_http_url>', 'used for SMS callbacks')
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
@@ -193,7 +193,7 @@ commander
 
 commander
   .command('number:update <number>', null, { noHelp: true })
-  .description('Link a number to an application')
+  .description('Configure the handling of a number')
   .option('--mo_http_url <mo_http_url>', 'used for SMS callbacks')
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
   .option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type')
