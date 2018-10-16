@@ -278,7 +278,7 @@ Parameters:
 
 - `name` - the custom name of your application.
 - `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
   - `--keyfile <keyfile>` the file to save your private key to
@@ -375,7 +375,7 @@ Parameters:
 - `app_id` - the UUID of your application.
 - `name` - the custom name of your application.
 - `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
   - `--type <type>` the product you want to access with this application. (Default: voice)
@@ -498,7 +498,7 @@ Number updated
 
 Alias: `nexmo lt`
 
-#### Link a number to an sms callback url
+#### Link a number to an SMS callback URL
 
 ```
 > nexmo link:sms 12057200555 http://example.com/callback
@@ -510,7 +510,7 @@ Number updated
 
 Alias: `nexmo lsms`
 
-#### Link a number to a Voice XML callback url
+#### Link a number to a Voice XML callback URL
 
 ```
 > nexmo link:vxml 12057200555 http://example.com/callback
@@ -592,7 +592,7 @@ This projects is written in ES2015 and compiled using Babel. The source can be f
 
 To add changes fork (if needed) and clone the project.
 
-```sh
+```bash
 npm install # to install all dependencies
 npm run build # to explicitly build the source
 npm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH
