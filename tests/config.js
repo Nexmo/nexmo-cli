@@ -15,10 +15,12 @@ describe('Config', () => {
   beforeEach(() => {
     emitter = sinon.createStubInstance(Emitter);
     config = new Config(emitter);
-    ini_content = `[credentials]
-api_key=123
-api_secret=abc
-`;
+    ini_content = [
+      '[credentials]', 
+      'api_key=123', 
+      'api_secret=abc',
+      ''
+    ].join(os.EOL);
     credentials = { credentials: { api_key: '123', api_secret: 'abc'}};
   });
 
@@ -44,7 +46,7 @@ api_secret=abc
       let writeFileSync = fs.writeFileSync;
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(/\/\.nexmorc$/);
-        expect(data.replace(new RegExp(os.EOL, 'gm'), '\n')).to.equal(ini_content);
+        expect(data).to.equal(ini_content);
       };
       config.write(credentials);
       fs.writeFileSync = writeFileSync;
