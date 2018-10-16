@@ -4,6 +4,7 @@ import Emitter  from '../src/emitter.js';
 import { expect } from 'chai';
 import sinon      from 'sinon';
 import fs         from 'fs';
+import os from 'os';
 
 describe('Config', () => {
   let emitter;
@@ -43,7 +44,7 @@ api_secret=abc
       let writeFileSync = fs.writeFileSync;
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(/\/\.nexmorc$/);
-        expect(data.replace(/\r\n/gm, '\n')).to.equal(ini_content);
+        expect(data.replace(new RegExp(os.EOL, 'gm'), '\n')).to.equal(ini_content);
       };
       config.write(credentials);
       fs.writeFileSync = writeFileSync;
