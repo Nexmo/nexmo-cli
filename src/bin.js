@@ -111,14 +111,14 @@ commander
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy 445555555555');
-    emitter.log('    $ nexmo number:buy 31555555555');
-    emitter.log('    $ nexmo number:buy 17136738555');
+    emitter.log('    $ nexmo numbers:buy 445555555555');
+    emitter.log('    $ nexmo numbers:buy 31555555555');
+    emitter.log('    $ nexmo numbers:buy 17136738555');
     emitter.log(' ');
     emitter.log('  Optionally directly search and buy a number:');
     emitter.log(' ');
-    emitter.log('    $ nexmo number:buy 445* -c GB');
-    emitter.log('    $ nexmo number:buy -c US');
+    emitter.log('    $ nexmo numbers:buy 445* -c GB');
+    emitter.log('    $ nexmo numbers:buy -c US');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
