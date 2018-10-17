@@ -36,17 +36,6 @@ RUN set -x \
 
 CMD ["nexmo"]
 
-# FROM node:10-alpine@sha256:fcd9b3cb2fb21157899bbdb35d1cdf3d6acffcd91ad48c1af5cb62c22d2d05b1 \
-#   AS runtime
-
-# WORKDIR /nexmo
-
-# COPY --from=build /nexmo/package.json ./
-# COPY --from=build /nexmo/node_modules ./node_modules
-# COPY --from=build /nexmo/lib ./lib
-
-# ENTRYPOINT ["node", "lib/bin.js"]
-
 # STAGE runtime: Production environment
 FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528 \
   AS runtime
