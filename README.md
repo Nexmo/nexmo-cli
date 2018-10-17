@@ -16,7 +16,7 @@ npm install nexmo-cli -g
 
 *Note: you may need root/admin privileges to install the CLI globally.*
 
-Then set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
+After install, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
 ```
 > nexmo setup <api_key> <api_secret>
@@ -588,7 +588,7 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 
 ## Contributing
 
-This projects is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
+This project is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
 To add changes fork (if needed) and clone the project.
 
