@@ -602,6 +602,17 @@ npm run watch:test # to watch for changes and run tests
 
 You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
 
+You can also use docker, no dependencies are needed but `docker`.
+```sh
+docker build --target dev -t nexmo:dev .
+
+alias nexmodev='mkdir -p lib; docker run --rm -it -u "$(id -u):$(id -g)" -v $PWD/src:/nexmo/src -v $PWD/tests:/nexmo/tests -v $PWD/lib:/nexmo/lib nexmo:dev npm run'
+
+nexmodev build
+nexmodev watch:test
+nexmodev any-npm-script
+```
+
 # License
 
 This library is released under the [MIT License][license]
