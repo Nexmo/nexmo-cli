@@ -16,7 +16,7 @@ npm install nexmo-cli -g
 
 *Note: you may need root/admin privileges to install the CLI globally.*
 
-After install, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
+After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
 ```
 > nexmo setup <api_key> <api_secret>
@@ -114,8 +114,8 @@ Alias: `nexmo pc`
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
   - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
 
 ```
@@ -251,8 +251,8 @@ nexmo sms <to_number> Hello world! --from <from_number> --confirm
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
 ```
 > nexmo app:list
@@ -276,15 +276,15 @@ Alias: `nexmo al` and `nexmo apps`.
 
 Parameters:
 
-- `name` - the custom name of your application.
-- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `name` - The custom name of your application.
+- `answer_url` - The URL where your webhook delivers the Nexmo Call Control Object that governs this call.
+- `event_url` - The url the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--keyfile <keyfile>` the file to save your private key to
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--keyfile <keyfile>` The file to save your private key to
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
@@ -372,15 +372,15 @@ Alias: `nexmo as` and `nexmo app`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
-- `name` - the custom name of your application.
-- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `app_id` - The UUID of your application.
+- `name` - The custom name of your application.
+- `answer_url` - The URL where your webhook delivers the Nexmo Call Control Object that governs this call.
+- `event_url` - The url the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
@@ -427,7 +427,7 @@ Alias: `nexmo au`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
 ```
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
@@ -447,12 +447,12 @@ Alias: `nexmo ad`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
 ```
 > nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345
