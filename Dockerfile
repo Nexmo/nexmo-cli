@@ -34,6 +34,8 @@ RUN set -x \
   && npx pkg -t node10-alpine -o nexmo . \
   && chmod +x nexmo
 
+CMD ["nexmo"]
+
 # FROM node:10-alpine@sha256:fcd9b3cb2fb21157899bbdb35d1cdf3d6acffcd91ad48c1af5cb62c22d2d05b1 \
 #   AS runtime
 
