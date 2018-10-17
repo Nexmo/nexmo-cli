@@ -11,7 +11,8 @@ RUN set -x \
   && npm cache clean --force
 
 COPY .babelrc .eslintrc.js ./
-COPY src/ ./src
+
+CMD ["npm", "run", "watch:test"]
 
 ################################
 # Developement image stops here
@@ -19,6 +20,8 @@ COPY src/ ./src
 
 # STAGE build: Build environment
 FROM dev AS build
+
+COPY ./src ./src
 
 RUN npm run build
 
