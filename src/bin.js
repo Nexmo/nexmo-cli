@@ -2,6 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
+import tabtab from 'commander-tabtab';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -608,10 +609,8 @@ commander
   })
   .action(request.generateJwt.bind(request));
 
-// catch unknown commands
-commander
-  .command('*', null, { noHelp: true })
-  .action(() => { commander.help(); });
+// shell completion
+tabtab.init(commander, 'nexmo');
 
 commander.parse(process.argv);
 
