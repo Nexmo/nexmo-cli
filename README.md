@@ -1,12 +1,13 @@
 # Nexmo CLI
 
 [![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli) [![Build Status](https://travis-ci.org/Nexmo/nexmo-cli.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-cli)
+[![Known Vulnerabilities](https://snyk.io/test/github/Nexmo/nexmo-cli/badge.svg)](https://snyk.io/test/github/Nexmo/nexmo-cli)
 
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
 
 Install the `nexmo-cli` from NPM.
 
@@ -16,14 +17,14 @@ npm install nexmo-cli -g
 
 *Note: you may need root/admin privileges to install the CLI globally.*
 
-Then set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
+After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
 ```bash
 > nexmo setup <api_key> <api_secret>
 Credentials written to /Users/yourname/.nexmorc
 ```
 
-This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project you can pass the `--local` flag as follows:
+This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project, you can pass the `--local` flag as follows:
 
 ```bash
 > nexmo setup <api_key> <api_secret> --local
@@ -114,8 +115,8 @@ Alias: `nexmo pc`
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
   - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
 
 ```bash
@@ -239,7 +240,7 @@ Remaining balance: 26.80110000 EUR
 Message price:     0.03330000 EUR
 ```
 
-**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
+**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases, you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
 
 ```bash
 nexmo sms <to_number> Hello world! --from <from_number> --confirm
@@ -251,8 +252,8 @@ nexmo sms <to_number> Hello world! --from <from_number> --confirm
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
 ```bash
 > nexmo app:list
@@ -281,10 +282,10 @@ Parameters:
 - `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--keyfile <keyfile>` the file to save your private key to
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--keyfile <keyfile>` The file to save your private key to
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
@@ -378,9 +379,9 @@ Parameters:
 - `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```bash
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
@@ -427,7 +428,7 @@ Alias: `nexmo au`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
 ```bash
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
@@ -447,12 +448,12 @@ Alias: `nexmo ad`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
 ```bash
 > nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345
@@ -588,7 +589,7 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 
 ## Contributing
 
-This projects is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
+This project is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
 To add changes fork (if needed) and clone the project.
 
