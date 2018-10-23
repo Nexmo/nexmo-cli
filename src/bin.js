@@ -85,7 +85,6 @@ commander
 commander
   .command('number:buy [number_pattern]')
   .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
-  .alias('numbers:buy')
   .alias('nb')
   .option('-c, --country_code [country_code]', 'the country code')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
@@ -100,6 +99,26 @@ commander
     emitter.log(' ');
     emitter.log('    $ nexmo number:buy 445* -c GB');
     emitter.log('    $ nexmo number:buy -c US');
+    emitter.log(' ');
+  })
+  .action(request.numberBuy.bind(request));
+
+commander
+  .command('numbers:buy [number_pattern]')
+  .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
+  .option('-c, --country_code [country_code]', 'the country code')
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo numbers:buy 445555555555');
+    emitter.log('    $ nexmo numbers:buy 31555555555');
+    emitter.log('    $ nexmo numbers:buy 17136738555');
+    emitter.log(' ');
+    emitter.log('  Optionally directly search and buy a number:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo numbers:buy 445* -c GB');
+    emitter.log('    $ nexmo numbers:buy -c US');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
