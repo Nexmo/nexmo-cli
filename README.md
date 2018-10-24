@@ -512,18 +512,6 @@ Number updated
 
 Alias: `nexmo lsms`
 
-#### Link a number to a Voice XML callback URL
-
-```bash
-> nexmo link:vxml 12057200555 http://example.com/callback
-Number updated
-
-> nexmo unlink:vxml 12057200555
-Number updated
-```
-
-Alias: `nexmo lv`
-
 #### Link a number to SIP URI
 
 ```bash

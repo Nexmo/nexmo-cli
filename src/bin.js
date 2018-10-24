@@ -394,20 +394,6 @@ commander
   .action(request.linkSms.bind(request));
 
 commander
-  .command('link:vxml <number> <callback_url>')
-  .alias('lv')
-  .description('Link a number to a vxml callback URL')
-  .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.')
-  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
-  .on('--help', () => {
-    emitter.log('  Examples:');
-    emitter.log(' ');
-    emitter.log('    $ nexmo link:vxml 445555555555 http://example.com/callback');
-    emitter.log(' ');
-  })
-  .action(request.linkVxml.bind(request));
-
-commander
   .command('link:tel <number> <other_number>')
   .alias('lt')
   .description('Link a number to another number')
@@ -460,18 +446,6 @@ commander
     emitter.log(' ');
   })
   .action(request.unlinkSms.bind(request));
-
-commander
-  .command('unlink:vxml <number>')
-  .description('Unlink a number from a vxml callback URL')
-  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
-  .on('--help', () => {
-    emitter.log('  Examples:');
-    emitter.log(' ');
-    emitter.log('    $ nexmo unlink:vxml 445555555555');
-    emitter.log(' ');
-  })
-  .action(request.unlinkVxml.bind(request));
 
 commander
   .command('unlink:tel <number>')

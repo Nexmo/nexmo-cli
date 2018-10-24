@@ -533,26 +533,6 @@ describe('Request', () => {
         expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
       }));
 
-      describe('.linkVxml', () => {
-        it('should call nexmo.numberInsight.get', test(function() {
-          nexmo = {};
-          nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
-          client.instance.returns(nexmo);
-          request.linkVxml('123', 'abc', {});
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
-        }));
-      });
-
-      describe('.unlinkVxml', () => {
-        it('should call nexmo.numberInsight.get', test(function() {
-          nexmo = {};
-          nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
-          client.instance.returns(nexmo);
-          request.unlinkVxml('123');
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
-        }));
-      });
-
       describe('.linkSip', () => {
         it('should call nexmo.numberInsight.get', test(function() {
           nexmo = {};

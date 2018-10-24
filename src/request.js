@@ -180,10 +180,6 @@ class Request {
     this._link(number, flags, null, 'sip', sip_uri, flags.voice_status_callback);
   }
 
-  linkVxml(number, calback_url, flags) {
-    this._link(number, flags, null, 'vxml', calback_url, flags.voice_status_callback);
-  }
-
   unlinkApp(number, flags) {
     this._link(number, flags, null, 'app');
   }
@@ -198,10 +194,6 @@ class Request {
 
   unlinkSip(number, flags) {
     this._link(number, flags, null, 'sip');
-  }
-
-  unlinkVxml(number, flags) {
-    this._link(number, flags, null, 'vxml');
   }
 
   numberUpdate(number, flags) {
