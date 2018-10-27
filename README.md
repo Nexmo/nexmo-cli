@@ -7,7 +7,7 @@
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, go to (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
 
 Install the `nexmo-cli` from NPM.
 
