@@ -1,5 +1,5 @@
 # STAGE dev: Development environment
-FROM node:10-alpine@sha256:fcd9b3cb2fb21157899bbdb35d1cdf3d6acffcd91ad48c1af5cb62c22d2d05b1 \
+FROM node:10-alpine@sha256:1e3e3e7ffc965511c5d4f4e90ec5d9cabee95b5b1fbcd49eb6a2289f425cf183 \
   AS dev
 
 WORKDIR /nexmo
@@ -7,7 +7,7 @@ WORKDIR /nexmo
 COPY package.json package-lock.json ./
 
 RUN set -x \
-  && npm ci \
+  && npm install \
   && npm cache clean --force
 
 COPY .babelrc .eslintrc.js ./
@@ -18,30 +18,20 @@ CMD ["npm", "run", "watch:test"]
 # Developement image stops here
 # use '--target dev' on build to break here
 
-# STAGE build: Build environment
+# STAGE build: Build environment, not meant to be used
 FROM dev AS build
 
 COPY ./src ./src
 
-RUN npm run build
-
-CMD ["node", "lib/bin.js"]
-
-# STAGE package: Package environment
-FROM build AS package
-
-RUN set -x \
-  && npx pkg -t node10-alpine -o nexmo . \
-  && chmod +x nexmo
-
-CMD ["nexmo"]
+RUN npm run build && \
+  npm prune --production
 
 # STAGE runtime: Production environment
-FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528 \
+FROM node:10-alpine@sha256:1e3e3e7ffc965511c5d4f4e90ec5d9cabee95b5b1fbcd49eb6a2289f425cf183 \
   AS runtime
 
-RUN apk add --no-cache libstdc++
+COPY --from=build /nexmo/package.json /nexmo/
+COPY --from=build /nexmo/lib /nexmo/lib
+COPY --from=build /nexmo/node_modules /nexmo/node_modules
 
-COPY --from=package /nexmo/nexmo /usr/bin/nexmo
-
-ENTRYPOINT ["/usr/bin/nexmo"]
+ENTRYPOINT ["node", "/nexmo/lib/bin.js"]
