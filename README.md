@@ -9,10 +9,11 @@
 
 The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
 
-Install the `nexmo-cli` from NPM.
+With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
 ```bash
-npm install nexmo-cli -g
+$ npm install nexmo-cli -g   # Using npm
+$ yarn global add nexmo-cli  # Using yarn
 ```
 
 After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
