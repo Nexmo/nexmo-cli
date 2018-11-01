@@ -16,6 +16,8 @@ npm install nexmo-cli -g   # Using npm
 yarn global add nexmo-cli  # Using yarn
 ```
 
+> If you see an `EACCES` error when you try to install a package globally, follow the steps outlined at [_How to Prevent Permissions Errors_](https://docs.npmjs.com/getting-started/fixing-npm-permissions).
+
 After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
 ```bash
