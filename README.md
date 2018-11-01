@@ -590,7 +590,7 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 
 This project is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
-To add changes fork (if needed) and clone the project.
+To add changes, fork and clone the project.
 
 ```bash
 npm install # to install all dependencies
