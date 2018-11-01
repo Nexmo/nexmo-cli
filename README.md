@@ -12,8 +12,8 @@ The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed o
 With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
 ```bash
-$ npm install nexmo-cli -g   # Using npm
-$ yarn global add nexmo-cli  # Using yarn
+npm install nexmo-cli -g   # Using npm
+yarn global add nexmo-cli  # Using yarn
 ```
 
 After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
@@ -593,11 +593,11 @@ This project is written in ES2015 and compiled using Babel. The source can be fo
 To add changes, fork and clone the project.
 
 ```bash
-$ npm install        # to install all dependencies
-$ npm run build      # to explicitly build the source
-$ npm install -g ./  # to implicitly build the source, and then install the `nexmo` binary into your PATH
-$ npm test           # to run all tests
-$ npm run watch:test # to watch for changes and run tests
+npm install        # to install all dependencies
+npm run build      # to explicitly build the source
+npm install -g ./  # to implicitly build the source, and then install the `nexmo` binary into your PATH
+npm test           # to run all tests
+npm run watch:test # to watch for changes and run tests
 ```
 
 You can run the `nexmo` command with the `--debug` / `-d` flag to get extra debug info from the underlying Node.js library.
