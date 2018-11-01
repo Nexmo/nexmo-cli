@@ -7,7 +7,7 @@
     "prebuild": "eslint src",
     "build": "babel -d lib src/ -s inline",
     "pretest": "eslint tests",
-    "test": "mocha  --compilers js:babel-register tests/*",
+    "test": "mocha --compilers js:babel-register tests/*",
     "watch:test": "watch 'npm test' tests src",
     "prepublish": "npm run build"
   },
