@@ -669,14 +669,14 @@ describe('Request', () => {
 
     describe('.getCountryCode', () => {
       it('should return the country code if provided', sinon.test(function() {
-        let callback = sinon.spy();
+        const callback = sinon.spy();
         request.getCountryCode('44555666777', { country_code: 'GB' }, callback);
         expect(callback).to.have.been.calledWith('GB');
       }));
 
       it('should call number insight if no country code was provided', sinon.test(function() {
         nexmo = {};
-        let callback = sinon.spy();
+        const callback = sinon.spy();
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.getCountryCode('44555666777', {}, callback);

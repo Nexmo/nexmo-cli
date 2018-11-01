@@ -21,7 +21,7 @@ class Config {
   }
 
   readFilename() {
-    let filename = localFile();
+    const filename = localFile();
     if (fs.existsSync(filename)) {
       return filename;
     } else {
@@ -65,11 +65,11 @@ export default Config;
 
 // private methods
 
-let localFile = function() {
+const localFile = function() {
   return `${process.cwd()}/.nexmorc`;
 };
 
-let homeFile = function() {
-  let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
+const homeFile = function() {
+  const key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
   return `${process.env[key]}/.nexmorc`;
 };

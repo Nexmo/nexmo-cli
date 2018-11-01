@@ -24,13 +24,13 @@ export default Client;
 
 // private methods
 
-let initialize = function(config, emitter) {
   let nexmo = null;
-  let packageDetails = require(`${__dirname}/../package.json`);
+const initialize = function(config, emitter) {
+  const packageDetails = require(`${__dirname}/../package.json`);
 
   try {
-    let credentials = config.read().credentials;
     nexmo = new Nexmo(
+    const credentials = config.read().credentials;
       {
         apiKey: credentials.api_key,
         apiSecret: credentials.api_secret
