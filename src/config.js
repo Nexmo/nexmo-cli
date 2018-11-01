@@ -24,14 +24,13 @@ class Config {
     const filename = localFile();
     if (fs.existsSync(filename)) {
       return filename;
-    } else {
-      return homeFile();
     }
+    return homeFile();
   }
 
   writeFilename(local=false) {
     if (local) { return localFile(); }
-    else { return homeFile(); }
+    return homeFile();
   }
 
   putAndSave(values, writeLocal=false) {
