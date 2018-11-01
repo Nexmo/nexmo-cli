@@ -107,16 +107,11 @@ const formatMessage = function(record, lengths) {
   });
 };
 
-  let message = '';
-  for (let key in data) {
-    let value = data[key];
 const formatList = function(data = {}, prefix = '') {
+  return Object.entries(data).reduce((message, [key, value]) => {
     if (typeof(value) === 'object') {
-      message += formatList(value, prefix+key+'.');
-    } else {
-      message += `[${prefix}${key}]\n`;
-      message += `${data[key]}\n\n`;
+      return message + formatList(value, prefix+key+'.');
     }
-  }
-  return message;
+    return message + `[${prefix}${key}]\n` + `${data[key]}\n\n`;
+  }, '');
 };

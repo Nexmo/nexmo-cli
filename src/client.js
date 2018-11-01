@@ -7,8 +7,7 @@ class Client {
   }
 
   instance() {
-    let nexmo = initialize(this.config, this.emitter);
-    return nexmo;
+    return initialize(this.config, this.emitter);
   }
 
   definition() {
@@ -24,13 +23,12 @@ export default Client;
 
 // private methods
 
-  let nexmo = null;
 const initialize = function(config, emitter) {
   const packageDetails = require(`${__dirname}/../package.json`);
 
   try {
-    nexmo = new Nexmo(
     const credentials = config.read().credentials;
+    return new Nexmo(
       {
         apiKey: credentials.api_key,
         apiSecret: credentials.api_secret
@@ -47,5 +45,5 @@ const initialize = function(config, emitter) {
       emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
     }
   }
-  return nexmo;
+  return null;
 };
