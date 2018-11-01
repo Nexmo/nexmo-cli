@@ -1,10 +1,12 @@
 import Client  from '../src/client.js';
 import Config  from '../src/config.js';
 import Emitter from '../src/emitter.js';
-import Nexmo from 'nexmo';
+import Nexmo   from 'nexmo';
 
 import { expect } from 'chai';
 import sinon      from 'sinon';
+import sinonTest  from 'sinon-test';
+const test = sinonTest(sinon);
 
 describe('Client', () => {
   it('should export a Client object', () => {
@@ -13,7 +15,7 @@ describe('Client', () => {
   });
 
   describe('.instance', () => {
-    it('should initialize the library of the filesystem', sinon.test(function () {
+    it('should initialize the library of the filesystem', test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
@@ -25,7 +27,7 @@ describe('Client', () => {
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
 
-    it('should allow for debugging', sinon.test(function () {
+    it('should allow for debugging', test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
@@ -38,7 +40,7 @@ describe('Client', () => {
       expect(nexmo.options.debug).to.be.true;
     }));
 
-    it('should pass along the user agent to the nexmo client', sinon.test(function () {
+    it('should pass along the user agent to the nexmo client', test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
@@ -53,7 +55,7 @@ describe('Client', () => {
   });
 
   describe('.instanceWith', () => {
-    it('should initialize a new library of the given credentials', sinon.test(function () {
+    it('should initialize a new library of the given credentials', test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
@@ -65,7 +67,7 @@ describe('Client', () => {
   });
 
   describe('.definition', () => {
-    it('should return the Nexmo definition', sinon.test(function () {
+    it('should return the Nexmo definition', test(function () {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
       let client = new Client(config, emitter);

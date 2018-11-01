@@ -3,6 +3,8 @@ import Emitter   from '../src/emitter.js';
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';
 import sinonChai        from 'sinon-chai';
+import sinonTest        from 'sinon-test';
+const test = sinonTest(sinon);
 
 chai.use(sinonChai);
 
@@ -19,7 +21,7 @@ describe('Emitter', () => {
   });
 
   describe('.quiet', () => {
-    it('should disable debug logs', sinon.test(function() {
+    it('should disable debug logs', test(function() {
       let log = this.stub(console, 'log');
       emitter.quiet();
       emitter.log('foobar');
@@ -28,7 +30,7 @@ describe('Emitter', () => {
   });
 
   describe('.verbose', () => {
-    it('should enable verbose logs', sinon.test(function() {
+    it('should enable verbose logs', test(function() {
       let log = this.stub(console, 'log');
       emitter.verbose();
       emitter.log('message', 'verbose message');
@@ -37,7 +39,7 @@ describe('Emitter', () => {
   });
 
   describe('.debug', () => {
-    it('should enable debug logs', sinon.test(function() {
+    it('should enable debug logs', test(function() {
       let log = this.stub(console, 'log');
       emitter.debug();
       emitter.debugger('message');
@@ -46,7 +48,7 @@ describe('Emitter', () => {
   });
 
   describe('.log', () => {
-    it('should put debug logs to console.log', sinon.test(function() {
+    it('should put debug logs to console.log', test(function() {
       let log = this.stub(console, 'log');
       emitter.log('foobar');
       expect(log).to.have.been.calledWith('foobar');
@@ -54,7 +56,7 @@ describe('Emitter', () => {
   });
 
   describe('.warn', () => {
-    it('should put warn logs to console.warn', sinon.test(function() {
+    it('should put warn logs to console.warn', test(function() {
       let warn = this.stub(console, 'warn');
       emitter.warn('foobar');
       expect(warn).to.have.been.calledWith('foobar');
@@ -62,7 +64,7 @@ describe('Emitter', () => {
   });
 
   describe('.error', () => {
-    it('should put error logs to console.error', sinon.test(function() {
+    it('should put error logs to console.error', test(function() {
       let error = this.stub(console, 'error');
       let exit = this.stub(process, 'exit');
       emitter.error('foobar');
@@ -72,7 +74,7 @@ describe('Emitter', () => {
   });
 
   describe('.debugger', () => {
-    it('should not output anything in normal mode', sinon.test(function() {
+    it('should not output anything in normal mode', test(function() {
       let log = this.stub(console, 'log');
       emitter.debugger('message');
       expect(log).not.to.have.been.called;
@@ -80,7 +82,7 @@ describe('Emitter', () => {
   });
 
   describe('.table', () => {
-    it('should output a table representation of the data', sinon.test(function() {
+    it('should output a table representation of the data', test(function() {
       let log = this.stub(console, 'log');
       let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
       let keys = ['name'];
@@ -92,7 +94,7 @@ describe('Emitter', () => {
       expect(log).to.have.been.calledWith('bar');
     }));
 
-    it('should support a verbose table', sinon.test(function() {
+    it('should support a verbose table', test(function() {
       let log = this.stub(console, 'log');
       let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
       let keys = ['name'];
@@ -109,7 +111,7 @@ describe('Emitter', () => {
   });
 
   describe('.list', () => {
-    it('should output message in regular mode', sinon.test(function() {
+    it('should output message in regular mode', test(function() {
       let log = this.stub(console, 'log');
       let data = {name: 'foo', count: 1};
       let message = 'foobar';
@@ -119,7 +121,7 @@ describe('Emitter', () => {
       expect(log).to.have.been.calledWith(message);
     }));
 
-    it('should output a list in verbose mode', sinon.test(function() {
+    it('should output a list in verbose mode', test(function() {
       let log = this.stub(console, 'log');
       let data = {name: 'foo', count: 1};
       let message = 'foobar';
@@ -132,7 +134,7 @@ describe('Emitter', () => {
   });
 
   describe('.pagination', () => {
-    it('should output the current page', sinon.test(function() {
+    it('should output the current page', test(function() {
       let log = this.stub(console, 'log');
       let data = { count: 2 };
       let flags = {};
@@ -145,7 +147,7 @@ describe('Emitter', () => {
       expect(log).to.have.been.calledWith(message);
     }));
 
-    it('should handle different pages', sinon.test(function() {
+    it('should handle different pages', test(function() {
       let log = this.stub(console, 'log');
       let data = { count: 102 };
       let flags = { page: 2 };
@@ -158,7 +160,7 @@ describe('Emitter', () => {
       expect(log).to.have.been.calledWith(message);
     }));
 
-    it('should handle different page sizes', sinon.test(function() {
+    it('should handle different page sizes', test(function() {
       let log = this.stub(console, 'log');
       let data = { count: 102 };
       let flags = { page: 4, size: 25 };

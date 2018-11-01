@@ -6,6 +6,8 @@ import Config    from '../src/config.js';
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';
 import sinonChai        from 'sinon-chai';
+import sinonTest        from 'sinon-test';
+const test = sinonTest(sinon);
 
 chai.use(sinonChai);
 
@@ -27,7 +29,7 @@ describe('Response', () => {
   });
 
   describe('.accountSetup', () => {
-    it('should validate the response and save the result', sinon.test(function() {
+    it('should validate the response and save the result', test(function() {
       var config = sinon.createStubInstance(Config);
 
       response.accountSetup(config, '123', 'abc', { local: false })(null, {});
@@ -37,7 +39,7 @@ describe('Response', () => {
   });
 
   describe('.accountInfo', () => {
-    it('should emit the result', sinon.test(function() {
+    it('should emit the result', test(function() {
       response.accountInfo({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
       expect(emitter.log).to.have.been.calledWith(`API Key:    123
 API Secret: 234`);
@@ -45,7 +47,7 @@ API Secret: 234`);
   });
 
   describe('.accountBalance', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.accountBalance(null, { value: 123.4567 });
       expect(validator.response).to.have.been.calledWith(null, { value: 123.4567});
       expect(emitter.log).to.have.been.calledWith('123.46 EUR', '123.4567 EUR');
@@ -53,7 +55,7 @@ API Secret: 234`);
   });
 
   describe('.priceSms', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.priceSms(null, { price: '123' });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
@@ -61,7 +63,7 @@ API Secret: 234`);
   });
 
   describe('.priceVoice', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.priceVoice(null, { price: '123' });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
@@ -69,13 +71,13 @@ API Secret: 234`);
   });
 
   describe('.priceCountry', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.priceCountry(null, { mt: '0.123', networks: []});
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('0.123 EUR');
     }));
 
-    it('should return the maximum value for a country', sinon.test(function() {
+    it('should return the maximum value for a country', test(function() {
       response.priceCountry(null, { mt: '0.123', networks: [{ mtPrice: '0.234' }]});
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('0.234 EUR');
@@ -251,17 +253,18 @@ API Secret: 234`);
 
   describe('.sensSms', () => {
     it('should print the response', () => {
-      let data = { 'message-count': '1',
-                    messages: [
-                       { to: '447518397784',
-                         'message-id': '02000000E6ED9837',
-                         status: '0',
-                         'remaining-balance': '26.83440000',
-                         'message-price': '0.03330000',
-                         network: '23410'
-                       }
-                    ]
-                  };
+      let data = {
+        'message-count': '1',
+        messages: [
+          { to: '447518397784',
+            'message-id': '02000000E6ED9837',
+            status: '0',
+            'remaining-balance': '26.83440000',
+            'message-price': '0.03330000',
+            network: '23410'
+          }
+        ]
+      };
 
       response.sendSms(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
@@ -272,7 +275,7 @@ Message price:     0.03330000 EUR`);
   });
 
   describe('.generateJwt', () => {
-    it('should emit the result', sinon.test(function() {
+    it('should emit the result', test(function() {
       response.generateJwt(null, 'a token!');
       expect(emitter.log).to.have.been.calledWith('a token!');
     }));
