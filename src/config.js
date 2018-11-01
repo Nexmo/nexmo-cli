@@ -42,12 +42,13 @@ class Config {
       this.emitter.warn('No existing config found. Writing to new file.');
     }
 
-    Object.entries(values).forEach(([group, vals]) => {
+    for (let group in values) {
       data[group] = data[group] || {};
+      const vals = values[group];
       for (const key in vals) {
         data[group][key] = vals[key];
       }
-    });
+    }
 
     try {
       this.write(data, writeLocal);

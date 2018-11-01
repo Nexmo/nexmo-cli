@@ -108,7 +108,8 @@ const formatMessage = function(record, lengths) {
 };
 
 const formatList = function(data = {}, prefix = '') {
-  return Object.entries(data).reduce((message, [key, value]) => {
+  const entries = Object.keys(data).map(key => [key, data[key]]);
+  return entries.reduce((message, [key, value]) => {
     if (typeof(value) === 'object') {
       return message + formatList(value, prefix+key+'.');
     }
