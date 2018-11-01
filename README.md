@@ -15,8 +15,6 @@ Install the `nexmo-cli` from NPM.
 npm install nexmo-cli -g
 ```
 
-*Note: you may need root/admin privileges to install the CLI globally.*
-
 After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
 ```bash
