@@ -7,7 +7,7 @@
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
 
 Install the `nexmo-cli` from NPM.
 
@@ -599,7 +599,7 @@ npm test # to run all tests
 npm run watch:test # to watch for changes and run tests
 ```
 
-You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+You can run the `nexmo` command with the `--debug` / `-d` flag to get extra debug info from the underlying Node.js library.
 
 # License
 
