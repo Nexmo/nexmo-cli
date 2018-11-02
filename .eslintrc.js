@@ -24,6 +24,13 @@ module.exports = {
             "error",
             "always"
         ],
+        "prefer-const": ["error", {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+        }],
+        "no-else-return": [
+            "warn"
+        ],
         "no-console": [
             "warn"
         ]

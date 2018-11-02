@@ -11,12 +11,12 @@ import Request   from './request';
 import Validator from './validator';
 import pckg      from '../package.json';
 
-let emitter   = new Emitter();
-let config    = new Config(emitter);
-let client    = new Client(config, emitter);
-let validator = new Validator(emitter);
-let response  = new Response(validator, emitter);
-let request   = new Request(config, client, response);
+const emitter   = new Emitter();
+const config    = new Config(emitter);
+const client    = new Client(config, emitter);
+const validator = new Validator(emitter);
+const response  = new Response(validator, emitter);
+const request   = new Request(config, client, response);
 
 commander
   .version(pckg.version)

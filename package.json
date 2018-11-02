@@ -6,8 +6,10 @@
   "scripts": {
     "prebuild": "eslint src",
     "build": "babel -d lib src/ -s inline",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "pretest": "eslint tests",
-    "test": "mocha  --compilers js:babel-register tests/*",
+    "test": "mocha --compilers js:babel-register tests/*",
     "watch:test": "watch 'npm test' tests src",
     "prepublish": "npm run build"
   },
@@ -50,5 +52,6 @@
     "commander": "^2.9.0",
     "ini": "^1.3.4",
     "nexmo": "^2.3.1"
-  }
+  },
+  "engines" : { "node" : ">=4.0.0" }
 }

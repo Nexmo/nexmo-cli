@@ -14,38 +14,38 @@ describe('Client', () => {
 
   describe('.instance', () => {
     it('should initialize the library of the filesystem', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
 
     it('should allow for debugging', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
       emitter.debugging = true;
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo.options.debug).to.be.true;
     }));
 
     it('should pass along the user agent to the nexmo client', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo.options.userAgent).to.match(/^nexmo-node\/[\d.]* node\/[\d.]* nexmo-cli\/[\d.]*$/);
     }));
@@ -54,11 +54,11 @@ describe('Client', () => {
 
   describe('.instanceWith', () => {
     it('should initialize a new library of the given credentials', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instanceWith(123, 234);
+      const client = new Client(config, emitter);
+      const nexmo = client.instanceWith(123, 234);
 
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
@@ -66,11 +66,11 @@ describe('Client', () => {
 
   describe('.definition', () => {
     it('should return the Nexmo definition', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
-      let client = new Client(config, emitter);
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
+      const client = new Client(config, emitter);
 
-      var definition = client.definition();
+      const definition = client.definition();
       expect(definition).to.equal(Nexmo);
     }));
   });
