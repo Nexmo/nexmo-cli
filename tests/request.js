@@ -671,7 +671,7 @@ describe('Request', () => {
 
     describe('.getCountryCode', () => {
       it('should return the country code if provided', test(function() {
-        let callback = sinon.spy();
+        const callback = sinon.spy();
         request.getCountryCode('44555666777', { country_code: 'GB' }, callback);
         expect(callback).to.have.been.calledWith('GB');
       }));

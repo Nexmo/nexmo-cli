@@ -253,7 +253,7 @@ API Secret: 234`);
 
   describe('.sensSms', () => {
     it('should print the response', () => {
-      let data = {
+      const data = {
         'message-count': '1',
         messages: [
           { to: '447518397784',

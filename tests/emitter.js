@@ -22,7 +22,7 @@ describe('Emitter', () => {
 
   describe('.quiet', () => {
     it('should disable debug logs', test(function() {
-      let log = this.stub(console, 'log');
+      const log = this.stub(console, 'log');
       emitter.quiet();
       emitter.log('foobar');
       expect(log).not.to.have.been.called;
@@ -31,7 +31,7 @@ describe('Emitter', () => {
 
   describe('.verbose', () => {
     it('should enable verbose logs', test(function() {
-      let log = this.stub(console, 'log');
+      const log = this.stub(console, 'log');
       emitter.verbose();
       emitter.log('message', 'verbose message');
       expect(log).to.have.been.calledWith('verbose message');
@@ -40,7 +40,7 @@ describe('Emitter', () => {
 
   describe('.debug', () => {
     it('should enable debug logs', test(function() {
-      let log = this.stub(console, 'log');
+      const log = this.stub(console, 'log');
       emitter.debug();
       emitter.debugger('message');
       expect(log).to.have.been.calledWith('message');
@@ -49,7 +49,7 @@ describe('Emitter', () => {
 
   describe('.log', () => {
     it('should put debug logs to console.log', test(function() {
-      let log = this.stub(console, 'log');
+      const log = this.stub(console, 'log');
       emitter.log('foobar');
       expect(log).to.have.been.calledWith('foobar');
     }));
@@ -57,7 +57,7 @@ describe('Emitter', () => {
 
   describe('.warn', () => {
     it('should put warn logs to console.warn', test(function() {
-      let warn = this.stub(console, 'warn');
+      const warn = this.stub(console, 'warn');
       emitter.warn('foobar');
       expect(warn).to.have.been.calledWith('foobar');
     }));
@@ -65,8 +65,8 @@ describe('Emitter', () => {
 
   describe('.error', () => {
     it('should put error logs to console.error', test(function() {
-      let error = this.stub(console, 'error');
-      let exit = this.stub(process, 'exit');
+      const error = this.stub(console, 'error');
+      const exit = this.stub(process, 'exit');
       emitter.error('foobar');
       expect(error).to.have.been.calledWith('foobar');
       expect(exit).to.have.been.calledWith(1);
@@ -75,7 +75,7 @@ describe('Emitter', () => {
 
   describe('.debugger', () => {
     it('should not output anything in normal mode', test(function() {
-      let log = this.stub(console, 'log');
+      const log = this.stub(console, 'log');
       emitter.debugger('message');
       expect(log).not.to.have.been.called;
     }));
@@ -83,10 +83,10 @@ describe('Emitter', () => {
 
   describe('.table', () => {
     it('should output a table representation of the data', test(function() {
-      let log = this.stub(console, 'log');
-      let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
-      let keys = ['name'];
-      let verbose_keys = ['name', 'count'];
+      const log = this.stub(console, 'log');
+      const data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
+      const keys = ['name'];
+      const verbose_keys = ['name', 'count'];
 
       emitter.table(data, keys, verbose_keys);
       expect(log).to.have.been.calledTwice;
@@ -95,10 +95,10 @@ describe('Emitter', () => {
     }));
 
     it('should support a verbose table', test(function() {
-      let log = this.stub(console, 'log');
-      let data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
-      let keys = ['name'];
-      let verbose_keys = ['name', 'count'];
+      const log = this.stub(console, 'log');
+      const data = [{name: 'foo', count: 1}, {name: 'bar', count: 2}];
+      const keys = ['name'];
+      const verbose_keys = ['name', 'count'];
 
       emitter.verbose();
       emitter.table(data, keys, verbose_keys);
@@ -112,9 +112,9 @@ describe('Emitter', () => {
 
   describe('.list', () => {
     it('should output message in regular mode', test(function() {
-      let log = this.stub(console, 'log');
-      let data = {name: 'foo', count: 1};
-      let message = 'foobar';
+      const log = this.stub(console, 'log');
+      const data = {name: 'foo', count: 1};
+      const message = 'foobar';
 
       emitter.list(message, data);
       expect(log).to.have.been.calledOnce;
@@ -122,9 +122,9 @@ describe('Emitter', () => {
     }));
 
     it('should output a list in verbose mode', test(function() {
-      let log = this.stub(console, 'log');
-      let data = {name: 'foo', count: 1};
-      let message = 'foobar';
+      const log = this.stub(console, 'log');
+      const data = {name: 'foo', count: 1};
+      const message = 'foobar';
 
       emitter.verbose();
       emitter.list(message, data);
@@ -135,9 +135,9 @@ describe('Emitter', () => {
 
   describe('.pagination', () => {
     it('should output the current page', test(function() {
-      let log = this.stub(console, 'log');
-      let data = { count: 2 };
-      let flags = {};
+      const log = this.stub(console, 'log');
+      const data = { count: 2 };
+      const flags = {};
       
       const message = 'Item 1-2 of 2\n';
 
@@ -148,9 +148,9 @@ describe('Emitter', () => {
     }));
 
     it('should handle different pages', test(function() {
-      let log = this.stub(console, 'log');
-      let data = { count: 102 };
-      let flags = { page: 2 };
+      const log = this.stub(console, 'log');
+      const data = { count: 102 };
+      const flags = { page: 2 };
       
       const message = 'Item 101-102 of 102\n';
 
@@ -161,9 +161,9 @@ describe('Emitter', () => {
     }));
 
     it('should handle different page sizes', test(function() {
-      let log = this.stub(console, 'log');
-      let data = { count: 102 };
-      let flags = { page: 4, size: 25 };
+      const log = this.stub(console, 'log');
+      const data = { count: 102 };
+      const flags = { page: 4, size: 25 };
       
       const message = 'Item 76-100 of 102\n';
 
