@@ -42,7 +42,7 @@ class Config {
       this.emitter.warn('No existing config found. Writing to new file.');
     }
 
-    for (let group in values) {
+    for (const group in values) {
       data[group] = data[group] || {};
       const vals = values[group];
       for (const key in vals) {
