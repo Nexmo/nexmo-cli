@@ -17,7 +17,13 @@ npm install nexmo-cli -g
 
 *Note: you may need root/admin privileges to install the CLI globally.*
 
-After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
+By default, the CLI will read your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret from the `NEXMO_API_KEY` and `NEXMO_API_SECRET` environment variables. For example, to get your balance:
+
+```bash
+NEXMO_API_KEY=1234 NEXMO_API_SECRET=abcd nexmo balance
+```
+
+Alternatively, you can save your API key and secret by using the following command:
 
 ```bash
 > nexmo setup <api_key> <api_secret>
