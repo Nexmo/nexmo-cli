@@ -21,17 +21,16 @@ class Config {
   }
 
   readFilename() {
-    let filename = localFile();
+    const filename = localFile();
     if (fs.existsSync(filename)) {
       return filename;
-    } else {
-      return homeFile();
     }
+    return homeFile();
   }
 
   writeFilename(local=false) {
     if (local) { return localFile(); }
-    else { return homeFile(); }
+    return homeFile();
   }
 
   putAndSave(values, writeLocal=false) {
@@ -44,10 +43,10 @@ class Config {
     }
 
     for (let group in values) {
-      let group_vals = values[group];
-      for (let key in group_vals) {
-        if (data[group] == undefined) { data[group] = {}; }
-        data[group][key] = group_vals[key];
+      data[group] = data[group] || {};
+      const vals = values[group];
+      for (const key in vals) {
+        data[group][key] = vals[key];
       }
     }
 
@@ -65,11 +64,11 @@ export default Config;
 
 // private methods
 
-let localFile = function() {
+const localFile = function() {
   return `${process.cwd()}/.nexmorc`;
 };
 
-let homeFile = function() {
-  let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
+const homeFile = function() {
+  const key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
   return `${process.env[key]}/.nexmorc`;
 };

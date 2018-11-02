@@ -13,7 +13,7 @@ class Request {
   }
 
   _verifyCredentials(key, secret, callback) {
-    let client = this.client.instanceWith(key, secret);
+    const client = this.client.instanceWith(key, secret);
     client.account.checkBalance(callback);
   }
 
@@ -44,7 +44,7 @@ class Request {
   // Numbers
 
   numbersList(flags) {
-    let options = { size: 100 };
+    const options = { size: 100 };
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
@@ -61,7 +61,7 @@ class Request {
   numberSearch(country_code, flags) {
     country_code = country_code.toUpperCase();
 
-    let options = { features: [], size: 100 };
+    const options = { features: [], size: 100 };
     if (flags.voice) { options.features.push('VOICE'); }
     if (flags.sms) { options.features.push('SMS'); }
     if (flags.page) { options.index = flags.page; }
@@ -96,7 +96,7 @@ class Request {
   }
 
   numberBuyFromSearch(country_code, pattern, flags) {
-    let options = { features: ['VOICE'] };
+    const options = { features: ['VOICE'] };
 
     if (pattern) {
       options.pattern = pattern;
@@ -121,7 +121,7 @@ class Request {
   // Applications
 
   applicationsList(flags) {
-    let options = { page_size: 100 };
+    const options = { page_size: 100 };
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.page_size = flags.size; }
 
@@ -129,7 +129,7 @@ class Request {
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
-    let options = {};
+    const options = {};
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
@@ -141,7 +141,7 @@ class Request {
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
-    let options = {};
+    const options = {};
     if (flags.answer_method) { options.answer_method = flags.answer_method; }
     if (flags.event_method) { options.event_method = flags.event_method; }
 
@@ -155,7 +155,7 @@ class Request {
   }
 
   applicationNumbers(app_id, flags) {
-    let options = {};
+    const options = {};
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
@@ -207,7 +207,7 @@ class Request {
   numberUpdate(number, flags) {
     number = stripPlus(number);
     this.getCountryCode(number, flags, (country_code) => {
-      let options = {};
+      const options = {};
       if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
       if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
       if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
@@ -220,7 +220,7 @@ class Request {
     if (flags == null) { flags = {}; }
     number = stripPlus(number);
     this.getCountryCode(number, flags, (country_code) => {
-      let options = {};
+      const options = {};
 
       if (voice_callback_type == 'sms') {
         options.moHttpUrl = mo_http_url;
@@ -274,7 +274,7 @@ class Request {
       }
 
       claims.forEach((claim) => {
-        let nameValue = claim.split('=');
+        const nameValue = claim.split('=');
         if (nameValue.length !== 2) {
           throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
         }
@@ -315,11 +315,11 @@ export default Request;
 
 // private methods
 
-let confirm = function (message, emitter, flags, callback) {
+const confirm = function (message, emitter, flags, callback) {
   if (flags.confirm) {
     callback();
   } else {
-    let cli = readline.createInterface(process.stdin, process.stdout);
+    const cli = readline.createInterface(process.stdin, process.stdout);
     cli.question(message + '\n\nPlease type "confirm" to continue: ', (answer) => {
       if (answer.toString().trim() == 'confirm') {
         emitter.log(' ');
@@ -334,11 +334,10 @@ let confirm = function (message, emitter, flags, callback) {
   }
 };
 
-let stripPlus = function (number) {
+const stripPlus = function (number) {
   if (!number) { return number; }
   while (number.charAt(0) === '+') {
     number = number.substr(1);
   }
   return number;
 };
-
