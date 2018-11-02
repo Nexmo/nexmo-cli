@@ -4,6 +4,8 @@ import Emitter   from '../src/emitter.js';
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';
 import sinonChai        from 'sinon-chai';
+import sinonTest        from 'sinon-test';
+const test = sinonTest(sinon);
 
 chai.use(sinonChai);
 
@@ -30,9 +32,9 @@ describe('Validator', () => {
 
     describe('when errors are present', () => {
       describe('due to error objects', () => {
-        it('should emit an error', sinon.test(function() {
-          const emitter = new Emitter();
-          const validator = new Validator();
+        it('should emit an error', test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator();
           validator.emitter = emitter;
 
           const stub = this.stub(emitter, 'error');
@@ -45,9 +47,9 @@ describe('Validator', () => {
       });
 
       describe('due to error codes in response objects', () => {
-        it('should emit an error', sinon.test(function() {
-          const emitter = new Emitter();
-          const validator = new Validator(emitter);
+        it('should emit an error', test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
 
           const stub = this.stub(emitter, 'error');
 
@@ -57,9 +59,9 @@ describe('Validator', () => {
           expect(stub).to.be.calledWith('foobar');
         }));
 
-        it('should ignore a 200 status', sinon.test(function() {
-          const emitter = new Emitter();
-          const validator = new Validator(emitter);
+        it('should ignore a 200 status', test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
 
           const stub = this.stub(emitter, 'error');
 
@@ -70,9 +72,9 @@ describe('Validator', () => {
       });
 
       describe('due to status errors', () => {
-        it('should emit an error', sinon.test(function() {
-          const emitter = new Emitter();
-          const validator = new Validator(emitter);
+        it('should emit an error', test(function() {
+          let emitter = new Emitter();
+          let validator = new Validator(emitter);
 
           const stub = this.stub(emitter, 'error');
 
