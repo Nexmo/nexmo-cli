@@ -21,8 +21,8 @@ describe('Client', () => {
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
@@ -34,8 +34,8 @@ describe('Client', () => {
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
       emitter.debugging = true;
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo.options.debug).to.be.true;
     }));
@@ -46,8 +46,8 @@ describe('Client', () => {
 
       config.read.returns({ credentials: { api_key: '123', api_secret: 'abc'}});
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instance();
+      const client = new Client(config, emitter);
+      const nexmo = client.instance();
 
       expect(nexmo.options.userAgent).to.match(/^nexmo-node\/[\d.]* node\/[\d.]* nexmo-cli\/[\d.]*$/);
     }));
@@ -59,8 +59,8 @@ describe('Client', () => {
       let emitter = sinon.createStubInstance(Emitter);
       let config = sinon.createStubInstance(Config);
 
-      let client = new Client(config, emitter);
-      let nexmo = client.instanceWith(123, 234);
+      const client = new Client(config, emitter);
+      const nexmo = client.instanceWith(123, 234);
 
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
@@ -72,7 +72,7 @@ describe('Client', () => {
       let config = sinon.createStubInstance(Config);
       let client = new Client(config, emitter);
 
-      var definition = client.definition();
+      const definition = client.definition();
       expect(definition).to.equal(Nexmo);
     }));
   });

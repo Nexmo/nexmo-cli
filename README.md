@@ -7,15 +7,16 @@
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system, goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
 
-Install the `nexmo-cli` from NPM.
+With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
 ```bash
-npm install nexmo-cli -g
+npm install nexmo-cli -g   # Using npm
+yarn global add nexmo-cli  # Using yarn
 ```
 
-*Note: you may need root/admin privileges to install the CLI globally.*
+> If you see an `EACCES` error when you try to install a package globally, follow the steps outlined at [_How to Prevent Permissions Errors_](https://docs.npmjs.com/getting-started/fixing-npm-permissions).
 
 After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
 
@@ -591,17 +592,17 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 
 This project is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
-To add changes fork (if needed) and clone the project.
+To add changes, fork and clone the project.
 
 ```bash
-npm install # to install all dependencies
-npm run build # to explicitly build the source
-npm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH
-npm test # to run all tests
+npm install        # to install all dependencies
+npm run build      # to explicitly build the source
+npm install -g ./  # to implicitly build the source, and then install the `nexmo` binary into your PATH
+npm test           # to run all tests
 npm run watch:test # to watch for changes and run tests
 ```
 
-You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+You can run the `nexmo` command with the `--debug` / `-d` flag to get extra debug info from the underlying Node.js library.
 
 # License
 

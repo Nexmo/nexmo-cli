@@ -139,7 +139,7 @@ describe('Emitter', () => {
       let data = { count: 2 };
       let flags = {};
       
-      let message = 'Item 1-2 of 2\n';
+      const message = 'Item 1-2 of 2\n';
 
       emitter.verbose();
       emitter.pagination(flags, data);
@@ -152,7 +152,7 @@ describe('Emitter', () => {
       let data = { count: 102 };
       let flags = { page: 2 };
       
-      let message = 'Item 101-102 of 102\n';
+      const message = 'Item 101-102 of 102\n';
 
       emitter.verbose();
       emitter.pagination(flags, data);
@@ -165,7 +165,7 @@ describe('Emitter', () => {
       let data = { count: 102 };
       let flags = { page: 4, size: 25 };
       
-      let message = 'Item 76-100 of 102\n';
+      const message = 'Item 76-100 of 102\n';
 
       emitter.verbose();
       emitter.pagination(flags, data);

@@ -86,7 +86,7 @@ API Secret: 234`);
 
   describe('.numbersList', () => {
     it('should print a list of numbers', () => {
-      let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      const data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
       response.numbersList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
@@ -100,7 +100,7 @@ API Secret: 234`);
 
   describe('.numberSearch', () => {
     it('should print a list of numbers', () => {
-      let data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      const data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
       response.numberSearch({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
@@ -114,7 +114,7 @@ API Secret: 234`);
 
   describe('.numberBuyFromNumber', () => {
     it('should print the response', () => {
-      let data = 'response';
+      const data = 'response';
       response.numberBuyFromNumber('123')(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Number purchased: 123');
@@ -123,7 +123,7 @@ API Secret: 234`);
 
   describe('.numberBuyFromPattern', () => {
     it('should call the callback', (done) => {
-      let method = response.numberBuyFromPattern(() => {
+      const method = response.numberBuyFromPattern(() => {
         done();
       });
 
@@ -134,7 +134,7 @@ API Secret: 234`);
 
   describe('.numberCancel', () => {
     it('should print the response', () => {
-      let data = 'response';
+      const data = 'response';
       response.numberCancel('123')(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Number cancelled: 123');
@@ -143,7 +143,7 @@ API Secret: 234`);
 
   describe('.numberInsight', () => {
     it('should call the callback', (done) => {
-      let method = response.numberInsight(() => {
+      const method = response.numberInsight(() => {
         done();
       });
 
@@ -154,7 +154,7 @@ API Secret: 234`);
 
   describe('.applicationsList', () => {
     it('should print a list of application', () => {
-      let data = {'_embedded':{'applications':[{'id':123}]}};
+      const data = {'_embedded':{'applications':[{'id':123}]}};
       response.applicationsList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.table).to.have.been.calledWith([{'id':123}], ['id', 'name'], ['id', 'name']);
@@ -168,8 +168,8 @@ API Secret: 234`);
 
   describe('.applicationCreate', () => {
     it('should print the response', () => {
-      let method = response.applicationCreate({ keys: {}});
-      let data = { id: 123, keys: { private_key: 'asdasdasd' } };
+      const method = response.applicationCreate({ keys: {}});
+      const data = { id: 123, keys: { private_key: 'asdasdasd' } };
 
       expect(method).to.be.a('function');
       method(null, data);
@@ -182,7 +182,7 @@ API Secret: 234`);
 
   describe('.applicationShow', () => {
     it('should print the response', () => {
-      let data = { id: 123 };
+      const data = { id: 123 };
       response.applicationShow(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith(null, data);
@@ -191,7 +191,7 @@ API Secret: 234`);
 
   describe('.applicationUpdate', () => {
     it('should print the response', () => {
-      let data = { id: 123 };
+      const data = { id: 123 };
       response.applicationUpdate(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('Application updated: 123', data);
@@ -200,7 +200,7 @@ API Secret: 234`);
 
   describe('.applicationDelete', () => {
     it('should print the response', () => {
-      let data = { id: 123 };
+      const data = { id: 123 };
       response.applicationDelete(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Application deleted');
@@ -209,7 +209,7 @@ API Secret: 234`);
 
   describe('.applicationNumbers', () => {
     it('should print a list of only the numbers that match', () => {
-      let data = {'count':1,'numbers':[
+      const data = {'count':1,'numbers':[
         {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'app_id'},
         {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'other_app_id'}
       ]};
@@ -226,7 +226,7 @@ API Secret: 234`);
 
   describe('.numberUpdate', () => {
     it('should print the response', () => {
-      let data = 'response';
+      const data = 'response';
       response.numberUpdate(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Number updated');
@@ -235,7 +235,7 @@ API Secret: 234`);
 
   describe('.insightBasic', () => {
     it('should print the response', () => {
-      let data = { international_format_number: 123, country_code: 'GB' };
+      const data = { international_format_number: 123, country_code: 'GB' };
       response.insightBasic(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('123 | GB', data);
@@ -244,7 +244,7 @@ API Secret: 234`);
 
   describe('.insightStandard', () => {
     it('should print the response', () => {
-      let data = { international_format_number: 123, country_code: 'GB', current_carrier: { name: 'Telco' } };
+      const data = { international_format_number: 123, country_code: 'GB', current_carrier: { name: 'Telco' } };
       response.insightStandard(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('123 | GB | Telco', data);

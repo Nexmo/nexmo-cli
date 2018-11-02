@@ -6,6 +6,8 @@
   "scripts": {
     "prebuild": "eslint src",
     "build": "babel -d lib src/ -s inline",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "pretest": "eslint tests",
     "test": "mocha --require @babel/register tests/*",
     "watch:test": "watch 'npm test' tests src",

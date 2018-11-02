@@ -18,14 +18,14 @@ describe('Validator', () => {
   describe('.response', () => {
     describe('when no errors are present', () => {
       it('should fall through quietely', () => {
-        let validator = new Validator(new Emitter());
+        const validator = new Validator(new Emitter());
         expect(validator.response(null, {})).to.be.undefined;
       });
     });
 
     describe('when no response is present', () => {
       it('should fall through quietely', () => {
-        let validator = new Validator(new Emitter());
+        const validator = new Validator(new Emitter());
         expect(validator.response(null, null)).to.be.undefined;
       });
     });
@@ -37,7 +37,7 @@ describe('Validator', () => {
           let validator = new Validator();
           validator.emitter = emitter;
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response({ message: 'error'}, {});
 
@@ -51,7 +51,7 @@ describe('Validator', () => {
           let emitter = new Emitter();
           let validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'error-code' : '500', 'error-code-label' : 'foobar'});
 
@@ -63,7 +63,7 @@ describe('Validator', () => {
           let emitter = new Emitter();
           let validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'error-code' : '200'});
 
@@ -76,7 +76,7 @@ describe('Validator', () => {
           let emitter = new Emitter();
           let validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'status' : '3', 'status_message' : 'foobar'});
 

@@ -31,11 +31,11 @@ describe('Config', () => {
 
   describe('.read', () => {
     it('should read out the file contents', () => {
-      let readFileSync = fs.readFileSync;
+      const readFileSync = fs.readFileSync;
       fs.readFileSync = function() {
         return ini_content;
       };
-      let data = config.read();
+      const data = config.read();
       expect(data).to.eql(credentials);
       fs.readFileSync = readFileSync;
     });
@@ -43,7 +43,7 @@ describe('Config', () => {
 
   describe('.write', () => {
     it('should write out the data', () => {
-      let writeFileSync = fs.writeFileSync;
+      const writeFileSync = fs.writeFileSync;
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(/\/\.nexmorc$/);
         expect(data).to.equal(ini_content);
@@ -63,9 +63,9 @@ describe('Config', () => {
     });
 
     it('should return the local path if a .nexmorc file exists locally', () => {
-      let cwd = process.cwd();
+      const cwd = process.cwd();
 
-      let existsSync = fs.existsSync;
+      const existsSync = fs.existsSync;
       fs.existsSync = function() {
         return true;
       };
@@ -90,7 +90,7 @@ describe('Config', () => {
 
   describe('.putAndSave', () => {
     it('should write the new data', () => {
-      let writeFileSync = fs.writeFileSync;
+      const writeFileSync = fs.writeFileSync;
 
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(config.readFilename());
@@ -102,12 +102,12 @@ describe('Config', () => {
     });
 
     it('should merge additional data', () => {
-      let initial_content = `[credentials]
+      const initial_content = `[credentials]
 api_key=123
 api_secret=abc
 `;
 
-      let expected_content = `[credentials]
+      const expected_content = `[credentials]
 api_key=234
 api_secret=abc
 
@@ -115,8 +115,8 @@ api_secret=abc
 foobar=1
 `;
 
-      let writeFileSync = fs.writeFileSync;
-      let readFileSync = fs.readFileSync;
+      const writeFileSync = fs.writeFileSync;
+      const readFileSync = fs.readFileSync;
 
       fs.readFileSync = function() {
         return initial_content;

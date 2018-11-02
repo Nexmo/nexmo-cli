@@ -51,7 +51,7 @@ API Secret: ${client.credentials.apiSecret}`
     if (response.networks && this.emitter.amplified) {
       this.emitter.table(response.networks, ['network', 'mtPrice'], ['network', 'mtPrice']);
     } else if (response.mt) {
-      let price = this._maxPrice(response);
+      const price = this._maxPrice(response);
       this.emitter.log(`${price} EUR`);
     } else {
       this.emitter.log('No price found');
@@ -59,7 +59,7 @@ API Secret: ${client.credentials.apiSecret}`
   }
 
   _maxPrice(response) {
-    let prices = response.networks.map((network) => {
+    const prices = response.networks.map((network) => {
       return parseFloat(network.mtPrice);
     });
     prices.push(parseFloat(response.mt));
