@@ -7,9 +7,21 @@ class Config {
   }
 
   read() {
-    this.credentials = ini.parse(
-      fs.readFileSync(this.readFilename(), 'utf-8')
-    );
+    const envApiKey = process.env.NEXMO_API_KEY;
+    const envApiSecret = process.env.NEXMO_API_SECRET;
+
+    if (envApiKey && envApiSecret) {
+      this.credentials = {
+        'credentials': {
+          'api_key': envApiKey,
+          'api_secret': envApiSecret
+        }
+      };
+    } else {
+      this.credentials = ini.parse(
+        fs.readFileSync(this.readFilename(), 'utf-8')
+      );
+    }
     return this.credentials;
   }
 
