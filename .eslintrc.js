@@ -2,7 +2,6 @@ module.exports = {
     "env": {
         "es6": true,
         "node": true,
-        "mocha": true,
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -24,6 +23,13 @@ module.exports = {
         "semi": [
             "error",
             "always"
+        ],
+        "prefer-const": ["error", {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+        }],
+        "no-else-return": [
+            "warn"
         ],
         "no-console": [
             "warn"
