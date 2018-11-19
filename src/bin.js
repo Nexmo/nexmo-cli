@@ -11,13 +11,13 @@ import Request   from './request';
 import Validator from './validator';
 import pckg      from '../package.json';
 
-let emitter   = new Emitter();
-let config    = new Config(emitter);
-let appConfig = new Config(emitter, "-app");
-let client    = new Client(config, emitter, appConfig);
-let validator = new Validator(emitter);
-let response  = new Response(validator, emitter);
-let request   = new Request(config, appConfig, client, response);
+const emitter   = new Emitter();
+const config    = new Config(emitter);
+const appConfig = new Config(emitter, "-app");
+const client    = new Client(config, emitter, appConfig);
+const validator = new Validator(emitter);
+const response  = new Response(validator, emitter);
+const request   = new Request(config, appConfig, client, response);
 
 commander
   .version(pckg.version)
@@ -86,7 +86,6 @@ commander
 commander
   .command('number:buy [number_pattern]')
   .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
-  .alias('numbers:buy')
   .alias('nb')
   .option('-c, --country_code [country_code]', 'the country code')
   .option('--confirm', 'skip confirmation step and directly buy the number' )
@@ -101,6 +100,26 @@ commander
     emitter.log(' ');
     emitter.log('    $ nexmo number:buy 445* -c GB');
     emitter.log('    $ nexmo number:buy -c US');
+    emitter.log(' ');
+  })
+  .action(request.numberBuy.bind(request));
+
+commander
+  .command('numbers:buy [number_pattern]')
+  .description('Buy a number to use for voice or SMS. If a --country_code is provided then the number_pattern is used to search for a number in the given country.')
+  .option('-c, --country_code [country_code]', 'the country code')
+  .option('--confirm', 'skip confirmation step and directly buy the number' )
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo numbers:buy 445555555555');
+    emitter.log('    $ nexmo numbers:buy 31555555555');
+    emitter.log('    $ nexmo numbers:buy 17136738555');
+    emitter.log(' ');
+    emitter.log('  Optionally directly search and buy a number:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo numbers:buy 445* -c GB');
+    emitter.log('    $ nexmo numbers:buy -c US');
     emitter.log(' ');
   })
   .action(request.numberBuy.bind(request));
@@ -177,7 +196,7 @@ commander
 
 commander
   .command('numbers:update <number>')
-  .description('Link a number to an application')
+  .description('Configure the handling of a number')
   .alias('nu')
   .option('--mo_http_url <mo_http_url>', 'used for SMS callbacks')
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
@@ -194,7 +213,7 @@ commander
 
 commander
   .command('number:update <number>', null, { noHelp: true })
-  .description('Link a number to an application')
+  .description('Configure the handling of a number')
   .option('--mo_http_url <mo_http_url>', 'used for SMS callbacks')
   .option('--voice_callback_type <voice_callback_type>', 'the voice callback type (any of app/sip/tel/vxml)')
   .option('--voice_callback_value <voice_callback_value>', 'the voice callback value based on the voice_callback_type')
@@ -238,9 +257,9 @@ commander
   .command('app:create <name> <answer_url> <event_url>')
   .description('Create a new Nexmo Application')
   .alias('ac')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
-  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
-  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to POST)')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -253,9 +272,9 @@ commander
 commander
   .command('apps:create <name> <answer_url> <event_url>', null, { noHelp: true })
   .description('Create a new Nexmo Application')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
-  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
-  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to GET)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -296,7 +315,7 @@ commander
   .command('app:update <app_id> <name> <answer_url> <event_url>')
   .description('Update a Nexmo Application')
   .alias('au')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
   .on('--help', () => {
@@ -310,7 +329,7 @@ commander
 commander
   .command('apps:update <app_id> <name> <answer_url> <event_url>', null, { noHelp: true })
   .description('Update a Nexmo Application')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
   .on('--help', () => {
@@ -383,20 +402,6 @@ commander
   .action(request.linkSms.bind(request));
 
 commander
-  .command('link:vxml <number> <callback_url>')
-  .alias('lv')
-  .description('Link a number to a vxml callback URL')
-  .option('--voice_status_callback <voice_status_callback>', 'a URL to which Nexmo will send a request when the call ends to notify your application.')
-  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
-  .on('--help', () => {
-    emitter.log('  Examples:');
-    emitter.log(' ');
-    emitter.log('    $ nexmo link:vxml 445555555555 http://example.com/callback');
-    emitter.log(' ');
-  })
-  .action(request.linkVxml.bind(request));
-
-commander
   .command('link:tel <number> <other_number>')
   .alias('lt')
   .description('Link a number to another number')
@@ -449,18 +454,6 @@ commander
     emitter.log(' ');
   })
   .action(request.unlinkSms.bind(request));
-
-commander
-  .command('unlink:vxml <number>')
-  .description('Unlink a number from a vxml callback URL')
-  .option('-c, --country_code [country_code]', 'manually provide the country code, overriding a dynamic lookup')
-  .on('--help', () => {
-    emitter.log('  Examples:');
-    emitter.log(' ');
-    emitter.log('    $ nexmo unlink:vxml 445555555555');
-    emitter.log(' ');
-  })
-  .action(request.unlinkVxml.bind(request));
 
 commander
   .command('unlink:tel <number>')

@@ -21,7 +21,7 @@ class Response {
 
   accountInfo(client) {
     this.emitter.log(
-`API Key:    ${client.credentials.apiKey}
+      `API Key:    ${client.credentials.apiKey}
 API Secret: ${client.credentials.apiSecret}`
     );
   }
@@ -51,7 +51,7 @@ API Secret: ${client.credentials.apiSecret}`
     if (response.networks && this.emitter.amplified) {
       this.emitter.table(response.networks, ['network', 'mtPrice'], ['network', 'mtPrice']);
     } else if (response.mt) {
-      let price = this._maxPrice(response);
+      const price = this._maxPrice(response);
       this.emitter.log(`${price} EUR`);
     } else {
       this.emitter.log('No price found');
@@ -59,7 +59,7 @@ API Secret: ${client.credentials.apiSecret}`
   }
 
   _maxPrice(response) {
-    let prices = response.networks.map((network) => {
+    const prices = response.networks.map((network) => {
       return parseFloat(network.mtPrice);
     });
     prices.push(parseFloat(response.mt));
@@ -134,6 +134,23 @@ API Secret: ${client.credentials.apiSecret}`
         this.emitter.table(response._embedded.applications, ['id', 'name'], ['id', 'name']);
       } else {
         this.emitter.warn('No applications');
+      }
+    };
+  }
+
+  searchByPartialAppId(partialAppId) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      const matches = response._embedded.applications.filter(application => application.id.startsWith(partialAppId));
+      if (matches.length == 0) {
+        this.emitter.warn(`No applications found with ID beginning: ${partialAppId}`);
+      } else if (matches.length > 1) {
+        this.emitter.warn(
+          `Multiple applications found with ID beginning: ${partialAppId}\n` +
+          'Try again with a more specific ID'
+        );
+      } else {
+        return matches[0].id;
       }
     };
   }

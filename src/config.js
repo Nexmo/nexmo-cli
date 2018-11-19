@@ -8,9 +8,21 @@ class Config {
   }
 
   read() {
-    this.credentials = ini.parse(
-      fs.readFileSync(this.readFilename(), 'utf-8')
-    );
+    const envApiKey = process.env.NEXMO_API_KEY;
+    const envApiSecret = process.env.NEXMO_API_SECRET;
+
+    if (envApiKey && envApiSecret) {
+      this.credentials = {
+        'credentials': {
+          'api_key': envApiKey,
+          'api_secret': envApiSecret
+        }
+      };
+    } else {
+      this.credentials = ini.parse(
+        fs.readFileSync(this.readFilename(), 'utf-8')
+      );
+    }
     return this.credentials;
   }
 
@@ -22,17 +34,16 @@ class Config {
   }
 
   readFilename() {
-    let filename = localFile(this.type);
+    const filename = localFile(this.type);
     if (fs.existsSync(filename)) {
       return filename;
-    } else {
-      return homeFile(this.type);
     }
+    return homeFile(this.type);
   }
 
   writeFilename(local=false) {
     if (local) { return localFile(this.type); }
-    else { return homeFile(this.type); }
+    return homeFile(this.type);
   }
 
   putAndSave(values, writeLocal=false) {
@@ -44,11 +55,11 @@ class Config {
       this.emitter.warn('No existing config found. Writing to new file.');
     }
 
-    for (let group in values) {
-      let group_vals = values[group];
-      for (let key in group_vals) {
-        if (data[group] == undefined) { data[group] = {}; }
-        data[group][key] = group_vals[key];
+    for (const group in values) {
+      data[group] = data[group] || {};
+      const vals = values[group];
+      for (const key in vals) {
+        data[group][key] = vals[key];
       }
     }
 
@@ -66,11 +77,11 @@ export default Config;
 
 // private methods
 
-let localFile = function(type) {
+const localFile = function(type) {
   return `${process.cwd()}/.nexmo${type}`;
 };
 
-let homeFile = function(type) {
-  let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
+const homeFile = function(type) {
+  const key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
   return `${process.env[key]}/.nexmo${type}`;
 };

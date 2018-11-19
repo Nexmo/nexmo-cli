@@ -2,8 +2,8 @@ import readline from 'readline';
 
 class Request {
   constructor(config, appConfig, client, response) {
-    this.config   = config;
-    this.client   = client;
+    this.config = config;
+    this.client = client;
     this.response = response;
     this.appConfig = appConfig;
   }
@@ -14,7 +14,7 @@ class Request {
   }
 
   _verifyCredentials(key, secret, callback) {
-    let client = this.client.instanceWith(key, secret);
+    const client = this.client.instanceWith(key, secret);
     client.account.checkBalance(callback);
   }
 
@@ -45,9 +45,15 @@ class Request {
   // Numbers
 
   numbersList(flags) {
-    let options = { size: 100 };
-    if (flags.page) { options.index = flags.page; }
-    if (flags.size) { options.size = flags.size; }
+    const options = {
+      size: 100
+    };
+    if (flags.page) {
+      options.index = flags.page;
+    }
+    if (flags.size) {
+      options.size = flags.size;
+    }
 
     if (flags.pattern) {
       options.pattern = flags.pattern;
@@ -62,11 +68,22 @@ class Request {
   numberSearch(country_code, flags) {
     country_code = country_code.toUpperCase();
 
-    let options = { features: [], size: 100 };
-    if (flags.voice) { options.features.push('VOICE'); }
-    if (flags.sms) { options.features.push('SMS'); }
-    if (flags.page) { options.index = flags.page; }
-    if (flags.size) { options.size = flags.size; }
+    const options = {
+      features: [],
+      size: 100
+    };
+    if (flags.voice) {
+      options.features.push('VOICE');
+    }
+    if (flags.sms) {
+      options.features.push('SMS');
+    }
+    if (flags.page) {
+      options.index = flags.page;
+    }
+    if (flags.size) {
+      options.size = flags.size;
+    }
 
     if (flags.pattern) {
       options.pattern = flags.pattern;
@@ -81,8 +98,7 @@ class Request {
   numberBuy(numberOrPattern, command) {
     if (command.country_code) {
       this.numberBuyFromSearch(command.country_code, numberOrPattern, command);
-    }
-    else {
+    } else {
       this.numberBuyFromNumber(numberOrPattern, command);
     }
   }
@@ -97,7 +113,9 @@ class Request {
   }
 
   numberBuyFromSearch(country_code, pattern, flags) {
-    let options = { features: ['VOICE'] };
+    const options = {
+      features: ['VOICE']
+    };
 
     if (pattern) {
       options.pattern = pattern;
@@ -122,19 +140,42 @@ class Request {
   // Applications
 
   applicationsList(flags) {
-    let options = { page_size: 100 };
-    if (flags.page) { options.index = flags.page; }
-    if (flags.size) { options.page_size = flags.size; }
+    const options = {
+      page_size: 100
+    };
+    if (flags.page) {
+      options.index = flags.page;
+    }
+    if (flags.size) {
+      options.page_size = flags.size;
+    }
 
     this.client.instance().app.get(options, this.response.applicationsList(flags).bind(this.response));
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
-    let options = {};
-    if (flags.answer_method) { options.answer_method = flags.answer_method; }
-    if (flags.event_method) { options.event_method = flags.event_method; }
+    const options = {};
+    if (flags.answer_method) {
+      options.answer_method = flags.answer_method;
+    }
+    if (flags.event_method) {
+      options.event_method = flags.event_method;
+    }
 
-    this.client.instance().app.create(name, flags.type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
+    let type = flags.type;
+
+    switch (flags.type) {
+    case "messages":
+      options.inbound_url = answer_url;
+      options.status_url = event_url;
+      break;
+    case "artc":
+      type = "rtc";
+      break;
+    default:
+    }
+
+    this.client.instance().app.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
   }
 
   applicationShow(app_id) {
@@ -146,16 +187,33 @@ class Request {
   }
 
   _verifyApplication(app_id, private_key, callback) {
-    let client = this.client.instanceWithApp(app_id, private_key);
+    const client = this.client.instanceWithApp(app_id, private_key);
     client.app.get(app_id, callback);
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
-    let options = {};
-    if (flags.answer_method) { options.answer_method = flags.answer_method; }
-    if (flags.event_method) { options.event_method = flags.event_method; }
+    const options = {};
+    if (flags.answer_method) {
+      options.answer_method = flags.answer_method;
+    }
+    if (flags.event_method) {
+      options.event_method = flags.event_method;
+    }
 
-    this.client.instance().app.update(app_id, name, flags.type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
+    let type = flags.type;
+
+    switch (flags.type) {
+    case "messages":
+      options.inbound_url = answer_url;
+      options.status_url = event_url;
+      break;
+    case "artc":
+      type = "rtc";
+      break;
+    default:
+    }
+
+    this.client.instance().app.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
   }
 
   applicationDelete(app_id, flags) {
@@ -165,10 +223,15 @@ class Request {
   }
 
   applicationNumbers(app_id, flags) {
-    let options = {};
-    if (flags.page) { options.index = flags.page; }
-    if (flags.size) { options.size = flags.size; }
+    const options = {};
+    if (flags.page) {
+      options.index = flags.page;
+    }
+    if (flags.size) {
+      options.size = flags.size;
+    }
 
+    app_id = this.client.instance().app.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
     this.client.instance().number.get(options, this.response.applicationNumbers(app_id, flags).bind(this.response));
   }
 
@@ -190,10 +253,6 @@ class Request {
     this._link(number, flags, null, 'sip', sip_uri, flags.voice_status_callback);
   }
 
-  linkVxml(number, calback_url, flags) {
-    this._link(number, flags, null, 'vxml', calback_url, flags.voice_status_callback);
-  }
-
   unlinkApp(number, flags) {
     this._link(number, flags, null, 'app');
   }
@@ -210,14 +269,10 @@ class Request {
     this._link(number, flags, null, 'sip');
   }
 
-  unlinkVxml(number, flags) {
-    this._link(number, flags, null, 'vxml');
-  }
-
   numberUpdate(number, flags) {
     number = stripPlus(number);
     this.getCountryCode(number, flags, (country_code) => {
-      let options = {};
+      const options = {};
       if (flags.mo_http_url) options.moHttpUrl = flags.mo_http_url;
       if (flags.voice_callback_type) options.voiceCallbackType = flags.voice_callback_type;
       if (flags.voice_callback_value) options.voiceCallbackValue = flags.voice_callback_value;
@@ -227,10 +282,12 @@ class Request {
   }
 
   _link(number, flags, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
-    if (flags == null) { flags = {}; }
+    if (flags == null) {
+      flags = {};
+    }
     number = stripPlus(number);
     this.getCountryCode(number, flags, (country_code) => {
-      let options = {};
+      const options = {};
 
       if (voice_callback_type == 'sms') {
         options.moHttpUrl = mo_http_url;
@@ -248,20 +305,29 @@ class Request {
 
   insightBasic(number) {
     number = stripPlus(number);
-    this.client.instance().numberInsight.get({ level: 'basic', number: number }, this.response.insightBasic.bind(this.response));
+    this.client.instance().numberInsight.get({
+      level: 'basic',
+      number: number
+    }, this.response.insightBasic.bind(this.response));
   }
 
   insightStandard(number, flags) {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({ level: 'standard', number: number }, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({
+        level: 'standard',
+        number: number
+      }, this.response.insightStandard.bind(this.response));
     });
   }
 
   insightAdvanced(number, flags) {
     number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
-      this.client.instance().numberInsight.get({ level: 'advancedSync', number: number }, this.response.insightStandard.bind(this.response));
+      this.client.instance().numberInsight.get({
+        level: 'advancedSync',
+        number: number
+      }, this.response.insightStandard.bind(this.response));
     });
   }
 
@@ -284,7 +350,7 @@ class Request {
       }
 
       claims.forEach((claim) => {
-        let nameValue = claim.split('=');
+        const nameValue = claim.split('=');
         if (nameValue.length !== 2) {
           throw new Error('All claims must be in the form `name=value`. Got: ' + nameValue);
         }
@@ -302,8 +368,7 @@ class Request {
       });
 
       token = this.client.definition().generateJwt(privateKey, fullClaims);
-    }
-    catch (ex) {
+    } catch (ex) {
       error = ex;
     }
     this.response.generateJwt(error, token);
@@ -328,9 +393,11 @@ class Request {
   getCountryCode(number, flags, callback) {
     if (flags.country_code) {
       callback(flags.country_code);
-    }
-    else {
-      this.client.instance().numberInsight.get({ level: 'basic', number: number }, this.response.numberInsight((response) => {
+    } else {
+      this.client.instance().numberInsight.get({
+        level: 'basic',
+        number: number
+      }, this.response.numberInsight((response) => {
         callback(response.country_code);
       }));
     }
@@ -341,30 +408,30 @@ export default Request;
 
 // private methods
 
-let createPayload = function(payload) {
+const createPayload = function(payload) {
   const finalPayload = {};
 
   payload.forEach((p) => {
-    let nameValue = p.split('=');
-    if(nameValue.length !== 2) {
+    const nameValue = p.split('=');
+    if (nameValue.length !== 2) {
       throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
     }
 
     try {
-      finalPayload[ nameValue[0] ] = JSON.parse(nameValue[1]);
+      finalPayload[nameValue[0]] = JSON.parse(nameValue[1]);
     } catch (e) {
-      finalPayload[ nameValue[0] ] = nameValue[1];
+      finalPayload[nameValue[0]] = nameValue[1];
     }
   });
 
   return finalPayload;
 };
 
-let confirm = function(message, emitter, flags, callback) {
+const confirm = function(message, emitter, flags, callback) {
   if (flags.confirm) {
     callback();
   } else {
-    let cli = readline.createInterface(process.stdin, process.stdout);
+    const cli = readline.createInterface(process.stdin, process.stdout);
     cli.question(message + '\n\nPlease type "confirm" to continue: ', (answer) => {
       if (answer.toString().trim() == 'confirm') {
         emitter.log(' ');
@@ -379,8 +446,10 @@ let confirm = function(message, emitter, flags, callback) {
   }
 };
 
-let stripPlus = function (number) {
-  if (!number) { return number; }
+const stripPlus = function(number) {
+  if (!number) {
+    return number;
+  }
   while (number.charAt(0) === '+') {
     number = number.substr(1);
   }

@@ -4,6 +4,7 @@ import Emitter  from '../src/emitter.js';
 import { expect } from 'chai';
 import sinon      from 'sinon';
 import fs         from 'fs';
+import os from 'os';
 
 describe('Config', () => {
   let emitter;
@@ -14,10 +15,12 @@ describe('Config', () => {
   beforeEach(() => {
     emitter = sinon.createStubInstance(Emitter);
     config = new Config(emitter);
-    ini_content = `[credentials]
-api_key=123
-api_secret=abc
-`;
+    ini_content = [
+      '[credentials]', 
+      'api_key=123', 
+      'api_secret=abc',
+      ''
+    ].join(os.EOL);
     credentials = { credentials: { api_key: '123', api_secret: 'abc'}};
   });
 
@@ -28,19 +31,26 @@ api_secret=abc
 
   describe('.read', () => {
     it('should read out the file contents', () => {
-      let readFileSync = fs.readFileSync;
+      const readFileSync = fs.readFileSync;
       fs.readFileSync = function() {
         return ini_content;
       };
-      let data = config.read();
+      const data = config.read();
       expect(data).to.eql(credentials);
       fs.readFileSync = readFileSync;
+    });
+    it('should read from the environment', () => {
+      process.env.NEXMO_API_KEY = '123';
+      process.env.NEXMO_API_SECRET = 'abc';
+
+      const data = config.read();
+      expect(data).to.eql(credentials);
     });
   });
 
   describe('.write', () => {
     it('should write out the data', () => {
-      let writeFileSync = fs.writeFileSync;
+      const writeFileSync = fs.writeFileSync;
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(/\/\.nexmorc$/);
         expect(data).to.equal(ini_content);
@@ -60,9 +70,9 @@ api_secret=abc
     });
 
     it('should return the local path if a .nexmorc file exists locally', () => {
-      let cwd = process.cwd();
+      const cwd = process.cwd();
 
-      let existsSync = fs.existsSync;
+      const existsSync = fs.existsSync;
       fs.existsSync = function() {
         return true;
       };
@@ -87,7 +97,7 @@ api_secret=abc
 
   describe('.putAndSave', () => {
     it('should write the new data', () => {
-      let writeFileSync = fs.writeFileSync;
+      const writeFileSync = fs.writeFileSync;
 
       fs.writeFileSync = function(filename, data){
         expect(filename).to.match(config.readFilename());
@@ -99,12 +109,12 @@ api_secret=abc
     });
 
     it('should merge additional data', () => {
-      let initial_content = `[credentials]
+      const initial_content = `[credentials]
 api_key=123
 api_secret=abc
 `;
 
-      let expected_content = `[credentials]
+      const expected_content = `[credentials]
 api_key=234
 api_secret=abc
 
@@ -112,8 +122,8 @@ api_secret=abc
 foobar=1
 `;
 
-      let writeFileSync = fs.writeFileSync;
-      let readFileSync = fs.readFileSync;
+      const writeFileSync = fs.writeFileSync;
+      const readFileSync = fs.readFileSync;
 
       fs.readFileSync = function() {
         return initial_content;

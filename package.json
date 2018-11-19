@@ -1,13 +1,15 @@
 {
   "name": "nexmo-cli",
-  "version": "0.4.7-beta-1",
+  "version": "0.4.8-beta-1",
   "description": "Nexmo Command Line Interface",
   "main": "lib/request.js",
   "scripts": {
     "prebuild": "eslint src",
     "build": "babel -d lib src/ -s inline",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "pretest": "eslint tests",
-    "test": "mocha  --compilers js:babel-register tests/*",
+    "test": "mocha --require @babel/register tests/*",
     "watch:test": "watch 'npm test' tests src",
     "prepublish": "npm run build",
     "debug": "node --nolazy --inspect-brk=9229 lib/bin.js"
@@ -37,20 +39,25 @@
   ],
   "homepage": "https://github.com/nexmo/nexmo-cli",
   "devDependencies": {
-    "babel-cli": "^6.7.7",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-register": "^6.7.2",
-    "chai": "^3.5.0",
-    "eslint": "^2.9.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.8.0",
     "mocha": "^5.2.0",
-    "sinon": "^1.17.3",
-    "sinon-chai": "^2.8.0",
-    "watch": "^0.18.0"
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.2.0",
+    "sinon-test": "^2.4.0",
+    "watch": "^1.0.2"
   },
   "dependencies": {
-    "colors": "^1.1.2",
-    "commander": "^2.9.0",
+    "colors": "^1.3.2",
+    "commander": "^2.19.0",
     "ini": "^1.3.4",
-    "nexmo": "2.3.1-beta-1"
+    "nexmo": "2.4.2-beta-1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }

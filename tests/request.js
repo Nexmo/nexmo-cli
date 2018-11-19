@@ -17,6 +17,8 @@ import Members        from 'nexmo/lib/Members';
 import chai, { expect } from 'chai';
 import sinon      from 'sinon';
 import sinonChai  from 'sinon-chai';
+import sinonTest        from 'sinon-test';
+const test = sinonTest(sinon);
 
 chai.use(sinonChai);
 
@@ -43,7 +45,7 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      it('should verifiy the credentials', test(function(){
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
@@ -55,7 +57,7 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      it('should verifiy the credentials', test(function(){
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
@@ -67,7 +69,7 @@ describe('Request', () => {
     });
 
     describe('.accountInfo', () => {
-      it('should read the credentials', sinon.test(function() {
+      it('should read the credentials', test(function() {
         nexmo = { credentials: 'credentials' };
         client.instance.returns(nexmo);
         request.accountInfo();
@@ -76,7 +78,7 @@ describe('Request', () => {
     });
 
     describe('.accountBalance', () => {
-      it('should call nexmo.account.checkBalance', sinon.test(function() {
+      it('should call nexmo.account.checkBalance', test(function() {
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instance.returns(nexmo);
@@ -86,7 +88,7 @@ describe('Request', () => {
     });
 
     describe('.priceVoice', () => {
-      it('should call nexmo.number.getPhonePricing', sinon.test(function() {
+      it('should call nexmo.number.getPhonePricing', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -94,7 +96,7 @@ describe('Request', () => {
         expect(nexmo.number.getPhonePricing).to.have.been.called;
       }));
 
-      it('should accept a + in the number', sinon.test(function() {
+      it('should accept a + in the number', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -104,7 +106,7 @@ describe('Request', () => {
     });
 
     describe('.priceSms', () => {
-      it('should call nexmo.number.getPhonePricing', sinon.test(function() {
+      it('should call nexmo.number.getPhonePricing', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -114,7 +116,7 @@ describe('Request', () => {
     });
 
     describe('.priceCountry', () => {
-      it('should call nexmo.number.getPricing', sinon.test(function() {
+      it('should call nexmo.number.getPricing', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -124,7 +126,7 @@ describe('Request', () => {
     });
 
     describe('.numbersList', () => {
-      it('should call nexmo.number.get', sinon.test(function() {
+      it('should call nexmo.number.get', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -134,7 +136,7 @@ describe('Request', () => {
         expect(nexmo.number.get).to.have.been.calledWith({ size: 100 });
       }));
 
-      it('should parse a page flag', sinon.test(function() {
+      it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -143,7 +145,7 @@ describe('Request', () => {
         expect(nexmo.number.get).to.have.been.calledWith({ index: 2, size: 100 });
       }));
 
-      it('should parse a size flag', sinon.test(function() {
+      it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -152,7 +154,7 @@ describe('Request', () => {
         expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
       }));
 
-      it('should handle search with a default search_pattern of 1', sinon.test(function() {
+      it('should handle search with a default search_pattern of 1', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -163,7 +165,7 @@ describe('Request', () => {
         expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 1, size: 100 });
       }));
 
-      it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
+      it('should handle search with a search_pattern of 2 when * is the first pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -174,7 +176,7 @@ describe('Request', () => {
         expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 2, size: 100 });
       }));
 
-      it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
+      it('should handle search with a search_pattern of 0 when * is the last pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -187,7 +189,7 @@ describe('Request', () => {
     });
 
     describe('.numberSearch', () => {
-      it('should call nexmo.number.search', sinon.test(function() {
+      it('should call nexmo.number.search', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -196,7 +198,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 100 });
       }));
 
-      it('should parse a voice flag', sinon.test(function() {
+      it('should parse a voice flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -205,7 +207,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE'], size: 100 });
       }));
 
-      it('should parse a sms flag', sinon.test(function() {
+      it('should parse a sms flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -214,7 +216,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['SMS'], size: 100 });
       }));
 
-      it('should parse both the sms and voice flag', sinon.test(function() {
+      it('should parse both the sms and voice flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -223,7 +225,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE','SMS'], size: 100 });
       }));
 
-      it('should parse a page flag', sinon.test(function() {
+      it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -232,7 +234,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], index: 2, size: 100 });
       }));
 
-      it('should parse a size flag', sinon.test(function() {
+      it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -241,7 +243,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 25 });
       }));
 
-      it('should pass the pattern flag without a wildcard', sinon.test(function() {
+      it('should pass the pattern flag without a wildcard', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -250,7 +252,7 @@ describe('Request', () => {
         expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1, size: 100 });
       }));
 
-      it('should pass the pattern flag with a start-of wildcard', sinon.test(function() {
+      it('should pass the pattern flag with a start-of wildcard', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -261,7 +263,7 @@ describe('Request', () => {
     });
 
     describe('.numberBuy', () => {
-      it('should call the library', sinon.test(function() {
+      it('should call the library', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -269,7 +271,7 @@ describe('Request', () => {
         expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '123' });
       }));
 
-      it('should handle search with a default search_pattern of 1', sinon.test(function() {
+      it('should handle search with a default search_pattern of 1', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -287,7 +289,7 @@ describe('Request', () => {
         );
       }));
 
-      it('should handle search with a search_pattern of 2 when * is the first pattern char', sinon.test(function() {
+      it('should handle search with a search_pattern of 2 when * is the first pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -305,7 +307,7 @@ describe('Request', () => {
         );
       }));
 
-      it('should handle search with a search_pattern of 0 when * is the last pattern char', sinon.test(function() {
+      it('should handle search with a search_pattern of 0 when * is the last pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
@@ -341,7 +343,7 @@ describe('Request', () => {
     });
 
     describe('.numberCancel', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -349,7 +351,7 @@ describe('Request', () => {
         expect(nexmo.numberInsight.get).to.have.been.called;
       }));
 
-      it('should call nexmo.number.cancel if the country code was forced', sinon.test(function() {
+      it('should call nexmo.number.cancel if the country code was forced', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         nexmo.response = sinon.createStubInstance(Response);
@@ -361,7 +363,7 @@ describe('Request', () => {
     });
 
     describe('.applicationsList', () => {
-      it('should call nexmo.app.get', sinon.test(function() {
+      it('should call nexmo.app.get', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -370,7 +372,7 @@ describe('Request', () => {
         expect(nexmo.app.get).to.have.been.calledWith({page_size: 100});
       }));
 
-      it('should parse a page flag', sinon.test(function() {
+      it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -379,7 +381,7 @@ describe('Request', () => {
         expect(nexmo.app.get).to.have.been.calledWith({ index: 2, page_size: 100 });
       }));
 
-      it('should parse a size flag', sinon.test(function() {
+      it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -390,7 +392,7 @@ describe('Request', () => {
     });
 
     describe('.applicationCreate', () => {
-      it('should call nexmo.app.create', sinon.test(function() {
+      it('should call nexmo.app.create', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -398,7 +400,7 @@ describe('Request', () => {
         expect(nexmo.app.create).to.have.been.called;
       }));
 
-      it('should parse a answer_method flag', sinon.test(function() {
+      it('should parse a answer_method flag', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -406,7 +408,7 @@ describe('Request', () => {
         expect(nexmo.app.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
       }));
 
-      it('should parse a event_method flag', sinon.test(function() {
+      it('should parse a event_method flag', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -416,7 +418,7 @@ describe('Request', () => {
     });
 
     describe('.applicationShow', () => {
-      it('should call the library', sinon.test(function() {
+      it('should call the library', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -426,7 +428,7 @@ describe('Request', () => {
     });
 
     describe('.applicationSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      it('should verifiy the credentials', test(function(){
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instanceWithApp.returns(nexmo);
@@ -438,7 +440,7 @@ describe('Request', () => {
     });
 
     describe('.applicationUpdate', () => {
-      it('should call the library', sinon.test(function() {
+      it('should call the library', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -446,7 +448,7 @@ describe('Request', () => {
         expect(nexmo.app.update).to.have.been.called;
       }));
 
-      it('should parse a answer_method flag', sinon.test(function() {
+      it('should parse a answer_method flag', test(function() {
         nexmo = {};
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
@@ -455,7 +457,7 @@ describe('Request', () => {
         expect(nexmo.app.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
       }));
 
-      it('should parse a event_method flag', sinon.test(function() {
+      it('should parse a event_method flag', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -465,7 +467,7 @@ describe('Request', () => {
     });
 
     describe('.applicationDelete', () => {
-      it('should call the library', sinon.test(function() {
+      it('should call the library', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
@@ -475,28 +477,46 @@ describe('Request', () => {
     });
 
     describe('.applicationNumbers', () => {
-      it('should call nexmo.number.get', sinon.test(function() {
+      it('should call nexmo.app.get', test(function () {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.applicationsList.returns(()=>{});
+        response.searchByPartialAppId.returns(()=>{});
+        response.applicationNumbers.returns(()=>{});
+        request.applicationNumbers('app_id', {});
+        expect(nexmo.app.get).to.have.been.calledWith({});
+      }));
+
+      it('should call nexmo.number.get', test(function() {
+        nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
+        nexmo.number = sinon.createStubInstance(Number);
+        client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', {});
         expect(nexmo.number.get).to.have.been.called;
       }));
 
-      it('should parse a page flag', sinon.test(function() {
+      it('should parse a page flag', test(function() {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', { page: 2 });
         expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
       }));
 
-      it('should parse a size flag', sinon.test(function() {
+      it('should parse a size flag', test(function() {
         nexmo = {};
+        nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
+        response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', { size: 25 });
         expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
@@ -504,7 +524,7 @@ describe('Request', () => {
     });
 
     describe('.linkApp', () => {
-      it('should call the nexmo.number.get({level:"basic"})', sinon.test(function() {
+      it('should call the nexmo.number.get({level:"basic"})', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -514,7 +534,7 @@ describe('Request', () => {
     });
 
     describe('.unlinkApp', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -524,7 +544,7 @@ describe('Request', () => {
     });
 
     describe('.linkSms', () => {
-      it('should call the library', sinon.test(function() {
+      it('should call the library', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -534,7 +554,7 @@ describe('Request', () => {
     });
 
     describe('.unlinkSms', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -544,7 +564,7 @@ describe('Request', () => {
     });
 
     describe('.linkTel', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -554,7 +574,7 @@ describe('Request', () => {
     });
 
     describe('.unlinkTel', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -562,28 +582,8 @@ describe('Request', () => {
         expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
       }));
 
-      describe('.linkVxml', () => {
-        it('should call nexmo.numberInsight.get', sinon.test(function() {
-          nexmo = {};
-          nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
-          client.instance.returns(nexmo);
-          request.linkVxml('123', 'abc', {});
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
-        }));
-      });
-
-      describe('.unlinkVxml', () => {
-        it('should call nexmo.numberInsight.get', sinon.test(function() {
-          nexmo = {};
-          nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
-          client.instance.returns(nexmo);
-          request.unlinkVxml('123');
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
-        }));
-      });
-
       describe('.linkSip', () => {
-        it('should call nexmo.numberInsight.get', sinon.test(function() {
+        it('should call nexmo.numberInsight.get', test(function() {
           nexmo = {};
           nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
           client.instance.returns(nexmo);
@@ -593,7 +593,7 @@ describe('Request', () => {
       });
 
       describe('.unlinkSip', () => {
-        it('should call nexmo.numberInsight.get', sinon.test(function() {
+        it('should call nexmo.numberInsight.get', test(function() {
           nexmo = {};
           nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
           client.instance.returns(nexmo);
@@ -604,7 +604,7 @@ describe('Request', () => {
     });
 
     describe('.insightBasic', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -614,7 +614,7 @@ describe('Request', () => {
     });
 
     describe('.insightStandard', () => {
-      it('should call nexmo.numberInsight.get', sinon.test(function() {
+      it('should call nexmo.numberInsight.get', test(function() {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
@@ -624,7 +624,7 @@ describe('Request', () => {
     });
 
     describe('.sendSms', () => {
-      it('should call nexmo.message.sendSms', sinon.test(function() {
+      it('should call nexmo.message.sendSms', test(function() {
         nexmo = {};
         nexmo.message = sinon.createStubInstance(Message);
         client.instance.returns(nexmo);
@@ -634,7 +634,7 @@ describe('Request', () => {
     });
 
     describe('.generateJwt', () => {
-      it('should call Nexmo.generateJwt', sinon.test(function() {
+      it('should call Nexmo.generateJwt', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -644,7 +644,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key' );
       }));
 
-      it('should deal with Nexmo.generateJwt with null claims', sinon.test(function() {
+      it('should deal with Nexmo.generateJwt with null claims', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -654,7 +654,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
       }));
 
-      it('should call Nexmo.generateJwt with additional claims', sinon.test(function() {
+      it('should call Nexmo.generateJwt with additional claims', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -664,7 +664,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
       }));
 
-      it('should call Nexmo.generateJwt with the JSON acl claim if a valid JSON is passed', sinon.test(function() {
+      it('should call Nexmo.generateJwt with the JSON acl claim if a valid JSON is passed', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -674,7 +674,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: { paths: { '/**': {  } } }, application_id: 'application_id'});
       }));
 
-      it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', sinon.test(function() {
+      it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -684,7 +684,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: 'notAnObject', application_id: 'application_id'});
       }));
 
-      it('should call pass generated token to response.generateJwt', sinon.test(function() {
+      it('should call pass generated token to response.generateJwt', test(function() {
         var Nexmo = {
           generateJwt: () => {
             return 'a token!';
@@ -696,7 +696,7 @@ describe('Request', () => {
         expect(response.generateJwt).to.have.been.calledWith(null, 'a token!');
       }));
 
-      it('should call response with an exception when singular values are provided for claims', sinon.test(function() {
+      it('should call response with an exception when singular values are provided for claims', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -706,7 +706,7 @@ describe('Request', () => {
         expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
       }));
 
-      it('should call response with an exception when more than one = is supplied', sinon.test(function() {
+      it('should call response with an exception when more than one = is supplied', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -719,15 +719,15 @@ describe('Request', () => {
     });
 
     describe('.getCountryCode', () => {
-      it('should return the country code if provided', sinon.test(function() {
-        let callback = sinon.spy();
+      it('should return the country code if provided', test(function() {
+        const callback = sinon.spy();
         request.getCountryCode('44555666777', { country_code: 'GB' }, callback);
         expect(callback).to.have.been.calledWith('GB');
       }));
 
-      it('should call number insight if no country code was provided', sinon.test(function() {
+      it('should call number insight if no country code was provided', test(function() {
         nexmo = {};
-        let callback = sinon.spy();
+        const callback = sinon.spy();
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.getCountryCode('44555666777', {}, callback);
@@ -736,7 +736,7 @@ describe('Request', () => {
     });
 
     describe('.conversationCreate', () => {
-      it('should call conversations.create', sinon.test(function() {
+      it('should call conversations.create', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         client.instanceWithApp.returns(nexmo);
@@ -746,7 +746,7 @@ describe('Request', () => {
     });
 
     describe('.userCreate', () => {
-      it('should call users.create', sinon.test(function() {
+      it('should call users.create', test(function() {
         nexmo = {};
         nexmo.users = sinon.createStubInstance(Users);
         client.instanceWithApp.returns(nexmo);
@@ -756,7 +756,7 @@ describe('Request', () => {
     });
 
     describe('.memberAdd', () => {
-      it('should call conversations.members.add', sinon.test(function() {
+      it('should call conversations.members.add', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         nexmo.conversations.members = sinon.createStubInstance(Members);
@@ -767,7 +767,7 @@ describe('Request', () => {
     });
 
     describe('.memberList', () => {
-      it('should call conversations.members.get', sinon.test(function() {
+      it('should call conversations.members.get', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         nexmo.conversations.members = sinon.createStubInstance(Members);

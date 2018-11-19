@@ -8,8 +8,7 @@ class Client {
   }
 
   instance() {
-    let nexmo = initialize(this.config, this.emitter);
-    return nexmo;
+    return initialize(this.config, this.emitter);
   }
 
   definition() {
@@ -21,8 +20,7 @@ class Client {
   }
 
   instanceWithApp(appId, privateKey) {
-    let nexmo = initialize(this.config, this.emitter, this.appConfig, appId, privateKey);
-    return nexmo;
+    return initialize(this.config, this.emitter, this.appConfig, appId, privateKey);
   }
 }
 
@@ -30,14 +28,14 @@ export default Client;
 
 // private methods
 
-let initialize = function(config, emitter, appConfig, appId, privateKey) {
-  let nexmo = null;
-  let packageDetails = require(`${__dirname}/../package.json`);
+const initialize = function(config, emitter, appConfig, appId, privateKey) {
+  var nexmo;
+  const packageDetails = require(`${__dirname}/../package.json`);
 
   try {
-    let credentials = config.read().credentials;
+    const credentials = config.read().credentials;
     if ((appId && privateKey) || appConfig) {
-      let app_config = appConfig.read().app_config;
+      const app_config = appConfig.read().app_config;
       nexmo = new Nexmo(
         {
           apiKey: credentials.api_key,
