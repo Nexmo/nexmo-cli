@@ -67,10 +67,10 @@ describe('Client', () => {
   });
 
   describe('.instanceWithApp', () => {
-    it('should initialize a new library with app credentials', sinon.test(function () {
-      let emitter = sinon.createStubInstance(Emitter);
-      let config = sinon.createStubInstance(Config);
-      let appConfig = sinon.createStubInstance(Config);
+    it('should initialize a new library with app credentials', test(function () {
+      const emitter = sinon.createStubInstance(Emitter);
+      const config = sinon.createStubInstance(Config);
+      const appConfig = sinon.createStubInstance(Config);
 
       config.read = function() {
         return {
@@ -90,8 +90,8 @@ describe('Client', () => {
         };
       };
 
-      let client = new Client(config, emitter, appConfig);
-      let nexmo = client.instanceWithApp();
+      const client = new Client(config, emitter, appConfig);
+      const nexmo = client.instanceWithApp();
       expect(nexmo).to.be.an.instanceof(Nexmo);
     }));
   });

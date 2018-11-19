@@ -34,18 +34,16 @@ class Config {
   }
 
   readFilename() {
-    let filename = localFile(this.type);
+    const filename = localFile(this.type);
     if (fs.existsSync(filename)) {
       return filename;
-    } else {
-      return homeFile(this.type);
     }
-    return homeFile();
+    return homeFile(this.type);
   }
 
   writeFilename(local=false) {
     if (local) { return localFile(this.type); }
-    else { return homeFile(this.type); }
+    return homeFile(this.type);
   }
 
   putAndSave(values, writeLocal=false) {
@@ -79,11 +77,11 @@ export default Config;
 
 // private methods
 
-let localFile = function(type) {
+const localFile = function(type) {
   return `${process.cwd()}/.nexmo${type}`;
 };
 
-let homeFile = function(type) {
-  let key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
+const homeFile = function(type) {
+  const key = (process.platform == 'win32') ? 'USERPROFILE' : 'HOME';
   return `${process.env[key]}/.nexmo${type}`;
 };

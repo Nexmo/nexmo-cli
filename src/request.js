@@ -146,7 +146,7 @@ class Request {
   }
 
   _verifyApplication(app_id, private_key, callback) {
-    let client = this.client.instanceWithApp(app_id, private_key);
+    const client = this.client.instanceWithApp(app_id, private_key);
     client.app.get(app_id, callback);
   }
 
@@ -334,11 +334,11 @@ export default Request;
 
 // private methods
 
-let createPayload = function(payload) {
+const createPayload = function(payload) {
   const finalPayload = {};
 
   payload.forEach((p) => {
-    let nameValue = p.split('=');
+    const nameValue = p.split('=');
     if(nameValue.length !== 2) {
       throw new Error('All payloads must be in the form `name=value`. Got: ' + nameValue);
     }
@@ -353,7 +353,7 @@ let createPayload = function(payload) {
   return finalPayload;
 };
 
-let confirm = function(message, emitter, flags, callback) {
+const confirm = function(message, emitter, flags, callback) {
   if (flags.confirm) {
     callback();
   } else {

@@ -13,7 +13,6 @@ import pckg      from '../package.json';
 
 const emitter   = new Emitter();
 const config    = new Config(emitter);
-const appConfig = new Config(emitter, "-app");
 const client    = new Client(config, emitter);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);

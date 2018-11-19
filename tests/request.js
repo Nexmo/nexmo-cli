@@ -45,7 +45,7 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      it('should verifiy the credentials', test(function(){
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
@@ -428,7 +428,7 @@ describe('Request', () => {
     });
 
     describe('.applicationSetup', () => {
-      it('should verifiy the credentials', sinon.test(function(){
+      it('should verifiy the credentials', test(function(){
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         client.instanceWithApp.returns(nexmo);
@@ -674,7 +674,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: { paths: { '/**': {  } } }, application_id: 'application_id'});
       }));
 
-      it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', sinon.test(function() {
+      it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -684,7 +684,7 @@ describe('Request', () => {
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: 'notAnObject', application_id: 'application_id'});
       }));
 
-      it('should call pass generated token to response.generateJwt', sinon.test(function() {
+      it('should call pass generated token to response.generateJwt', test(function() {
         var Nexmo = {
           generateJwt: () => {
             return 'a token!';
@@ -736,7 +736,7 @@ describe('Request', () => {
     });
 
     describe('.conversationCreate', () => {
-      it('should call conversations.create', sinon.test(function() {
+      it('should call conversations.create', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         client.instanceWithApp.returns(nexmo);
@@ -746,7 +746,7 @@ describe('Request', () => {
     });
 
     describe('.userCreate', () => {
-      it('should call users.create', sinon.test(function() {
+      it('should call users.create', test(function() {
         nexmo = {};
         nexmo.users = sinon.createStubInstance(Users);
         client.instanceWithApp.returns(nexmo);
@@ -756,7 +756,7 @@ describe('Request', () => {
     });
 
     describe('.memberAdd', () => {
-      it('should call conversations.members.add', sinon.test(function() {
+      it('should call conversations.members.add', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         nexmo.conversations.members = sinon.createStubInstance(Members);
@@ -767,7 +767,7 @@ describe('Request', () => {
     });
 
     describe('.memberList', () => {
-      it('should call conversations.members.get', sinon.test(function() {
+      it('should call conversations.members.get', test(function() {
         nexmo = {};
         nexmo.conversations = sinon.createStubInstance(Conversations);
         nexmo.conversations.members = sinon.createStubInstance(Members);

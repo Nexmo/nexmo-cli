@@ -213,9 +213,9 @@ API Secret: 234`);
 
   describe('.applicationCreate', () => {
     it('should print the response', () => {
-      let putAndSave = sinon.spy();
-      let method = response.applicationCreate({ keys: {}}, {putAndSave: putAndSave});
-      let data = { id: 123, keys: { private_key: 'asdasdasd' } };
+      const putAndSave = sinon.spy();
+      const method = response.applicationCreate({ keys: {}}, {putAndSave: putAndSave});
+      const data = { id: 123, keys: { private_key: 'asdasdasd' } };
 
       expect(method).to.be.a('function');
       method(null, data);
@@ -237,7 +237,7 @@ API Secret: 234`);
   });
 
   describe('.applicationSetup', () => {
-    it('should validate the response and save the result', sinon.test(function() {
+    it('should validate the response and save the result', test(function() {
       var config = sinon.createStubInstance(Config);
 
       response.applicationSetup(config, '123', 'abc', { global: false })(null, {});
@@ -339,7 +339,7 @@ Message price:     0.03330000 EUR`);
   });
 
   describe('.conversationCreate', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.conversationCreate(null, {id: '123'});
       expect(validator.response).to.have.been.calledWith(null, {id: '123'});
       expect(emitter.list).to.have.been.calledWith('Conversation created: 123');
@@ -347,7 +347,7 @@ Message price:     0.03330000 EUR`);
   });
 
   describe('.userCreate', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.userCreate(null, {id: '123'});
       expect(validator.response).to.have.been.calledWith(null, {id: '123'});
       expect(emitter.list).to.have.been.calledWith('User created: 123');
@@ -355,7 +355,7 @@ Message price:     0.03330000 EUR`);
   });
 
   describe('.memberAdd', () => {
-    it('should validate the response and emit the result', sinon.test(function() {
+    it('should validate the response and emit the result', test(function() {
       response.memberAdd(null, {id: '123'});
       expect(validator.response).to.have.been.calledWith(null, {id: '123'});
       expect(emitter.list).to.have.been.calledWith('Member added: 123');
@@ -363,13 +363,13 @@ Message price:     0.03330000 EUR`);
   });
 
   describe('.memberList', () => {
-    it('should validate the response and warn about no members', sinon.test(function() {
+    it('should validate the response and warn about no members', test(function() {
       response.memberList(null, []);
       expect(validator.response).to.have.been.calledWith(null, []);
       expect(emitter.warn).to.have.been.calledWith('No members');
     }));
 
-    it('should validate the response and emit a members table', sinon.test(function() {
+    it('should validate the response and emit a members table', test(function() {
       response.memberList(null, [{id: '123'}]);
       expect(validator.response).to.have.been.calledWith(null, [{id: '123'}]);
       expect(emitter.table).to.have.been.calledWith([{id: '123'}], ['name', 'user_id', 'user_name', 'state']);
