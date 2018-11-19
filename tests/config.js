@@ -39,6 +39,13 @@ describe('Config', () => {
       expect(data).to.eql(credentials);
       fs.readFileSync = readFileSync;
     });
+    it('should read from the environment', () => {
+      process.env.NEXMO_API_KEY = '123';
+      process.env.NEXMO_API_SECRET = 'abc';
+
+      let data = config.read();
+      expect(data).to.eql(credentials);
+    });
   });
 
   describe('.write', () => {

@@ -18,7 +18,13 @@ yarn global add nexmo-cli  # Using yarn
 
 > If you see an `EACCES` error when you try to install a package globally, follow the steps outlined at [_How to Prevent Permissions Errors_](https://docs.npmjs.com/getting-started/fixing-npm-permissions).
 
-After installation, set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
+By default, the CLI will read your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret from the `NEXMO_API_KEY` and `NEXMO_API_SECRET` environment variables. For example, to get your balance:
+
+```bash
+NEXMO_API_KEY=1234 NEXMO_API_SECRET=abcd nexmo balance
+```
+
+Alternatively, you can save your API key and secret by using the following command:
 
 ```bash
 > nexmo setup <api_key> <api_secret>
