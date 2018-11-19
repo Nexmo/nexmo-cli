@@ -138,6 +138,23 @@ API Secret: ${client.credentials.apiSecret}`
     };
   }
 
+  searchByPartialAppId(partialAppId) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      let matches = response._embedded.applications.filter(application => application.id.startsWith(partialAppId));
+      if (matches.length == 0) {
+        this.emitter.warn(`No applications found with ID beginning: ${partialAppId}`);
+      } else if (matches.length > 1) {
+        this.emitter.warn(
+          `Multiple applications found with ID beginning: ${partialAppId}\n` +
+          'Try again with a more specific ID'
+        );
+      } else {
+        return matches[0].id;
+      }
+    };
+  }
+
   applicationCreate(flags) {
     return (error, response) => {
       this.validator.response(error, response);

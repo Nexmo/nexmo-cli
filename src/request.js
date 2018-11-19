@@ -159,6 +159,7 @@ class Request {
     if (flags.page) { options.index = flags.page; }
     if (flags.size) { options.size = flags.size; }
 
+    app_id = this.client.instance().app.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
     this.client.instance().number.get(options, this.response.applicationNumbers(app_id, flags).bind(this.response));
   }
 
