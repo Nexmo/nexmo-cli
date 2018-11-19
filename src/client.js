@@ -20,8 +20,7 @@ class Client {
   }
 
   instanceWithApp(appId, privateKey) {
-    const nexmo = initialize(this.config, this.emitter, this.appConfig, appId, privateKey);
-    return nexmo;
+    return initialize(this.config, this.emitter, this.appConfig, appId, privateKey);
   }
 }
 

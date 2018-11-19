@@ -13,10 +13,11 @@ import pckg      from '../package.json';
 
 const emitter   = new Emitter();
 const config    = new Config(emitter);
-const client    = new Client(config, emitter);
+const appConfig = new Config(emitter, "-app");
+const client    = new Client(config, emitter, appConfig);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
-const request   = new Request(config, client, response);
+const request   = new Request(config, appConfig, client, response);
 
 commander
   .version(pckg.version)
@@ -256,9 +257,9 @@ commander
   .command('app:create <name> <answer_url> <event_url>')
   .description('Create a new Nexmo Application')
   .alias('ac')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
-  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
-  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to POST)')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -271,9 +272,9 @@ commander
 commander
   .command('apps:create <name> <answer_url> <event_url>', null, { noHelp: true })
   .description('Create a new Nexmo Application')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
-  .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
-  .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
+  .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
+  .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to GET)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
@@ -314,7 +315,7 @@ commander
   .command('app:update <app_id> <name> <answer_url> <event_url>')
   .description('Update a Nexmo Application')
   .alias('au')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
   .on('--help', () => {
@@ -328,7 +329,7 @@ commander
 commander
   .command('apps:update <app_id> <name> <answer_url> <event_url>', null, { noHelp: true })
   .description('Update a Nexmo Application')
-  .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
+  .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
   .on('--help', () => {

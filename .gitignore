@@ -4,3 +4,4 @@ lib
 npm-debug.log
 .nexmo-app
 .vscode
+package-lock.json
