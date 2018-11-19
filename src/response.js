@@ -155,17 +155,36 @@ API Secret: ${client.credentials.apiSecret}`
     };
   }
 
-  applicationCreate(flags) {
+  applicationCreate(flags, config) {
     return (error, response) => {
       this.validator.response(error, response);
       this.emitter.list(`Application created: ${response.id}`, response);
       this._writeKey(flags.keyfile, response.keys.private_key);
+
+      config.putAndSave({
+        'app_config': {
+          'app_id': response.id,
+          'private_key': response.keys.private_key
+        }
+      }, true);
     };
   }
 
   applicationShow(error, response) {
     this.validator.response(error, response);
     this.emitter.list(null, response);
+  }
+
+  applicationSetup(config, app_id, private_key, flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      config.putAndSave({
+        'app_config': {
+          'app_id': app_id,
+          'private_key': private_key
+        }
+      }, !flags.global);
+    };
   }
 
   applicationUpdate(error, response) {
@@ -249,6 +268,42 @@ Message price:     ${message['message-price']} EUR`);
   generateJwt(error, token) {
     this.validator.response(error, token);
     this.emitter.log(`${token}`, `JWT:   ${token}`);
+  }
+
+  conversationCreate(error, response) {
+    this.validator.response(error, response);
+    if (response) {
+      this.emitter.list(`Conversation created: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
+  }
+
+  userCreate(error, response) {
+    this.validator.response(error, response);
+    if (response) {
+      this.emitter.list(`User created: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
+  }
+
+  memberAdd(error, response) {
+    this.validator.response(error, response);
+    if (response) {
+      this.emitter.list(`Member added: ${response.id}`, response);
+    } else {
+      this.emitter.list(`${error.body.code}: ${error.body.description}`, error);
+    }
+  }
+
+  memberList(error, response) {
+    this.validator.response(error, response);
+    if (response && response.length > 0) {
+      this.emitter.table(response, ['name', 'user_id', 'user_name', 'state'], ['name', 'user_id', 'user_name', 'state']);
+    } else {
+      this.emitter.warn('No members');
+    }
   }
 }
 

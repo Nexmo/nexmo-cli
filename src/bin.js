@@ -13,6 +13,7 @@ import pckg      from '../package.json';
 
 const emitter   = new Emitter();
 const config    = new Config(emitter);
+const appConfig = new Config(emitter, "-app");
 const client    = new Client(config, emitter);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
@@ -295,6 +296,13 @@ commander
   .command('app <app_id>', null, { noHelp: true })
   .description('Show details for a Nexmo Application')
   .action(request.applicationShow.bind(request));
+
+commander
+  .command('app:setup <app_id> <private_key>')
+  .description('Set up your Application ID and private key')
+  .alias('aset')
+  .option('-g, --global', 'write config to user root folder (~/.nexmo-app) instead of the current folder (./.nexmo-app)')
+  .action(request.applicationSetup.bind(request));
 
 commander
   .command('apps:show <app_id>', null, { noHelp: true })
@@ -581,6 +589,54 @@ commander
     emitter.log(' ');
   })
   .action(request.generateJwt.bind(request));
+
+commander
+  .command('conversation:create [payload...]')
+  .description('Create a new Conversation')
+  .alias('cc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo conversation:create display_name=nexmo-chat');
+    emitter.log(' ');
+  })
+  .action(request.conversationCreate.bind(request));
+
+commander
+  .command('user:create [payload...]')
+  .description('Create a new User')
+  .alias('uc')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo user:create name=alex');
+    emitter.log(' ');
+  })
+  .action(request.userCreate.bind(request));
+
+commander
+  .command('member:add <conversation_id> [payload...]')
+  .description('Adds a User to a Conversation')
+  .alias('ma')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo member:add aaaaaaaa-bbbb-cccc-dddd-0123456789ab action=join channel=\'{"type":"app"}\' user_id=aaaaaaaa-bbbb-cccc-dddd-0123456789ab');
+    emitter.log(' ');
+  })
+  .action(request.memberAdd.bind(request));
+
+commander
+  .command('member:list <conversation_id>')
+  .description('Lists Members for a Conversation')
+  .alias('ml')
+  .on('--help', () => {
+    emitter.log('  Examples:');
+    emitter.log(' ');
+    emitter.log('    $ nexmo member:list aaaaaaaa-bbbb-cccc-dddd-0123456789ab');
+    emitter.log(' ');
+  })
+  .action(request.memberList.bind(request));
 
 // catch unknown commands
 commander

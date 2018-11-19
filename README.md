@@ -11,9 +11,8 @@ The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed o
 
 With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
-```bash
-npm install nexmo-cli -g   # Using npm
-yarn global add nexmo-cli  # Using yarn
+```
+npm install nexmo-cli@beta -g
 ```
 
 > If you see an `EACCES` error when you try to install a package globally, follow the steps outlined at [_How to Prevent Permissions Errors_](https://docs.npmjs.com/getting-started/fixing-npm-permissions).
@@ -41,7 +40,7 @@ This will save the config to your local folder instead.
 
 ## Usage
 
-[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
+[Flags](#flags) | [Account](#account) | [Pricing](#pricing) | [Numbers](#numbers) | [SMS](#sms) | [Applications](#applications) | [Conversations](#conversations) | [Users](#users) | [Members](#members) | [Linking](#linking) | [Insight](#insight) | [JWT](#jwt)
 
 ### Flags
 
@@ -297,6 +296,7 @@ Parameters:
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
 Application created: asdasdas-asdd-2344-2344-asdasdasd345
+Credentials written to /path/to/local/folder/.nexmo-app
 Private Key saved to: private.key
 
 > nexmo app:create "Test Application 1" http://example.com http://example.com -v
@@ -332,6 +332,8 @@ GET
 
 [_links.self.href]
 /applications/asdasdas-asdd-2344-2344-asdasdasd345
+
+Credentials written to /path/to/local/folder/.nexmo-app
 ```
 
 Alias: `nexmo ac`.
@@ -376,6 +378,26 @@ Private Key saved to: private.key
 
 Alias: `nexmo as` and `nexmo app`.
 
+#### Setup an Application
+
+Set up your Application ID and private key
+
+Parameters:
+
+- `app_id` - the UUID of your application.
+- `private_key` - the private key for your application
+- Optional flags:
+
+  - `--global` write config to user root folder `(~/.nexmo-app)` instead of the current folder `(./.nexmo-app)`
+
+```
+> nexmo app:setup asdasdas-asdd-2344-2344-asdasdasd345 private.key
+Credentials written to /path/to/local/folder/.nexmo-app
+
+```
+
+Alias: `nexmo aset`.
+
 #### Update an Application
 
 Parameters:
@@ -391,7 +413,7 @@ Parameters:
   - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```bash
-> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
+> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com
 Application updated: asdasdas-asdd-2344-2344-asdasdasd345
 
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com -v
@@ -479,6 +501,104 @@ msisdn      | country | type       | features  | voiceCallbackType | voiceCallba
 ```
 
 Alias: `nexmo an` and `nexmo apps:numbers`.
+
+### Conversations
+
+#### Create a new Conversation
+
+Supports optional payloads:
+- `name=<name>` - the unique name of your conversation.
+- `display_name=<display_name>` - the custom name of your conversation.
+
+```
+> nexmo conversation:create display_name="My Conversation"
+Conversation created: CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo conversation:create display_name="My Conversation" -v
+[id]
+CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+[href]
+http://conversation.local/v1/conversations/CON-asdasdas-asdd-2344-2344-asdasdasd345
+
+```
+
+Alias: `nexmo cc`.
+
+### Users
+
+#### Create a new User
+
+Supports optional payloads:
+- `name=<name>` - the name of your user.
+
+```
+> nexmo user:create name=alex
+User created: USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo user:create name=alex -v
+[id]
+USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+[href]
+http://conversation.local/v1/users/USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+```
+
+Alias: `nexmo uc`.
+
+### Members
+
+#### Add a new Member to a Conversation
+Parameters:
+
+- `conversation_id` - the UUID of your conversation.
+- Supports payloads:
+    - `user_id=<user_id>` - the UUID of your user.
+    - `action=<action>` - action to perform on conversation (invite | join | leave)
+    - `channel={type:<type>}` - channel type
+
+```
+> nexmo member:add CON-asdasdas-asdd-2344-2344-asdasdasd345 user_id=USR-asdasdas-asdd-2344-2344-asdasdasd345 channel='{"type":"app"}' action=join
+Member added: MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+> nexmo member:add CON-asdasdas-asdd-2344-2344-asdasdasd345 user_id=USR-asdasdas-asdd-2344-2344-asdasdasd345 channel='{"type":"app"}' action=join -v
+[id]
+MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+[user_id]
+USR-asdasdas-asdd-2344-2344-asdasdasd345
+
+[state]
+JOINED
+
+[timestamp.joined]
+1988-12-12T05:08:27.106Z
+
+[href]
+http://conversation.local/v1/conversations/CON-asdasdas-asdd-2344-2344-asdasdasd345/members/MEM-asdasdas-asdd-2344-2344-asdasdasd345
+
+
+```
+
+Alias: `nexmo ma`.
+
+#### List all Members in a Conversation
+Parameters:
+
+- `conversation_id` - the UUID of your conversation.
+
+```
+> nexmo member:list CON-asdasdas-asdd-2344-2344-asdasdasd345
+MEM-asdasdas-asdd-2344-2344-asdasdasd345 | USR-asdasdas-asdd-2344-2344-asdasdasd345 | NAM-asdasdas-asdd-2344-2344-asdasdasd345 | JOINED
+
+> nexmo member:list CON-asdasdas-asdd-2344-2344-asdasdasd345 -v
+name                                     | user_id                                  | user_name                                | state
+----------------------------------------------------------------------------------------------------------------------------------------
+MEM-asdasdas-asdd-2344-2344-asdasdasd345 | USR-asdasdas-asdd-2344-2344-asdasdasd345 | NAM-asdasdas-asdd-2344-2344-asdasdasd345 | JOINED
+```
+
+Alias: `nexmo ml`.
 
 ### Linking
 
