@@ -43,7 +43,7 @@ describe('Config', () => {
       process.env.NEXMO_API_KEY = '123';
       process.env.NEXMO_API_SECRET = 'abc';
 
-      let data = config.read();
+      const data = config.read();
       expect(data).to.eql(credentials);
     });
   });

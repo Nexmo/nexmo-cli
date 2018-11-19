@@ -168,31 +168,31 @@ API Secret: 234`);
 
   describe('.searchByPartialAppId', () => {
     it('should return a full app_id from a single, partial match', () => {
-      let partialAppId = 'app_';
-      let data = { '_embedded': { 'applications': [{ 'id': 'app_id' }] } };
-      let fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
+      const partialAppId = 'app_';
+      const data = { '_embedded': { 'applications': [{ 'id': 'app_id' }] } };
+      const fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(fullAppId).to.equal(data._embedded.applications[0].id);
     });
 
     it('should return a full app_id from a single, partial match from a response with multiple applications', () => {
-      let partialAppId = 'app_';
-      let data = {
+      const partialAppId = 'app_';
+      const data = {
         '_embedded': {
           'applications': [
             { 'id': 'not_app_id' }, { 'id': 'app_id' }, { 'id': 'also_not_app_id' }]
         }
       };
-      let fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
+      const fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(fullAppId).to.equal(data._embedded.applications[1].id);
     });
 
     it('should warn if no match', () => {
-      let partialAppId = 'app_';
-      let data = { '_embedded': { 'applications': [{ 'id': 'not_app_id' }] } };
+      const partialAppId = 'app_';
+      const data = { '_embedded': { 'applications': [{ 'id': 'not_app_id' }] } };
       response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
@@ -200,8 +200,8 @@ API Secret: 234`);
     });
 
     it('should warn if multiple matches', () => {
-      let partialAppId = 'app_';
-      let data = { '_embedded': { 'applications': [{ 'id': 'app_id_1' }, { 'id': 'app_id_2' }] } };
+      const partialAppId = 'app_';
+      const data = { '_embedded': { 'applications': [{ 'id': 'app_id_1' }, { 'id': 'app_id_2' }] } };
       response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);

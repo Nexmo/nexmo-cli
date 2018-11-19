@@ -141,7 +141,7 @@ API Secret: ${client.credentials.apiSecret}`
   searchByPartialAppId(partialAppId) {
     return (error, response) => {
       this.validator.response(error, response);
-      let matches = response._embedded.applications.filter(application => application.id.startsWith(partialAppId));
+      const matches = response._embedded.applications.filter(application => application.id.startsWith(partialAppId));
       if (matches.length == 0) {
         this.emitter.warn(`No applications found with ID beginning: ${partialAppId}`);
       } else if (matches.length > 1) {

@@ -446,7 +446,7 @@ describe('Request', () => {
     });
 
     describe('.applicationNumbers', () => {
-      it('should call nexmo.app.get', sinon.test(function () {
+      it('should call nexmo.app.get', test(function () {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
@@ -458,7 +458,7 @@ describe('Request', () => {
         expect(nexmo.app.get).to.have.been.calledWith({});
       }));
 
-      it('should call nexmo.number.get', sinon.test(function() {
+      it('should call nexmo.number.get', test(function() {
         nexmo = {};
         nexmo.app = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
