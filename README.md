@@ -1,31 +1,39 @@
 # Nexmo CLI
 
 [![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli) [![Build Status](https://travis-ci.org/Nexmo/nexmo-cli.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-cli)
+[![Known Vulnerabilities](https://snyk.io/test/github/Nexmo/nexmo-cli/badge.svg)](https://snyk.io/test/github/Nexmo/nexmo-cli)
 
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
 ## Installation
 
-The Nexmo CLI requires NodeJS 4 or above. If you don't have Node installed on your system goto (<https://nodejs.org/en/download/>) and download the appropriate installer for your system.
+The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
 
-Install the `nexmo-cli` from NPM.
+With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
+```bash
+npm install nexmo-cli -g   # Using npm
+yarn global add nexmo-cli  # Using yarn
 ```
-npm install nexmo-cli -g
+
+> If you see an `EACCES` error when you try to install a package globally, follow the steps outlined at [_How to Prevent Permissions Errors_](https://docs.npmjs.com/getting-started/fixing-npm-permissions).
+
+By default, the CLI will read your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret from the `NEXMO_API_KEY` and `NEXMO_API_SECRET` environment variables. For example, to get your balance:
+
+```bash
+NEXMO_API_KEY=1234 NEXMO_API_SECRET=abcd nexmo balance
 ```
 
-*Note: you may need root/admin privileges to install the CLI globally.*
+Alternatively, you can save your API key and secret by using the following command:
 
-Then set up the CLI with your [Nexmo](https://dashboard.nexmo.com/settings) API key and secret:
-
-```
+```bash
 > nexmo setup <api_key> <api_secret>
 Credentials written to /Users/yourname/.nexmorc
 ```
 
-This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project you can pass the `--local` flag as follows:
+This will save your credentials to `~/.nexmorc`. If you want to use different credentials per project, you can pass the `--local` flag as follows:
 
-```
+```bash
 > nexmo setup <api_key> <api_secret> --local
 ```
 
@@ -43,7 +51,7 @@ Use `--quiet` to silence all but errors and warnings, and use `--verbose` to get
 
 #### Account login
 
-```
+```bash
 > nexmo setup <api_key> <api_secret>
 Credentials written to /home/username/.nexmorc
 ```
@@ -52,7 +60,7 @@ Alias: `nexmo s`.
 
 #### Account info
 
-```
+```bash
 > nexmo account
 API Key:    <api_key>
 API Secret: <api_secret>
@@ -60,7 +68,7 @@ API Secret: <api_secret>
 
 #### Account balance
 
-```
+```bash
 > nexmo balance
 18.96 EUR
 
@@ -74,7 +82,7 @@ Alias: `nexmo b`
 
 #### Price to send an SMS to a number
 
-```
+```bash
 > nexmo price:sms 44555555555
 0.03140000 EUR
 ```
@@ -83,7 +91,7 @@ Alias: `nexmo ps`
 
 #### Price to make a call to a number
 
-```
+```bash
 > nexmo price:voice 44555555555
 0.02400000 EUR
 ```
@@ -92,7 +100,7 @@ Alias: `nexmo pv`
 
 #### Price for outbound SMS per country
 
-```
+```bash
 > nexmo price:country GB
 0.03140000 EUR
 
@@ -114,11 +122,11 @@ Alias: `nexmo pc`
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
   - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
 
-```
+```bash
 > nexmo numbers:list
 31555555555
 44655555555
@@ -149,7 +157,7 @@ Parameters:
   - `--size` the amount of results to return
   - `--page` the page of results to return
 
-```
+```bash
 > nexmo number:search US
 12057200555
 12069396555
@@ -173,7 +181,7 @@ Parameters:
 - `number` - The number to buy
 - or `country_code` and `pattern` - The country and search pattern to find a number for and directly buy.
 
-```
+```bash
 > nexmo number:buy 12069396555
 Buying 12069396555\. This operation will charge your account.
 
@@ -196,7 +204,7 @@ Alias: `nexmo nb` and `nexmo numbers:buy`.
 
 #### Cancelling a number
 
-```
+```bash
 > nexmo number:cancel 12069396555
 This is operation can not be reversed.
 
@@ -214,7 +222,7 @@ Alias: `nexmo nc` and `nexmo numbers:cancel`.
 
 For shortcuts of these options see [Linking](#linking).
 
-```
+```bash
 > nexmo number:update 445555555555 --voice_callback_type app --voice_callback_value asdasdas-asdd-2344-2344-asdasdasd345
 Number updated
 ```
@@ -227,7 +235,7 @@ Alias: `nexmo nu` and `nexmo numbers:update`.
 
 Send a message through Nexmo to any number. Either provide a from number, name, or leave it blank to sends as "Nexmo CLI".
 
-```
+```bash
 > nexmo sms <destination_number> Hello world! --confirm
 Message sent to:   <destination_number>
 Remaining balance: 26.80110000 EUR
@@ -239,7 +247,7 @@ Remaining balance: 26.80110000 EUR
 Message price:     0.03330000 EUR
 ```
 
-**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
+**Note:** Some carriers (e.g. US and Canadian) do not allow alphanumeric senders. In these cases, you must use one of your Nexmo virtual numbers in the `from` parameter. For example:
 
 ```bash
 nexmo sms <to_number> Hello world! --from <from_number> --confirm
@@ -251,10 +259,10 @@ nexmo sms <to_number> Hello world! --from <from_number> --confirm
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
-```
+```bash
 > nexmo app:list
 asdasdas-asdd-2344-2344-asdasdasd123 | Test Application 1
 asdasdas-asdd-2344-2344-asdasdasd234 | Test Application 1
@@ -278,13 +286,13 @@ Parameters:
 
 - `name` - the custom name of your application.
 - `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--keyfile <keyfile>` the file to save your private key to
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--keyfile <keyfile>` The file to save your private key to
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```
 > nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
@@ -330,7 +338,7 @@ Alias: `nexmo ac`.
 
 #### Show details for an Application
 
-```
+```bash
 > nexmo app:show asdasdas-asdd-2344-2344-asdasdasd345
 [id]
 asdasdas-asdd-2344-2344-asdasdasd345
@@ -375,14 +383,14 @@ Parameters:
 - `app_id` - the UUID of your application.
 - `name` - the custom name of your application.
 - `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the url the platform sends event information asynchronously to when the call_status changes
+- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
 - Optional flags:
 
-  - `--type <type>` the product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` the http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` the http method for the `event_url`. (Default: GET)
+  - `--type <type>` The product you want to access with this application. (Default: voice)
+  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
+  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
-```
+```bash
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
 Application updated: asdasdas-asdd-2344-2344-asdasdasd345
 
@@ -427,9 +435,9 @@ Alias: `nexmo au`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
-```
+```bash
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
 This is operation can not be reversed.
 
@@ -447,14 +455,14 @@ Alias: `nexmo ad`.
 
 Parameters:
 
-- `app_id` - the UUID of your application.
+- `app_id` - The UUID of your application.
 
 - Optional flags:
 
-  - `--size` the amount of results to return
-  - `--page` the page of results to return
+  - `--size` The amount of results to return
+  - `--page` The page of results to return
 
-```
+```bash
 > nexmo app:numbers asdasdas-asdd-2344-2344-asdasdasd345
 31555555555
 44655555555
@@ -476,7 +484,7 @@ Alias: `nexmo an` and `nexmo apps:numbers`.
 
 #### Link a number to an app
 
-```
+```bash
 > nexmo link:app 12057200555 asdasdas-asdd-2344-2344-asdasdasd345
 Number updated
 
@@ -488,7 +496,7 @@ Alias: `nexmo la`
 
 #### Link a number to another phone number
 
-```
+```bash
 > nexmo link:tel 12057200555 4455555555
 Number updated
 
@@ -498,9 +506,9 @@ Number updated
 
 Alias: `nexmo lt`
 
-#### Link a number to an sms callback url
+#### Link a number to an SMS callback URL
 
-```
+```bash
 > nexmo link:sms 12057200555 http://example.com/callback
 Number updated
 
@@ -510,21 +518,9 @@ Number updated
 
 Alias: `nexmo lsms`
 
-#### Link a number to a Voice XML callback url
-
-```
-> nexmo link:vxml 12057200555 http://example.com/callback
-Number updated
-
-> nexmo unlink:vxml 12057200555
-Number updated
-```
-
-Alias: `nexmo lv`
-
 #### Link a number to SIP URI
 
-```
+```bash
 > nexmo link:sip 12057200555 sip:123@example.com
 Number updated
 
@@ -540,7 +536,7 @@ Alias: `nexmo lsip`
 
 This is the free Number Insight API:
 
-```
+```bash
 > nexmo insight:basic 447555555555
 447555555555 | GB
 ```
@@ -551,7 +547,7 @@ Alias: `nexmo insight` and `nexmo ib`
 
 This API will charge your account but provide additional details:
 
-```
+```bash
 > nexmo insight:standard 447555555555 --confirm
 447555555555 | GB | Telefonica UK Limited
 ```
@@ -564,7 +560,7 @@ Alias: `nexmo is`
 
 This API will charge your account but provide additional details:
 
-```
+```bash
 > nexmo insight:advanced 447555555555 --confirm
 447555555555 | GB | Telefonica UK Limited
 ```
@@ -579,7 +575,7 @@ Alias: `nexmo ia`
 
 Generate a JWT for your application. Optionally supports extra claims to be passed in.
 
-```
+```bash
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732
 [...JWT String...]
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345
@@ -588,19 +584,19 @@ Generate a JWT for your application. Optionally supports extra claims to be pass
 
 ## Contributing
 
-This projects is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
+This project is written in ES2015 and compiled using Babel. The source can be found in the `/src` folder, and the build is compiled to the `/lib` folder.
 
-To add changes fork (if needed) and clone the project.
+To add changes, fork and clone the project.
 
-```sh
-npm install # to install all dependencies
-npm run build # to explicitly build the source
-npm install -g ./ # to implicitly build the source, and then install the `nexmo` binary into your PATH
-npm test # to run all tests
+```bash
+npm install        # to install all dependencies
+npm run build      # to explicitly build the source
+npm install -g ./  # to implicitly build the source, and then install the `nexmo` binary into your PATH
+npm test           # to run all tests
 npm run watch:test # to watch for changes and run tests
 ```
 
-You can run the `nexmo` command with the `--debug / -d` flag to get extra debug info from the underlying Node library.
+You can run the `nexmo` command with the `--debug` / `-d` flag to get extra debug info from the underlying Node.js library.
 
 # License
 

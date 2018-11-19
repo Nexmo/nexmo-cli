@@ -4,6 +4,8 @@ import Emitter   from '../src/emitter.js';
 import chai, { expect } from 'chai';
 import sinon            from 'sinon';
 import sinonChai        from 'sinon-chai';
+import sinonTest        from 'sinon-test';
+const test = sinonTest(sinon);
 
 chai.use(sinonChai);
 
@@ -16,26 +18,26 @@ describe('Validator', () => {
   describe('.response', () => {
     describe('when no errors are present', () => {
       it('should fall through quietely', () => {
-        let validator = new Validator(new Emitter());
+        const validator = new Validator(new Emitter());
         expect(validator.response(null, {})).to.be.undefined;
       });
     });
 
     describe('when no response is present', () => {
       it('should fall through quietely', () => {
-        let validator = new Validator(new Emitter());
+        const validator = new Validator(new Emitter());
         expect(validator.response(null, null)).to.be.undefined;
       });
     });
 
     describe('when errors are present', () => {
       describe('due to error objects', () => {
-        it('should emit an error', sinon.test(function() {
-          let emitter = new Emitter();
-          let validator = new Validator();
+        it('should emit an error', test(function() {
+          const emitter = new Emitter();
+          const validator = new Validator();
           validator.emitter = emitter;
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response({ message: 'error'}, {});
 
@@ -45,11 +47,11 @@ describe('Validator', () => {
       });
 
       describe('due to error codes in response objects', () => {
-        it('should emit an error', sinon.test(function() {
-          let emitter = new Emitter();
-          let validator = new Validator(emitter);
+        it('should emit an error', test(function() {
+          const emitter = new Emitter();
+          const validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'error-code' : '500', 'error-code-label' : 'foobar'});
 
@@ -57,11 +59,11 @@ describe('Validator', () => {
           expect(stub).to.be.calledWith('foobar');
         }));
 
-        it('should ignore a 200 status', sinon.test(function() {
-          let emitter = new Emitter();
-          let validator = new Validator(emitter);
+        it('should ignore a 200 status', test(function() {
+          const emitter = new Emitter();
+          const validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'error-code' : '200'});
 
@@ -70,11 +72,11 @@ describe('Validator', () => {
       });
 
       describe('due to status errors', () => {
-        it('should emit an error', sinon.test(function() {
-          let emitter = new Emitter();
-          let validator = new Validator(emitter);
+        it('should emit an error', test(function() {
+          const emitter = new Emitter();
+          const validator = new Validator(emitter);
 
-          let stub = this.stub(emitter, 'error');
+          const stub = this.stub(emitter, 'error');
 
           validator.response(null, {'status' : '3', 'status_message' : 'foobar'});
 
