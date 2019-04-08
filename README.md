@@ -587,14 +587,12 @@ Generate a JWT for your voice application.
 
 ```bash
 > nexmo jwt:generate path/to/private.key application_id=asdasdas-asdd-2344-2344-asdasdasd345
-[...JWT String...]
 ```
 
 Generate a JWT for the Client SDK
 
 ```bash
 > nexmo jwt:generate path/to/private.key subject=username application_id=asdasdas-asdd-2344-2344-asdasdasd345
-> JWT: [...JWT String...]
 ```
 
 ## Contributing
