@@ -579,13 +579,20 @@ Alias: `nexmo ia`
 
 #### Generate
 
-Generate a JWT for your application. Optionally supports extra claims to be passed in.
+```bash
+jwt:generate [options] <private_key> [claim=value...]
+```
+
+Generate a JWT for your voice application.
 
 ```bash
-> nexmo jwt:generate path/to/private.key subject=username iat=1475861732
-[...JWT String...]
-> nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345
-> JWT: [...JWT String...]
+> nexmo jwt:generate path/to/private.key application_id=asdasdas-asdd-2344-2344-asdasdasd345
+```
+
+Generate a JWT for the Client SDK
+
+```bash
+> nexmo jwt:generate path/to/private.key subject=username application_id=asdasdas-asdd-2344-2344-asdasdasd345
 ```
 
 ## Contributing
