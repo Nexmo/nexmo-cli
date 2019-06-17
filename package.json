@@ -11,7 +11,7 @@
     "pretest": "eslint tests",
     "test": "mocha --require @babel/register tests/*",
     "watch:test": "watch 'npm test' tests src",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
