@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/nexmo-cli.svg)](https://badge.fury.io/js/nexmo-cli) [![Build Status](https://travis-ci.org/Nexmo/nexmo-cli.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-cli)
 [![Known Vulnerabilities](https://snyk.io/test/github/Nexmo/nexmo-cli/badge.svg)](https://snyk.io/test/github/Nexmo/nexmo-cli)
+[![codecov](https://codecov.io/gh/Nexmo/nexmo-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-cli)
 
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
@@ -385,7 +386,7 @@ Parameters:
   - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
 
 ```bash
-> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com   
+> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com
 Application updated: asdasdas-asdd-2344-2344-asdasdasd345
 
 > nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com -v

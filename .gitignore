@@ -4,3 +4,7 @@ lib
 npm-debug.log
 .nexmo-app
 .vscode
+.nyc_output
+coverage
+.DS_Store
+coverage.lcov
