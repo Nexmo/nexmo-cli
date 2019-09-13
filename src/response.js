@@ -158,15 +158,20 @@ API Secret: ${client.credentials.apiSecret}`
   applicationCreate(flags, config) {
     return (error, response) => {
       this.validator.response(error, response);
-      this.emitter.list(`Application created: ${response.id}`, response);
-      this._writeKey(flags.keyfile, response.keys.private_key);
+      if (error) {
+        this.emitter.list(`${error.body.title} Error: ${error.body.detail}`, error);
+      }
+      if (response) {
+        this.emitter.list(`Application created: ${response.id}`, response);
+        this._writeKey(flags.keyfile, response.keys.private_key);
 
-      config.putAndSave({
-        'app_config': {
-          'app_id': response.id,
-          'private_key': response.keys.private_key
-        }
-      }, true);
+        config.putAndSave({
+          'app_config': {
+            'app_id': response.id,
+            'private_key': response.keys.private_key
+          }
+        }, true);
+      }
     };
   }
 

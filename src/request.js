@@ -150,7 +150,7 @@ class Request {
       options.page_size = flags.size;
     }
 
-    this.client.instance().app.get(options, this.response.applicationsList(flags).bind(this.response));
+    this.client.instance().applications.get(options, this.response.applicationsList(flags).bind(this.response));
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
@@ -175,11 +175,11 @@ class Request {
     default:
     }
 
-    this.client.instance().app.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
+    this.client.instance().applications.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
   }
 
   applicationShow(app_id) {
-    this.client.instance().app.get(app_id, this.response.applicationShow.bind(this.response));
+    this.client.instance().applications.get(app_id, this.response.applicationShow.bind(this.response));
   }
 
   applicationSetup(app_id, private_key, flags) {
@@ -188,7 +188,7 @@ class Request {
 
   _verifyApplication(app_id, private_key, callback) {
     const client = this.client.instanceWithApp(app_id, private_key);
-    client.app.get(app_id, callback);
+    client.applications.get(app_id, callback);
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
@@ -213,12 +213,12 @@ class Request {
     default:
     }
 
-    this.client.instance().app.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
+    this.client.instance().applications.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
   }
 
   applicationDelete(app_id, flags) {
     return confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().app.delete(app_id, this.response.applicationDelete.bind(this.response));
+      this.client.instance().applications.delete(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
 
@@ -231,7 +231,7 @@ class Request {
       options.size = flags.size;
     }
 
-    app_id = this.client.instance().app.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
+    app_id = this.client.instance().applications.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
     this.client.instance().number.get(options, this.response.applicationNumbers(app_id, flags).bind(this.response));
   }
 
