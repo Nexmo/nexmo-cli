@@ -154,6 +154,7 @@ class Request {
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
+    console.log(flags);
     const options = {};
     if (flags.answer_method) {
       options.answer_method = flags.answer_method;

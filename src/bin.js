@@ -261,6 +261,7 @@ commander
   .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .option('--v2', 'the file to save your private key to')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
