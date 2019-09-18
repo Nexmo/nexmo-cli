@@ -363,78 +363,78 @@ describe('Request', () => {
     });
 
     describe('.applicationsList', () => {
-      it('should call nexmo.app.get', test(function() {
+      it('should call nexmo.applications.get', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({});
-        expect(nexmo.app.get).to.have.been.calledWith({page_size: 100});
+        expect(nexmo.applications.get).to.have.been.calledWith({page_size: 100});
       }));
 
       it('should parse a page flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({ page: 2 });
-        expect(nexmo.app.get).to.have.been.calledWith({ index: 2, page_size: 100 });
+        expect(nexmo.applications.get).to.have.been.calledWith({ index: 2, page_size: 100 });
       }));
 
       it('should parse a size flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         request.applicationsList({ size: 25 });
-        expect(nexmo.app.get).to.have.been.calledWith({ page_size: 25 });
+        expect(nexmo.applications.get).to.have.been.calledWith({ page_size: 25 });
       }));
     });
 
     describe('.applicationCreate', () => {
-      it('should call nexmo.app.create', test(function() {
+      it('should call nexmo.applications.create', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice' });
-        expect(nexmo.app.create).to.have.been.called;
+        expect(nexmo.applications.create).to.have.been.called;
       }));
 
       it('should parse a answer_method flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
-        expect(nexmo.app.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
       }));
 
       it('should parse a event_method flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
-        expect(nexmo.app.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
       }));
     });
 
     describe('.applicationShow', () => {
       it('should call the library', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationShow('app_id');
-        expect(nexmo.app.get).to.have.been.called;
+        expect(nexmo.applications.get).to.have.been.called;
       }));
     });
 
     describe('.applicationSetup', () => {
       it('should verifiy the credentials', test(function(){
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instanceWithApp.returns(nexmo);
         response.applicationSetup.returns(()=>{});
         request.applicationSetup('123', 'abc', false);
-        expect(nexmo.app.get).to.have.been.called;
+        expect(nexmo.applications.get).to.have.been.called;
         expect(response.applicationSetup).to.have.been.called;
       }));
     });
@@ -442,56 +442,56 @@ describe('Request', () => {
     describe('.applicationUpdate', () => {
       it('should call the library', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice' });
-        expect(nexmo.app.update).to.have.been.called;
+        expect(nexmo.applications.update).to.have.been.called;
       }));
 
       it('should parse a answer_method flag', test(function() {
         nexmo = {};
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
-        expect(nexmo.app.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
       }));
 
       it('should parse a event_method flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
-        expect(nexmo.app.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
       }));
     });
 
     describe('.applicationDelete', () => {
       it('should call the library', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationDelete('123', { confirm: true });
-        expect(nexmo.app.delete).to.have.been.called;
+        expect(nexmo.applications.delete).to.have.been.called;
       }));
     });
 
     describe('.applicationNumbers', () => {
-      it('should call nexmo.app.get', test(function () {
+      it('should call nexmo.applications.get', test(function () {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
         response.applicationsList.returns(()=>{});
         response.searchByPartialAppId.returns(()=>{});
         response.applicationNumbers.returns(()=>{});
         request.applicationNumbers('app_id', {});
-        expect(nexmo.app.get).to.have.been.calledWith({});
+        expect(nexmo.applications.get).to.have.been.calledWith({});
       }));
 
       it('should call nexmo.number.get', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
         response.searchByPartialAppId.returns(()=>{});
@@ -502,7 +502,7 @@ describe('Request', () => {
 
       it('should parse a page flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
         response.searchByPartialAppId.returns(()=>{});
@@ -513,7 +513,7 @@ describe('Request', () => {
 
       it('should parse a size flag', test(function() {
         nexmo = {};
-        nexmo.app = sinon.createStubInstance(App);
+        nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
         response.searchByPartialAppId.returns(()=>{});

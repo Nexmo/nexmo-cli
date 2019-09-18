@@ -17,7 +17,7 @@ const appConfig = new Config(emitter, "-app");
 const client    = new Client(config, emitter, appConfig);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
-const request   = new Request(config, appConfig, client, response);
+const request   = new Request(config, appConfig, client, response, emitter);
 
 commander
   .version(pckg.version)
@@ -254,14 +254,27 @@ commander
 // Application Create
 
 commander
-  .command('app:create <name> <answer_url> <event_url>')
+  .command('app:create <name> [answer_url] [event_url]')
   .description('Create a new Nexmo Application')
   .alias('ac')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
-  .option('--v2', 'the file to save your private key to')
+  .option('--capabilities [capabilities]', 'the capabilities your application has, as a comma separated list. can be voice, messages, rtc, vbc')
+  .option('--voice-event-url [voiceEventUrl]', 'the event URL for the voice capability')
+  .option('--voice-event-method [voiceEventMethod]', 'the HTTP method to use for the --voice-event-url (defaults to POST)')
+  .option('--voice-answer-url [voiceAnswerUrl]', 'the answer URL for the voice capability')
+  .option('--voice-answer-method [voiceAnswerMethod]', 'the HTTP method to use for the --voice-answer-url (defaults to GET)')
+  .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
+  .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
+  .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
+  .option('--messages-inbound-method [messagesInboundMethod]', 'the HTTP method to use for the --messages-inbound-url (defaults to POST)')
+  .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
+  .option('--messages-status-method [messagesStatusMethod]', 'the HTTP method to use for the --messages-status-url (defaults to POST)')
+  .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
+  .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');

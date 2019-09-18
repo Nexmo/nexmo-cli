@@ -1,11 +1,12 @@
 import readline from 'readline';
 
 class Request {
-  constructor(config, appConfig, client, response) {
+  constructor(config, appConfig, client, response, emitter) {
     this.config = config;
     this.client = client;
     this.response = response;
     this.appConfig = appConfig;
+    this.emitter = emitter;
   }
   // Account
 
@@ -154,29 +155,123 @@ class Request {
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
-    console.log(flags);
-    const options = {};
-    if (flags.answer_method) {
-      options.answer_method = flags.answer_method;
-    }
-    if (flags.event_method) {
-      options.event_method = flags.event_method;
-    }
+    if (flags.capabilities) {
+      const defaultMethods = {
+        voice: {
+          answer: "GET",
+          fallback: "GET",
+          event: "POST"
+        },
+        messages: {
+          inbound: "POST",
+          status: "POST"
+        },
+        rtc: {
+          event: "POST"
+        }
+      };
+      const capabilities = flags.capabilities.split(",");
+      const payload = {
+        name: name,
+        capabilities: {}
+      };
 
-    let type = flags.type;
+      capabilities.forEach(capability => {
+        switch (capability) {
+        case "vbc":
+          payload.capabilities.vbc = {};
+          break;
 
-    switch (flags.type) {
-    case "messages":
-      options.inbound_url = answer_url;
-      options.status_url = event_url;
-      break;
-    case "artc":
-      type = "rtc";
-      break;
-    default:
+        case "voice":
+          if (!flags.voiceAnswerUrl) {
+            this.emitter.error("--voice-answer-url is a required flag.");
+          }
+          if (!flags.voiceEventUrl) {
+            this.emitter.error("--voice-event-url is a required flag.");
+          }
+          payload.capabilities.voice = {
+            webhooks: {
+              answer_url: {
+                address: flags.voiceAnswerUrl,
+                http_method: flags.voiceAnswerMethod || defaultMethods.voice.answer
+              },
+              fallback_answer_url: {
+                address: flags.voiceFallbackAnswerUrl || "",
+                http_method: flags.voiceFallbackAnswerMethod || defaultMethods.voice.fallback
+              },
+              event_url: {
+                address: flags.voiceEventUrl,
+                http_method: flags.voiceEventMethod || defaultMethods.voice.event
+              }
+            }
+          };
+          break;
+
+        case "messages":
+          if (!flags.messagesInboundUrl) {
+            this.emitter.error("--messages-inbound-url is a required flag.");
+          }
+          if (!flags.messagesStatusUrl) {
+            this.emitter.error("--messages-status-url is a required flag.");
+          }
+          payload.capabilities.messages = {
+            webhooks: {
+              inbound_url: {
+                address: flags.messagesInboundUrl,
+                http_method: flags.messagesInboundMethod || defaultMethods.messages.inbound
+              },
+              status_url: {
+                address: flags.messagesStatusUrl,
+                http_method: flags.messagesStatusMethod || defaultMethods.messages.status
+              }
+            }
+          };
+          break;
+
+        case "rtc":
+          if (!flags.rtcEventUrl) {
+            this.emitter.error("--rtc-event-url is a required flag.");
+          }
+          payload.capabilities.rtc = {
+            webhooks: {
+              event_url: {
+                address: flags.rtcEventUrl,
+                http_method: flags.rtcEventMethod || defaultMethods.messages.inbound
+              }
+            }
+          };
+          break;
+
+        default:
+          this.emitter.error(`Unsupported capability: ${capability}`);
+        }
+      });
+
+      this.client.instance().applications.create(payload, this.response.applicationCreate(flags, this.appConfig));
+    } else {
+      const options = {};
+      if (flags.answer_method) {
+        options.answer_method = flags.answer_method;
+      }
+      if (flags.event_method) {
+        options.event_method = flags.event_method;
+      }
+
+      let type = flags.type;
+
+      switch (flags.type) {
+      case "messages":
+        options.inbound_url = answer_url;
+        options.status_url = event_url;
+        break;
+      case "artc":
+        type = "rtc";
+        break;
+      default:
+      }
+
+      this.client.instance().applications.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
     }
-
-    this.client.instance().applications.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
   }
 
   applicationShow(app_id) {

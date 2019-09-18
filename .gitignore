@@ -8,3 +8,4 @@ npm-debug.log
 coverage
 coverage.lcov
 .DS_Store
+*.key
