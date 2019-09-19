@@ -1,4 +1,5 @@
 import readline from 'readline';
+import fs from 'fs';
 
 class Request {
   constructor(config, appConfig, client, response, emitter) {
@@ -140,6 +141,110 @@ class Request {
 
   // Applications
 
+  _createApplicationPayload(name, flags) {
+    const defaultMethods = {
+      voice: {
+        answer: "GET",
+        fallback: "GET",
+        event: "POST"
+      },
+      messages: {
+        inbound: "POST",
+        status: "POST"
+      },
+      rtc: {
+        event: "POST"
+      }
+    };
+    const capabilities = flags.capabilities.split(",");
+    const payload = {
+      name: name,
+      capabilities: {}
+    };
+
+    if (flags.publicKeyfile) {
+      if (flags.keyfile) {
+        this.emitter.error("You can't use --keyfile and --public-keyfile at the same time.");
+      }
+      payload.keys = {
+        public_key: fs.readFileSync(flags.publicKeyfile).toString()
+      };
+    }
+
+    capabilities.forEach(capability => {
+      switch (capability) {
+      case "vbc":
+        payload.capabilities.vbc = {};
+        break;
+
+      case "voice":
+        if (!flags.voiceAnswerUrl) {
+          this.emitter.error("--voice-answer-url is a required flag.");
+        }
+        if (!flags.voiceEventUrl) {
+          this.emitter.error("--voice-event-url is a required flag.");
+        }
+        payload.capabilities.voice = {
+          webhooks: {
+            answer_url: {
+              address: flags.voiceAnswerUrl,
+              http_method: flags.voiceAnswerMethod || defaultMethods.voice.answer
+            },
+            fallback_answer_url: {
+              address: flags.voiceFallbackAnswerUrl || "",
+              http_method: flags.voiceFallbackAnswerMethod || defaultMethods.voice.fallback
+            },
+            event_url: {
+              address: flags.voiceEventUrl,
+              http_method: flags.voiceEventMethod || defaultMethods.voice.event
+            }
+          }
+        };
+        break;
+
+      case "messages":
+        if (!flags.messagesInboundUrl) {
+          this.emitter.error("--messages-inbound-url is a required flag.");
+        }
+        if (!flags.messagesStatusUrl) {
+          this.emitter.error("--messages-status-url is a required flag.");
+        }
+        payload.capabilities.messages = {
+          webhooks: {
+            inbound_url: {
+              address: flags.messagesInboundUrl,
+              http_method: flags.messagesInboundMethod || defaultMethods.messages.inbound
+            },
+            status_url: {
+              address: flags.messagesStatusUrl,
+              http_method: flags.messagesStatusMethod || defaultMethods.messages.status
+            }
+          }
+        };
+        break;
+
+      case "rtc":
+        if (!flags.rtcEventUrl) {
+          this.emitter.error("--rtc-event-url is a required flag.");
+        }
+        payload.capabilities.rtc = {
+          webhooks: {
+            event_url: {
+              address: flags.rtcEventUrl,
+              http_method: flags.rtcEventMethod || defaultMethods.messages.inbound
+            }
+          }
+        };
+        break;
+
+      default:
+        this.emitter.error(`Unsupported capability: ${capability}`);
+      }
+    });
+
+    return payload;
+  }
+
   applicationsList(flags) {
     const options = {
       page_size: 100
@@ -151,102 +256,12 @@ class Request {
       options.page_size = flags.size;
     }
 
-    this.client.instance().applications.get(options, this.response.applicationsList(flags).bind(this.response));
+    this.client.instance().applications.get(options, this.response.applicationsList(flags).bind(this.response), flags.v2);
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
     if (flags.capabilities) {
-      const defaultMethods = {
-        voice: {
-          answer: "GET",
-          fallback: "GET",
-          event: "POST"
-        },
-        messages: {
-          inbound: "POST",
-          status: "POST"
-        },
-        rtc: {
-          event: "POST"
-        }
-      };
-      const capabilities = flags.capabilities.split(",");
-      const payload = {
-        name: name,
-        capabilities: {}
-      };
-
-      capabilities.forEach(capability => {
-        switch (capability) {
-        case "vbc":
-          payload.capabilities.vbc = {};
-          break;
-
-        case "voice":
-          if (!flags.voiceAnswerUrl) {
-            this.emitter.error("--voice-answer-url is a required flag.");
-          }
-          if (!flags.voiceEventUrl) {
-            this.emitter.error("--voice-event-url is a required flag.");
-          }
-          payload.capabilities.voice = {
-            webhooks: {
-              answer_url: {
-                address: flags.voiceAnswerUrl,
-                http_method: flags.voiceAnswerMethod || defaultMethods.voice.answer
-              },
-              fallback_answer_url: {
-                address: flags.voiceFallbackAnswerUrl || "",
-                http_method: flags.voiceFallbackAnswerMethod || defaultMethods.voice.fallback
-              },
-              event_url: {
-                address: flags.voiceEventUrl,
-                http_method: flags.voiceEventMethod || defaultMethods.voice.event
-              }
-            }
-          };
-          break;
-
-        case "messages":
-          if (!flags.messagesInboundUrl) {
-            this.emitter.error("--messages-inbound-url is a required flag.");
-          }
-          if (!flags.messagesStatusUrl) {
-            this.emitter.error("--messages-status-url is a required flag.");
-          }
-          payload.capabilities.messages = {
-            webhooks: {
-              inbound_url: {
-                address: flags.messagesInboundUrl,
-                http_method: flags.messagesInboundMethod || defaultMethods.messages.inbound
-              },
-              status_url: {
-                address: flags.messagesStatusUrl,
-                http_method: flags.messagesStatusMethod || defaultMethods.messages.status
-              }
-            }
-          };
-          break;
-
-        case "rtc":
-          if (!flags.rtcEventUrl) {
-            this.emitter.error("--rtc-event-url is a required flag.");
-          }
-          payload.capabilities.rtc = {
-            webhooks: {
-              event_url: {
-                address: flags.rtcEventUrl,
-                http_method: flags.rtcEventMethod || defaultMethods.messages.inbound
-              }
-            }
-          };
-          break;
-
-        default:
-          this.emitter.error(`Unsupported capability: ${capability}`);
-        }
-      });
-
+      const payload = this._createApplicationPayload(name, flags);
       this.client.instance().applications.create(payload, this.response.applicationCreate(flags, this.appConfig));
     } else {
       const options = {};
@@ -274,8 +289,8 @@ class Request {
     }
   }
 
-  applicationShow(app_id) {
-    this.client.instance().applications.get(app_id, this.response.applicationShow.bind(this.response));
+  applicationShow(app_id, flags) {
+    this.client.instance().applications.get(app_id, this.response.applicationShow.bind(this.response), flags.v2);
   }
 
   applicationSetup(app_id, private_key, flags) {
@@ -288,28 +303,34 @@ class Request {
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
-    const options = {};
-    if (flags.answer_method) {
-      options.answer_method = flags.answer_method;
-    }
-    if (flags.event_method) {
-      options.event_method = flags.event_method;
-    }
+    if (flags.capabilities) {
+      const payload = this._createApplicationPayload(name, flags);
 
-    let type = flags.type;
+      this.client.instance().applications.update(app_id, payload, this.response.applicationUpdate.bind(this.response));
+    } else {
+      const options = {};
+      if (flags.answer_method) {
+        options.answer_method = flags.answer_method;
+      }
+      if (flags.event_method) {
+        options.event_method = flags.event_method;
+      }
 
-    switch (flags.type) {
-    case "messages":
-      options.inbound_url = answer_url;
-      options.status_url = event_url;
-      break;
-    case "artc":
-      type = "rtc";
-      break;
-    default:
+      let type = flags.type;
+
+      switch (flags.type) {
+      case "messages":
+        options.inbound_url = answer_url;
+        options.status_url = event_url;
+        break;
+      case "artc":
+        type = "rtc";
+        break;
+      default:
+      }
+
+      this.client.instance().applications.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
     }
-
-    this.client.instance().applications.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
   }
 
   applicationDelete(app_id, flags) {

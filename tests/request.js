@@ -1,23 +1,26 @@
-import Client   from '../src/client.js';
-import Config   from '../src/config.js';
-import Request  from '../src/request.js';
+import Client from '../src/client.js';
+import Config from '../src/config.js';
+import Request from '../src/request.js';
 import Response from '../src/response.js';
+import Emitter from '../src/emitter.js';
 
-import Account        from 'nexmo/lib/Account';
-import App            from 'nexmo/lib/App';
-import Message        from 'nexmo/lib/Message';
-import Number         from 'nexmo/lib/Number';
-import NumberInsight  from 'nexmo/lib/NumberInsight';
-import Conversations  from 'nexmo/lib/Conversations';
-import Users          from 'nexmo/lib/Users';
-import Members        from 'nexmo/lib/Members';
+import Account from 'nexmo/lib/Account';
+import App from 'nexmo/lib/App';
+import Message from 'nexmo/lib/Message';
+import Number from 'nexmo/lib/Number';
+import NumberInsight from 'nexmo/lib/NumberInsight';
+import Conversations from 'nexmo/lib/Conversations';
+import Users from 'nexmo/lib/Users';
+import Members from 'nexmo/lib/Members';
 
+import fs from 'fs';
 
-
-import chai, { expect } from 'chai';
-import sinon      from 'sinon';
-import sinonChai  from 'sinon-chai';
-import sinonTest        from 'sinon-test';
+import chai, {
+  expect
+} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+import sinonTest from 'sinon-test';
 const test = sinonTest(sinon);
 
 chai.use(sinonChai);
@@ -35,21 +38,23 @@ describe('Request', () => {
     let nexmo;
     let request;
     let response;
+    let emitter;
 
     beforeEach(() => {
-      client   = sinon.createStubInstance(Client);
-      config   = sinon.createStubInstance(Config);
-      appConfig   = sinon.createStubInstance(Config);
+      client = sinon.createStubInstance(Client);
+      config = sinon.createStubInstance(Config);
+      appConfig = sinon.createStubInstance(Config);
       response = sinon.createStubInstance(Response);
-      request  = new Request(config, appConfig, client, response);
+      request = new Request(config, appConfig, client, response, emitter);
+      emitter = sinon.createStubInstance(Emitter);
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', test(function(){
+      it('should verifiy the credentials', test(function() {
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
-        response.accountSetup.returns(()=>{});
+        response.accountSetup.returns(() => {});
         request.accountSetup('123', 'abc', false);
         expect(nexmo.account.checkBalance).to.have.been.called;
         expect(response.accountSetup).to.have.been.called;
@@ -57,11 +62,11 @@ describe('Request', () => {
     });
 
     describe('.accountSetup', () => {
-      it('should verifiy the credentials', test(function(){
+      it('should verifiy the credentials', test(function() {
         nexmo = {};
         nexmo.account = sinon.createStubInstance(Account);
         client.instanceWith.returns(nexmo);
-        response.accountSetup.returns(()=>{});
+        response.accountSetup.returns(() => {});
         request.accountSetup('123', 'abc', false);
         expect(nexmo.account.checkBalance).to.have.been.called;
         expect(response.accountSetup).to.have.been.called;
@@ -70,10 +75,14 @@ describe('Request', () => {
 
     describe('.accountInfo', () => {
       it('should read the credentials', test(function() {
-        nexmo = { credentials: 'credentials' };
+        nexmo = {
+          credentials: 'credentials'
+        };
         client.instance.returns(nexmo);
         request.accountInfo();
-        expect(response.accountInfo).to.have.been.calledWith({ credentials: 'credentials' });
+        expect(response.accountInfo).to.have.been.calledWith({
+          credentials: 'credentials'
+        });
       }));
     });
 
@@ -130,61 +139,90 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
+        response.numbersList.returns(() => {});
         request.numbersList({});
         expect(nexmo.number.get).to.have.been.called;
-        expect(nexmo.number.get).to.have.been.calledWith({ size: 100 });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          size: 100
+        });
       }));
 
       it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
-        request.numbersList({ page: 2 });
-        expect(nexmo.number.get).to.have.been.calledWith({ index: 2, size: 100 });
+        response.numbersList.returns(() => {});
+        request.numbersList({
+          page: 2
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          index: 2,
+          size: 100
+        });
       }));
 
       it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
-        request.numbersList({ size: 25 });
-        expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
+        response.numbersList.returns(() => {});
+        request.numbersList({
+          size: 25
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          size: 25
+        });
       }));
 
       it('should handle search with a default search_pattern of 1', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
+        response.numbersList.returns(() => {});
 
         const pattern = '123';
-        request.numbersList({ pattern: pattern });
-        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 1, size: 100 });
+        request.numbersList({
+          pattern: pattern
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          pattern: pattern,
+          search_pattern: 1,
+          size: 100
+        });
       }));
 
       it('should handle search with a search_pattern of 2 when * is the first pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
+        response.numbersList.returns(() => {});
 
         const pattern = '*123';
-        request.numbersList({ pattern: pattern });
-        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 2, size: 100 });
+        request.numbersList({
+          pattern: pattern
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          pattern: pattern,
+          search_pattern: 2,
+          size: 100
+        });
       }));
 
       it('should handle search with a search_pattern of 0 when * is the last pattern char', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numbersList.returns(()=>{});
+        response.numbersList.returns(() => {});
 
         const pattern = '123*';
-        request.numbersList({ pattern: pattern });
-        expect(nexmo.number.get).to.have.been.calledWith({ pattern: pattern, search_pattern: 0, size: 100 });
+        request.numbersList({
+          pattern: pattern
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          pattern: pattern,
+          search_pattern: 0,
+          size: 100
+        });
       }));
     });
 
@@ -193,72 +231,116 @@ describe('Request', () => {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
+        response.numberSearch.returns(() => {});
         request.numberSearch('GB', {});
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 100 });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: [],
+          size: 100
+        });
       }));
 
       it('should parse a voice flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { voice: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE'], size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          voice: true
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: ['VOICE'],
+          size: 100
+        });
       }));
 
       it('should parse a sms flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { sms: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['SMS'], size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          sms: true
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: ['SMS'],
+          size: 100
+        });
       }));
 
       it('should parse both the sms and voice flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { sms: true, voice: true });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: ['VOICE','SMS'], size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          sms: true,
+          voice: true
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: ['VOICE', 'SMS'],
+          size: 100
+        });
       }));
 
       it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { page: 2 });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], index: 2, size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          page: 2
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: [],
+          index: 2,
+          size: 100
+        });
       }));
 
       it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { size: 25 });
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], size: 25 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          size: 25
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: [],
+          size: 25
+        });
       }));
 
       it('should pass the pattern flag without a wildcard', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { pattern: '020'});
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '020', search_pattern: 1, size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          pattern: '020'
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: [],
+          pattern: '020',
+          search_pattern: 1,
+          size: 100
+        });
       }));
 
       it('should pass the pattern flag with a start-of wildcard', test(function() {
         nexmo = {};
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.numberSearch.returns(()=>{});
-        request.numberSearch('GB', { pattern: '*020'});
-        expect(nexmo.number.search).to.have.been.calledWith('GB', { features: [], pattern: '*020', search_pattern: 2, size: 100 });
+        response.numberSearch.returns(() => {});
+        request.numberSearch('GB', {
+          pattern: '*020'
+        });
+        expect(nexmo.number.search).to.have.been.calledWith('GB', {
+          features: [],
+          pattern: '*020',
+          search_pattern: 2,
+          size: 100
+        });
       }));
     });
 
@@ -267,8 +349,13 @@ describe('Request', () => {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
-        request.numberBuy('123', { confirm: true });
-        expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '123' });
+        request.numberBuy('123', {
+          confirm: true
+        });
+        expect(nexmo.numberInsight.get).to.have.been.calledWith({
+          level: 'basic',
+          number: '123'
+        });
       }));
 
       it('should handle search with a default search_pattern of 1', test(function() {
@@ -278,10 +365,11 @@ describe('Request', () => {
 
         const country_code = 'GB';
         const pattern = '123';
-        request.numberBuy(pattern, { country_code: country_code });
+        request.numberBuy(pattern, {
+          country_code: country_code
+        });
         expect(nexmo.number.search).to.have.been.calledWith(
-          country_code,
-          {
+          country_code, {
             features: ['VOICE'],
             pattern: pattern,
             search_pattern: 1
@@ -296,10 +384,11 @@ describe('Request', () => {
 
         const country_code = 'GB';
         const pattern = '*123';
-        request.numberBuy(pattern, { country_code: country_code });
+        request.numberBuy(pattern, {
+          country_code: country_code
+        });
         expect(nexmo.number.search).to.have.been.calledWith(
-          country_code,
-          {
+          country_code, {
             features: ['VOICE'],
             pattern: pattern,
             search_pattern: 2
@@ -314,10 +403,11 @@ describe('Request', () => {
 
         const country_code = 'GB';
         const pattern = '123*';
-        request.numberBuy(pattern, { country_code: country_code });
+        request.numberBuy(pattern, {
+          country_code: country_code
+        });
         expect(nexmo.number.search).to.have.been.calledWith(
-          country_code,
-          {
+          country_code, {
             features: ['VOICE'],
             pattern: pattern,
             search_pattern: 0
@@ -331,11 +421,12 @@ describe('Request', () => {
         client.instance.returns(nexmo);
 
         const country_code = 'GB';
-        request.numberBuy(null, { country_code: country_code });
+        request.numberBuy(null, {
+          country_code: country_code
+        });
 
         expect(nexmo.number.search).to.have.been.calledWith(
-          country_code,
-          {
+          country_code, {
             features: ['VOICE']
           }
         );
@@ -347,7 +438,9 @@ describe('Request', () => {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
-        request.numberCancel('123', { confirm: true });
+        request.numberCancel('123', {
+          confirm: true
+        });
         expect(nexmo.numberInsight.get).to.have.been.called;
       }));
 
@@ -356,8 +449,11 @@ describe('Request', () => {
         nexmo.number = sinon.createStubInstance(Number);
         nexmo.response = sinon.createStubInstance(Response);
         client.instance.returns(nexmo);
-        response.numberCancel.returns(()=>{});
-        request.numberCancel('123', { country_code: 'GB', confirm: true });
+        response.numberCancel.returns(() => {});
+        request.numberCancel('123', {
+          country_code: 'GB',
+          confirm: true
+        });
         expect(nexmo.number.cancel).to.have.been.called;
       }));
     });
@@ -367,27 +463,38 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        response.applicationsList.returns(()=>{});
+        response.applicationsList.returns(() => {});
         request.applicationsList({});
-        expect(nexmo.applications.get).to.have.been.calledWith({page_size: 100});
+        expect(nexmo.applications.get).to.have.been.calledWith({
+          page_size: 100
+        });
       }));
 
       it('should parse a page flag', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        response.applicationsList.returns(()=>{});
-        request.applicationsList({ page: 2 });
-        expect(nexmo.applications.get).to.have.been.calledWith({ index: 2, page_size: 100 });
+        response.applicationsList.returns(() => {});
+        request.applicationsList({
+          page: 2
+        });
+        expect(nexmo.applications.get).to.have.been.calledWith({
+          index: 2,
+          page_size: 100
+        });
       }));
 
       it('should parse a size flag', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        response.applicationsList.returns(()=>{});
-        request.applicationsList({ size: 25 });
-        expect(nexmo.applications.get).to.have.been.calledWith({ page_size: 25 });
+        response.applicationsList.returns(() => {});
+        request.applicationsList({
+          size: 25
+        });
+        expect(nexmo.applications.get).to.have.been.calledWith({
+          page_size: 25
+        });
       }));
     });
 
@@ -396,7 +503,9 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice' });
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          type: 'voice'
+        });
         expect(nexmo.applications.create).to.have.been.called;
       }));
 
@@ -404,16 +513,41 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
-        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          type: 'voice',
+          answer_method: 'POST'
+        });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', {
+          answer_method: 'POST'
+        });
       }));
 
       it('should parse a event_method flag', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationCreate('name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
-        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          type: 'voice',
+          event_method: 'POST'
+        });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', {
+          event_method: 'POST'
+        });
+      }));
+
+      it('should parse a capabilities flag', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          capabilities: 'vbc'
+        });
+        expect(nexmo.applications.create).to.have.been.calledWith({
+          capabilities: {
+            vbc: {}
+          },
+          name: 'name'
+        });
       }));
     });
 
@@ -422,17 +556,19 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationShow('app_id');
+        request.applicationShow('app_id', {
+          v2: false
+        });
         expect(nexmo.applications.get).to.have.been.called;
       }));
     });
 
     describe('.applicationSetup', () => {
-      it('should verifiy the credentials', test(function(){
+      it('should verifiy the credentials', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instanceWithApp.returns(nexmo);
-        response.applicationSetup.returns(()=>{});
+        response.applicationSetup.returns(() => {});
         request.applicationSetup('123', 'abc', false);
         expect(nexmo.applications.get).to.have.been.called;
         expect(response.applicationSetup).to.have.been.called;
@@ -444,7 +580,9 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice' });
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          type: 'voice'
+        });
         expect(nexmo.applications.update).to.have.been.called;
       }));
 
@@ -453,16 +591,41 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', answer_method: 'POST' });
-        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { answer_method : 'POST' });
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          type: 'voice',
+          answer_method: 'POST'
+        });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', {
+          answer_method: 'POST'
+        });
       }));
 
       it('should parse a event_method flag', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', { type: 'voice', event_method: 'POST' });
-        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', { event_method : 'POST' });
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          type: 'voice',
+          event_method: 'POST'
+        });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', {
+          event_method: 'POST'
+        });
+      }));
+
+      it('should parse a capabilities flag', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          capabilities: 'vbc'
+        });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', {
+          capabilities: {
+            vbc: {}
+          },
+          name: 'name'
+        });
       }));
     });
 
@@ -471,20 +634,115 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
-        request.applicationDelete('123', { confirm: true });
+        request.applicationDelete('123', {
+          confirm: true
+        });
         expect(nexmo.applications.delete).to.have.been.called;
       }));
     });
 
+    describe('._createApplicationPayload', () => {
+      it('should emit error for unknown capability', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "no"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("Unsupported capability: no");
+      }));
+
+      it('should emit error for --keyfile and --public-keyfile at the same time', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "voice",
+          keyfile: "yes",
+          publicKeyfile: __dirname + "/fixtures/public.key.pub"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("You can't use --keyfile and --public-keyfile at the same time.");
+      }));
+
+      it('should emit error for missing --voice-answer-url when one of the capabilities is voice', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "voice"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("--voice-answer-url is a required flag.");
+      }));
+
+      it('should emit error for missing --voice-event-url when one of the capabilities is voice', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "voice"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("--voice-event-url is a required flag.");
+      }));
+
+      it('should emit error for missing --messages-inbound-url when one of the capabilities is messages', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "messages"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("--messages-inbound-url is a required flag.");
+      }));
+
+      it('should emit error for missing --messages-status-url when one of the capabilities is messages', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "messages"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("--messages-status-url is a required flag.");
+      }));
+
+      it('should emit error for missing --rtc-event-url when one of the capabilities is rtc', test(function() {
+        request._createApplicationPayload('name', {
+          capabilities: "rtc"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("--rtc-event-url is a required flag.");
+      }));
+
+      it('should generate payload with public key', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: "vbc",
+          publicKeyfile: __dirname + "/fixtures/public.key.pub"
+        });
+        expect(payload.keys.public_key).to.not.equal(undefined);
+      }));
+
+      it('should generate payload with default http methods', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: "voice,messages,rtc,vbc",
+          voiceAnswerUrl: "example.com",
+          voiceFallbackAnswerUrl: "example.com",
+          voiceEventUrl: "example.com",
+          messagesInboundUrl: "example.com",
+          messagesStatusUrl: "example.com",
+          rtcEventUrl: "example.com",
+        });
+        expect(fs.readFileSync(__dirname + "/fixtures/app-default-methods.json").toString()).to.include(JSON.stringify(payload));
+      }));
+
+      it('should generate payload with http methods', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: "voice,messages,rtc,vbc",
+          voiceAnswerUrl: "example.com",
+          voiceFallbackAnswerUrl: "example.com",
+          voiceEventUrl: "example.com",
+          messagesInboundUrl: "example.com",
+          messagesStatusUrl: "example.com",
+          rtcEventUrl: "example.com",
+          voiceAnswerMethod: "PUT",
+          voiceFallbackAnswerMethod: "PUT",
+          voiceEventMethod: "PUT",
+          messagesInboundMethod: "PUT",
+          messagesStatusMethod: "PUT",
+          rtcEventMethod: "PUT",
+        });
+        expect(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json").toString()).to.include(JSON.stringify(payload));
+      }));
+    });
+
     describe('.applicationNumbers', () => {
-      it('should call nexmo.applications.get', test(function () {
+      it('should call nexmo.applications.get', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.applicationsList.returns(()=>{});
-        response.searchByPartialAppId.returns(()=>{});
-        response.applicationNumbers.returns(()=>{});
+        response.applicationsList.returns(() => {});
+        response.searchByPartialAppId.returns(() => {});
+        response.applicationNumbers.returns(() => {});
         request.applicationNumbers('app_id', {});
         expect(nexmo.applications.get).to.have.been.calledWith({});
       }));
@@ -494,8 +752,8 @@ describe('Request', () => {
         nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.searchByPartialAppId.returns(()=>{});
-        response.applicationNumbers.returns(()=>{});
+        response.searchByPartialAppId.returns(() => {});
+        response.applicationNumbers.returns(() => {});
         request.applicationNumbers('app_id', {});
         expect(nexmo.number.get).to.have.been.called;
       }));
@@ -505,10 +763,14 @@ describe('Request', () => {
         nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.searchByPartialAppId.returns(()=>{});
-        response.applicationNumbers.returns(()=>{});
-        request.applicationNumbers('app_id', { page: 2 });
-        expect(nexmo.number.get).to.have.been.calledWith({ index: 2 });
+        response.searchByPartialAppId.returns(() => {});
+        response.applicationNumbers.returns(() => {});
+        request.applicationNumbers('app_id', {
+          page: 2
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          index: 2
+        });
       }));
 
       it('should parse a size flag', test(function() {
@@ -516,10 +778,14 @@ describe('Request', () => {
         nexmo.applications = sinon.createStubInstance(App);
         nexmo.number = sinon.createStubInstance(Number);
         client.instance.returns(nexmo);
-        response.searchByPartialAppId.returns(()=>{});
-        response.applicationNumbers.returns(()=>{});
-        request.applicationNumbers('app_id', { size: 25 });
-        expect(nexmo.number.get).to.have.been.calledWith({ size: 25 });
+        response.searchByPartialAppId.returns(() => {});
+        response.applicationNumbers.returns(() => {});
+        request.applicationNumbers('app_id', {
+          size: 25
+        });
+        expect(nexmo.number.get).to.have.been.calledWith({
+          size: 25
+        });
       }));
     });
 
@@ -529,7 +795,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.linkApp('123', 'abc');
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -539,7 +807,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.unlinkApp('123');
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -549,7 +819,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.linkSms('123', 'abc');
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -559,7 +831,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.unlinkSms('123');
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -569,7 +843,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.linkTel('123', 'abc', {});
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -579,7 +855,9 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.unlinkTel('123');
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
 
       describe('.linkSip', () => {
@@ -588,7 +866,9 @@ describe('Request', () => {
           nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
           client.instance.returns(nexmo);
           request.linkSip('123', 'abc', {});
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+            level: 'basic'
+          });
         }));
       });
 
@@ -598,7 +878,9 @@ describe('Request', () => {
           nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
           client.instance.returns(nexmo);
           request.unlinkSip('123');
-          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+          expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+            level: 'basic'
+          });
         }));
       });
     });
@@ -608,8 +890,12 @@ describe('Request', () => {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
-        request.insightBasic('4555555', { confirm: true });
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'basic'});
+        request.insightBasic('4555555', {
+          confirm: true
+        });
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'basic'
+        });
       }));
     });
 
@@ -618,8 +904,12 @@ describe('Request', () => {
         nexmo = {};
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
-        request.insightStandard('4555555', { confirm: true });
-        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({level:'standard'});
+        request.insightStandard('4555555', {
+          confirm: true
+        });
+        expect(nexmo.numberInsight.get).to.have.been.calledWithMatch({
+          level: 'standard'
+        });
       }));
     });
 
@@ -628,7 +918,10 @@ describe('Request', () => {
         nexmo = {};
         nexmo.message = sinon.createStubInstance(Message);
         client.instance.returns(nexmo);
-        request.sendSms('to', ['Hello', 'World'], { 'from' : 'from', 'confirm' : true });
+        request.sendSms('to', ['Hello', 'World'], {
+          'from': 'from',
+          'confirm': true
+        });
         expect(nexmo.message.sendSms).to.have.been.calledWith('from', 'to', 'Hello World');
       }));
     });
@@ -641,7 +934,7 @@ describe('Request', () => {
         client.definition.returns(Nexmo);
 
         request.generateJwt('path/to/private.key', [], {});
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key' );
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key');
       }));
 
       it('should deal with Nexmo.generateJwt with null claims', test(function() {
@@ -650,8 +943,12 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', [], {app_id: 'application_id'});
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id'});
+        request.generateJwt('path/to/private.key', [], {
+          app_id: 'application_id'
+        });
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {
+          application_id: 'application_id'
+        });
       }));
 
       it('should call Nexmo.generateJwt with additional claims', test(function() {
@@ -660,8 +957,14 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {application_id: 'application_id', subject: 'leggetter', jti: '1475861732'});
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {
+          app_id: 'application_id'
+        });
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {
+          application_id: 'application_id',
+          subject: 'leggetter',
+          jti: '1475861732'
+        });
       }));
 
       it('should call Nexmo.generateJwt with the JSON acl claim if a valid JSON is passed', test(function() {
@@ -670,8 +973,17 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', ['acl={"paths": { "/**": {  } } }'], {app_id: 'application_id'});
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: { paths: { '/**': {  } } }, application_id: 'application_id'});
+        request.generateJwt('path/to/private.key', ['acl={"paths": { "/**": {  } } }'], {
+          app_id: 'application_id'
+        });
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {
+          acl: {
+            paths: {
+              '/**': {}
+            }
+          },
+          application_id: 'application_id'
+        });
       }));
 
       it('should call Nexmo.generateJwt with the original acl claim if invalid JSON is passed', test(function() {
@@ -680,8 +992,13 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', ['acl=notAnObject'], {app_id: 'application_id'});
-        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {acl: 'notAnObject', application_id: 'application_id'});
+        request.generateJwt('path/to/private.key', ['acl=notAnObject'], {
+          app_id: 'application_id'
+        });
+        expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key', {
+          acl: 'notAnObject',
+          application_id: 'application_id'
+        });
       }));
 
       it('should call pass generated token to response.generateJwt', test(function() {
@@ -692,7 +1009,9 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {app_id: 'application_id'});
+        request.generateJwt('path/to/private.key', ['subject=leggetter', 'jti=1475861732'], {
+          app_id: 'application_id'
+        });
         expect(response.generateJwt).to.have.been.calledWith(null, 'a token!');
       }));
 
@@ -721,7 +1040,9 @@ describe('Request', () => {
     describe('.getCountryCode', () => {
       it('should return the country code if provided', test(function() {
         const callback = sinon.spy();
-        request.getCountryCode('44555666777', { country_code: 'GB' }, callback);
+        request.getCountryCode('44555666777', {
+          country_code: 'GB'
+        }, callback);
         expect(callback).to.have.been.calledWith('GB');
       }));
 
@@ -731,7 +1052,10 @@ describe('Request', () => {
         nexmo.numberInsight = sinon.createStubInstance(NumberInsight);
         client.instance.returns(nexmo);
         request.getCountryCode('44555666777', {}, callback);
-        expect(nexmo.numberInsight.get).to.have.been.calledWith({ level: 'basic', number: '44555666777' });
+        expect(nexmo.numberInsight.get).to.have.been.calledWith({
+          level: 'basic',
+          number: '44555666777'
+        });
       }));
     });
 
