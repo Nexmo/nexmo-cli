@@ -230,7 +230,7 @@ API Secret: 234`);
   describe('.applicationShow', () => {
     it('should print the response', () => {
       const data = { id: 123 };
-      response.applicationShow(null, data);
+      response.applicationShow({v2: true})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith(null, data);
     });

@@ -2,6 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
+import inquirer from 'inquirer';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -9,6 +10,7 @@ import Client    from './client';
 import Response  from './response';
 import Request   from './request';
 import Validator from './validator';
+import prompts   from './prompts';
 import pckg      from '../package.json';
 
 const emitter   = new Emitter();
@@ -257,7 +259,7 @@ commander
 // Application Create
 
 commander
-  .command('app:create <name> [answer_url] [event_url]')
+  .command('app:create [name] [answer_url] [event_url]')
   .description('Create a new Nexmo Application')
   .alias('ac')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
@@ -273,22 +275,29 @@ commander
   .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
   .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
   .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
-  .option('--messages-inbound-method [messagesInboundMethod]', 'the HTTP method to use for the --messages-inbound-url (defaults to POST)')
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
-  .option('--messages-status-method [messagesStatusMethod]', 'the HTTP method to use for the --messages-status-url (defaults to POST)')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
-  .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+  .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
 
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:create "Test Application 1" --capabilities=voice,rtc --voice-event-url=http://example.com --voice-answer-url=http://example.com --rtc-event-url=http://example.com --keyfile=private.key');
+    emitter.log('    $ nexmo app:create');
     emitter.log(' ');
   })
-  .action(request.applicationCreate.bind(request));
+  .action((name, answer_url, event_url, flags) => {
+    if (!name) {
+      inquirer.prompt(prompts.applicationCreate).then(answers => {
+        answers.capabilities = answers.capabilities.join();
+        request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
+      });
+    } else {
+      request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
+    }
+  });
 
 commander
-  .command('apps:create <name> <answer_url> <event_url>', null, { noHelp: true })
+  .command('apps:create [name] [answer_url] [event_url]', null, { noHelp: true })
   .description('Create a new Nexmo Application')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
@@ -303,19 +312,26 @@ commander
   .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
   .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
   .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
-  .option('--messages-inbound-method [messagesInboundMethod]', 'the HTTP method to use for the --messages-inbound-url (defaults to POST)')
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
-  .option('--messages-status-method [messagesStatusMethod]', 'the HTTP method to use for the --messages-status-url (defaults to POST)')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
-  .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+  .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
 
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo apps:create "Test Application 1" --capabilities=voice,rtc --voice-event-url=http://example.com --voice-answer-url=http://example.com --rtc-event-url=http://example.com --keyfile=private.key');
+    emitter.log('    $ nexmo apps:create');
     emitter.log(' ');
   })
-  .action(request.applicationCreate.bind(request));
+  .action((name, answer_url, event_url, flags) => {
+    if (!name) {
+      inquirer.prompt(prompts.applicationCreate).then(answers => {
+        answers.capabilities = answers.capabilities.join();
+        request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
+      });
+    } else {
+      request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
+    }
+  });
 
 // Application Show
 
@@ -323,6 +339,7 @@ commander
   .command('app:show <app_id>')
   .description('Show details for a Nexmo Application')
   .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .alias('as')
   .action(request.applicationShow.bind(request));
 
@@ -330,6 +347,7 @@ commander
   .command('app <app_id>', null, { noHelp: true })
   .description('Show details for a Nexmo Application')
   .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .action(request.applicationShow.bind(request));
 
 commander
@@ -343,12 +361,13 @@ commander
   .command('apps:show <app_id>', null, { noHelp: true })
   .description('Show details for a Nexmo Application')
   .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .action(request.applicationShow.bind(request));
 
 // Application Update
 
 commander
-  .command('app:update <app_id> <name> [answer_url] [event_url]')
+  .command('app:update <app_id> [name] [answer_url] [event_url]')
   .description('Update a Nexmo Application')
   .alias('au')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
@@ -362,22 +381,29 @@ commander
   .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
   .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
   .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
-  .option('--messages-inbound-method [messagesInboundMethod]', 'the HTTP method to use for the --messages-inbound-url (defaults to POST)')
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
-  .option('--messages-status-method [messagesStatusMethod]', 'the HTTP method to use for the --messages-status-url (defaults to POST)')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
   .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" --capabilities=voice,rtc --voice-event-url=http://example.com --voice-answer-url=http://example.com --rtc-event-url=http://example.com --public-keyfile=public.key');
+    emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action(request.applicationUpdate.bind(request));
+  .action((app_id, name, answer_url, event_url, flags) => {
+    if (!name) {
+      inquirer.prompt(prompts.applicationUpdate).then(answers => {
+        answers.capabilities = answers.capabilities.join();
+        request.applicationCreate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+      });
+    } else {
+      request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
+    }
+  });
 
 commander
-  .command('apps:update <app_id> <name> <answer_url> <event_url>', null, { noHelp: true })
+  .command('apps:update <app_id> [name] [answer_url] [event_url]', null, { noHelp: true })
   .description('Update a Nexmo Application')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
@@ -390,19 +416,26 @@ commander
   .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
   .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
   .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
-  .option('--messages-inbound-method [messagesInboundMethod]', 'the HTTP method to use for the --messages-inbound-url (defaults to POST)')
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
-  .option('--messages-status-method [messagesStatusMethod]', 'the HTTP method to use for the --messages-status-url (defaults to POST)')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
   .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" --capabilities=voice,rtc --voice-event-url=http://example.com --voice-answer-url=http://example.com --rtc-event-url=http://example.com --public-keyfile=public.key');
+    emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action(request.applicationUpdate.bind(request));
+  .action((app_id, name, answer_url, event_url, flags) => {
+    if (!name) {
+      inquirer.prompt(prompts.applicationUpdate).then(answers => {
+        answers.capabilities = answers.capabilities.join();
+        request.applicationCreate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+      });
+    } else {
+      request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
+    }
+  });
 
 
 // Application Delete

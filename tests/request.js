@@ -556,6 +556,7 @@ describe('Request', () => {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
+        response.applicationShow.returns(() => {});
         request.applicationShow('app_id', {
           v2: false
         });
@@ -726,8 +727,6 @@ describe('Request', () => {
           voiceAnswerMethod: "PUT",
           voiceFallbackAnswerMethod: "PUT",
           voiceEventMethod: "PUT",
-          messagesInboundMethod: "PUT",
-          messagesStatusMethod: "PUT",
           rtcEventMethod: "PUT",
         });
         expect(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json").toString()).to.include(JSON.stringify(payload));

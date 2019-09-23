@@ -163,7 +163,10 @@ API Secret: ${client.credentials.apiSecret}`
       }
       if (response) {
         this.emitter.list(`Application created: ${response.id}`, response);
-        this._writeKey(flags.keyfile, response.keys.private_key);
+
+        if (response.keys.private_key) {
+          this._writeKey(flags.keyfile, response.keys.private_key);
+        }
 
         config.putAndSave({
           'app_config': {
@@ -171,13 +174,77 @@ API Secret: ${client.credentials.apiSecret}`
             'private_key': response.keys.private_key
           }
         }, true);
+
+        // if command ran in interactive mode
+        if (!flags._description) {
+          let recreatedCommand = `nexmo app:create ${flags.name}`;
+          recreatedCommand += ` --capabilities=${flags.capabilities}`;
+
+          if (flags.voiceAnswerUrl) recreatedCommand += ` --voice-answer-url=${flags.voiceAnswerUrl}`;
+          if (flags.voiceAnswerMethod && flags.voiceAnswerMethod !== "GET") recreatedCommand += ` --voice-answer-method=${flags.voiceAnswerMethod}`;
+          if (flags.voiceFallbackAnswerUrl) recreatedCommand += ` --voice-fallback-answer-url=${flags.voiceFallbackAnswerUrl}`;
+          if (flags.voiceFallbackAnswerMethod && flags.voiceFallbackAnswerMethod !== "GET") recreatedCommand += ` --voice-fallback-answer-method=${flags.voiceFallbackAnswerMethod}`;
+          if (flags.voiceEventUrl) recreatedCommand += ` --voice-event-url=${flags.voiceEventUrl}`;
+          if (flags.voiceEventMethod && flags.voiceEventMethod !== "POST") recreatedCommand += ` --voice-event-method=${flags.voiceEventMethod}`;
+
+          if (flags.messagesInboundUrl) recreatedCommand += ` --messages-inbound-url=${flags.messagesInboundUrl}`;
+          if (flags.messagesStatusUrl) recreatedCommand += ` --messages-status-url=${flags.messagesStatusUrl}`;
+
+          if (flags.rtcEventUrl) recreatedCommand += ` --rtc-event-url=${flags.rtcEventUrl}`;
+          if (flags.rtcEventMethod && flags.rtcEventMethod !== "POST") recreatedCommand += ` --rtc-event-method=${flags.rtcEventMethod}`;
+
+          if (flags.publicKeyfile) recreatedCommand += ` --public-keyfile=${flags.publicKeyfile}`;
+          if (flags.keyfile) recreatedCommand += ` --keyfile=${flags.keyfile}`;
+
+          this.emitter.log(`\nRun this command again without interactive mode:\n\n${recreatedCommand}\n`);
+        }
       }
     };
   }
 
-  applicationShow(error, response) {
-    this.validator.response(error, response);
-    this.emitter.list(null, response);
+  applicationShow(flags) {
+    return (error, response) => {
+      this.validator.response(error, response);
+      this.emitter.list(null, response);
+      if (flags.recreate && response) {
+        let recreatedCommand = "";
+        const capabilities = [];
+        Object.keys(response.capabilities).forEach(capability => {
+          capabilities.push(capability);
+          switch (capability) {
+          case "voice":
+            recreatedCommand += `--voice-answer-url=${response.capabilities[capability].webhooks.answer_url.address} `;
+            if (response.capabilities[capability].webhooks.answer_url.http_method !== "GET") {
+              recreatedCommand += `--voice-answer-method=${response.capabilities[capability].webhooks.answer_url.http_method} `;
+            }
+            recreatedCommand += `--voice-fallback-answer-url=${response.capabilities[capability].webhooks.fallback_answer_url.address} `;
+            if (response.capabilities[capability].webhooks.fallback_answer_url.http_method !== "GET") {
+              recreatedCommand += `--voice-fallback-answer-method=${response.capabilities[capability].webhooks.fallback_answer_url.http_method} `;
+            }
+            recreatedCommand += `--voice-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
+            if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
+              recreatedCommand += `--voice-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
+            }
+            break;
+          case "messages":
+            recreatedCommand += `--messages-inbound-url=${response.capabilities[capability].webhooks.inbound_url.address} `;
+            recreatedCommand += `--messages-status-url=${response.capabilities[capability].webhooks.status_url.address} `;
+
+            break;
+          case "rtc":
+            recreatedCommand += `--rtc-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
+            if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
+              recreatedCommand += `--rtc-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
+            }
+            break;
+
+          default:
+            break;
+          }
+        });
+        this.emitter.log(`\nRun this command to create a similar application:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
+      }
+    };
   }
 
   applicationSetup(config, app_id, private_key, flags) {
@@ -240,11 +307,11 @@ API Secret: ${client.credentials.apiSecret}`
   _writeKey(keyfile, private_key) {
     if (keyfile) {
       fs.writeFile(keyfile, private_key, (error) => {
-        if(error) {
+        if (error) {
           this.emitter.warn(error.message);
           this._promptKey(private_key);
         } else {
-          this.emitter.log(`Private Key saved to: ${keyfile}`);
+          this.emitter.log(`Private Key saved to: ${process.cwd()}/${keyfile}`);
         }
       });
     } else {

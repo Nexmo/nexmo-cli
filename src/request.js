@@ -141,21 +141,7 @@ class Request {
 
   // Applications
 
-  _createApplicationPayload(name, flags) {
-    const defaultMethods = {
-      voice: {
-        answer: "GET",
-        fallback: "GET",
-        event: "POST"
-      },
-      messages: {
-        inbound: "POST",
-        status: "POST"
-      },
-      rtc: {
-        event: "POST"
-      }
-    };
+  _createApplicationPayload(name, flags) { 
     const capabilities = flags.capabilities.split(",");
     const payload = {
       name: name,
@@ -188,15 +174,15 @@ class Request {
           webhooks: {
             answer_url: {
               address: flags.voiceAnswerUrl,
-              http_method: flags.voiceAnswerMethod || defaultMethods.voice.answer
+              http_method: flags.voiceAnswerMethod || "GET"
             },
             fallback_answer_url: {
               address: flags.voiceFallbackAnswerUrl || "",
-              http_method: flags.voiceFallbackAnswerMethod || defaultMethods.voice.fallback
+              http_method: flags.voiceFallbackAnswerMethod || "GET"
             },
             event_url: {
               address: flags.voiceEventUrl,
-              http_method: flags.voiceEventMethod || defaultMethods.voice.event
+              http_method: flags.voiceEventMethod || "POST"
             }
           }
         };
@@ -213,11 +199,11 @@ class Request {
           webhooks: {
             inbound_url: {
               address: flags.messagesInboundUrl,
-              http_method: flags.messagesInboundMethod || defaultMethods.messages.inbound
+              http_method: "POST"
             },
             status_url: {
               address: flags.messagesStatusUrl,
-              http_method: flags.messagesStatusMethod || defaultMethods.messages.status
+              http_method: "POST"
             }
           }
         };
@@ -231,7 +217,7 @@ class Request {
           webhooks: {
             event_url: {
               address: flags.rtcEventUrl,
-              http_method: flags.rtcEventMethod || defaultMethods.messages.inbound
+              http_method: flags.rtcEventMethod || "POST"
             }
           }
         };
@@ -290,7 +276,7 @@ class Request {
   }
 
   applicationShow(app_id, flags) {
-    this.client.instance().applications.get(app_id, this.response.applicationShow.bind(this.response), flags.v2);
+    this.client.instance().applications.get(app_id, this.response.applicationShow(flags).bind(this.response), flags.v2 || flags.recreate);
   }
 
   applicationSetup(app_id, private_key, flags) {
