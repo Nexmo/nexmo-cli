@@ -395,7 +395,7 @@ commander
     if (!name) {
       inquirer.prompt(prompts.applicationUpdate).then(answers => {
         answers.capabilities = answers.capabilities.join();
-        request.applicationCreate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+        request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
       });
     } else {
       request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
@@ -430,7 +430,7 @@ commander
     if (!name) {
       inquirer.prompt(prompts.applicationUpdate).then(answers => {
         answers.capabilities = answers.capabilities.join();
-        request.applicationCreate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+        request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
       });
     } else {
       request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
