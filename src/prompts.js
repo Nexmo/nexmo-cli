@@ -121,7 +121,7 @@ exports.applicationUpdate = [
     type : 'confirm',
     name : 'useDefaultHttpMethods',
     message : 'Do you want to use the default HTTP methods? ',
-    when: (answers => answers.capabilities.includes('voice') || answers.capabilities.includes('messages') || answers.capabilities.includes('rtc'))
+    when: (answers => answers.capabilities.includes('voice') || answers.capabilities.includes('rtc'))
   },
   {
     type : 'input',
@@ -196,6 +196,6 @@ exports.applicationUpdate = [
     type : 'input',
     name : 'publicKeyfile',
     message : "Public Key path:",
-    when: (answers => !answers.generatePublicKey)
+    when: (answers => answers.generatePublicKey)
   }
 ];

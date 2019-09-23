@@ -205,44 +205,49 @@ API Secret: ${client.credentials.apiSecret}`
   applicationShow(flags) {
     return (error, response) => {
       this.validator.response(error, response);
-      this.emitter.list(null, response);
-      if (flags.recreate && response) {
-        let recreatedCommand = "";
-        const capabilities = [];
-        Object.keys(response.capabilities).forEach(capability => {
-          capabilities.push(capability);
-          switch (capability) {
-          case "voice":
-            recreatedCommand += `--voice-answer-url=${response.capabilities[capability].webhooks.answer_url.address} `;
-            if (response.capabilities[capability].webhooks.answer_url.http_method !== "GET") {
-              recreatedCommand += `--voice-answer-method=${response.capabilities[capability].webhooks.answer_url.http_method} `;
-            }
-            recreatedCommand += `--voice-fallback-answer-url=${response.capabilities[capability].webhooks.fallback_answer_url.address} `;
-            if (response.capabilities[capability].webhooks.fallback_answer_url.http_method !== "GET") {
-              recreatedCommand += `--voice-fallback-answer-method=${response.capabilities[capability].webhooks.fallback_answer_url.http_method} `;
-            }
-            recreatedCommand += `--voice-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
-            if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
-              recreatedCommand += `--voice-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
-            }
-            break;
-          case "messages":
-            recreatedCommand += `--messages-inbound-url=${response.capabilities[capability].webhooks.inbound_url.address} `;
-            recreatedCommand += `--messages-status-url=${response.capabilities[capability].webhooks.status_url.address} `;
+      if (error) {
+        this.emitter.list(`${error.body.title} Error: ${error.body.detail}`, error);
+      }
+      if (response) {
+        this.emitter.list(null, response);
+        if (flags.recreate) {
+          let recreatedCommand = "";
+          const capabilities = [];
+          Object.keys(response.capabilities).forEach(capability => {
+            capabilities.push(capability);
+            switch (capability) {
+            case "voice":
+              recreatedCommand += `--voice-answer-url=${response.capabilities[capability].webhooks.answer_url.address} `;
+              if (response.capabilities[capability].webhooks.answer_url.http_method !== "GET") {
+                recreatedCommand += `--voice-answer-method=${response.capabilities[capability].webhooks.answer_url.http_method} `;
+              }
+              recreatedCommand += `--voice-fallback-answer-url=${response.capabilities[capability].webhooks.fallback_answer_url.address} `;
+              if (response.capabilities[capability].webhooks.fallback_answer_url.http_method !== "GET") {
+                recreatedCommand += `--voice-fallback-answer-method=${response.capabilities[capability].webhooks.fallback_answer_url.http_method} `;
+              }
+              recreatedCommand += `--voice-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
+              if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
+                recreatedCommand += `--voice-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
+              }
+              break;
+            case "messages":
+              recreatedCommand += `--messages-inbound-url=${response.capabilities[capability].webhooks.inbound_url.address} `;
+              recreatedCommand += `--messages-status-url=${response.capabilities[capability].webhooks.status_url.address} `;
 
-            break;
-          case "rtc":
-            recreatedCommand += `--rtc-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
-            if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
-              recreatedCommand += `--rtc-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
-            }
-            break;
+              break;
+            case "rtc":
+              recreatedCommand += `--rtc-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
+              if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
+                recreatedCommand += `--rtc-event-method=${response.capabilities[capability].webhooks.event_url.http_method} `;
+              }
+              break;
 
-          default:
-            break;
-          }
-        });
-        this.emitter.log(`\nRun this command to create a similar application:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
+            default:
+              break;
+            }
+          });
+          this.emitter.log(`\nRun this command to create a similar application:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
+        }
       }
     };
   }
