@@ -196,7 +196,7 @@ API Secret: ${client.credentials.apiSecret}`
           if (flags.publicKeyfile) recreatedCommand += ` --public-keyfile=${flags.publicKeyfile}`;
           if (flags.keyfile) recreatedCommand += ` --keyfile=${flags.keyfile}`;
 
-          this.emitter.log(`\nRun this command again without interactive mode:\n\n${recreatedCommand}\n`);
+          this.emitter.log(`\nTo recreate this application in the future without interactive mode use the following command:\n\n${recreatedCommand}\n`);
         }
       }
     };
@@ -246,7 +246,7 @@ API Secret: ${client.credentials.apiSecret}`
               break;
             }
           });
-          this.emitter.log(`\nRun this command to create a similar application:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
+          this.emitter.log(`\nTo recreate a similar application use the following command:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
         }
       }
     };
