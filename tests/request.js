@@ -499,14 +499,34 @@ describe('Request', () => {
     });
 
     describe('.applicationCreate', () => {
-      it('should call nexmo.applications.create', test(function() {
+      it('should call nexmo.applications.create with a voice type', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationCreate('name', 'answer_url', 'event_url', {
           type: 'voice'
         });
-        expect(nexmo.applications.create).to.have.been.called;
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'voice', 'answer_url', 'event_url', {});
+      }));
+
+      it('should call nexmo.applications.create with a messages type', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          type: 'messages'
+        });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'messages', 'answer_url', 'event_url', { inbound_url: "answer_url", status_url: "event_url" });;
+      }));
+
+      it('should call nexmo.applications.create with a rtc type', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationCreate('name', 'answer_url', 'event_url', {
+          type: 'artc'
+        });
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'rtc', 'answer_url', 'event_url', {});;
       }));
 
       it('should parse a answer_method flag', test(function() {
@@ -577,14 +597,34 @@ describe('Request', () => {
     });
 
     describe('.applicationUpdate', () => {
-      it('should call the library', test(function() {
+      it('should call the library with the correct parameters for a voice application', test(function() {
         nexmo = {};
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
           type: 'voice'
         });
-        expect(nexmo.applications.update).to.have.been.called;
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'voice', 'answer_url', 'event_url', {});
+      }));
+
+      it('should call the library with the correct parameters for a messages application', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          type: 'messages'
+        });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'messages', 'answer_url', 'event_url', { inbound_url: "answer_url", status_url: "event_url" });
+      }));
+
+      it('should call the library with the correct parameters for a rtc application', test(function() {
+        nexmo = {};
+        nexmo.applications = sinon.createStubInstance(App);
+        client.instance.returns(nexmo);
+        request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
+          type: 'artc'
+        });
+        expect(nexmo.applications.update).to.have.been.calledWith('app_id', 'name', 'rtc', 'answer_url', 'event_url', {});
       }));
 
       it('should parse a answer_method flag', test(function() {
