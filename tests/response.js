@@ -419,7 +419,7 @@ API Secret: 234`);
 
     it('should recreate the command when --recreate is used', () => {
       const method = response.applicationShow({recreate: true});
-      const data = JSON.parse(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json"))
+      const data = JSON.parse(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json"));
 
       expect(method).to.be.a('function');
       method(null, data);
@@ -469,19 +469,19 @@ API Secret: 234`);
       const data = {
         'count': 1,
         'numbers': [{
-            'country': 'ES',
-            'msisdn': '34911067000',
-            'type': 'landline',
-            'features': ['SMS'],
-            'voiceCallbackValue': 'app_id'
-          },
-          {
-            'country': 'ES',
-            'msisdn': '34911067000',
-            'type': 'landline',
-            'features': ['SMS'],
-            'voiceCallbackValue': 'other_app_id'
-          }
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS'],
+          'voiceCallbackValue': 'app_id'
+        },
+        {
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS'],
+          'voiceCallbackValue': 'other_app_id'
+        }
         ]
       };
       response.applicationNumbers('app_id', {})(null, data);

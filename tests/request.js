@@ -516,7 +516,7 @@ describe('Request', () => {
         request.applicationCreate('name', 'answer_url', 'event_url', {
           type: 'messages'
         });
-        expect(nexmo.applications.create).to.have.been.calledWith('name', 'messages', 'answer_url', 'event_url', { inbound_url: "answer_url", status_url: "event_url" });;
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'messages', 'answer_url', 'event_url', { inbound_url: "answer_url", status_url: "event_url" });
       }));
 
       it('should call nexmo.applications.create with a rtc type', test(function() {
@@ -526,7 +526,7 @@ describe('Request', () => {
         request.applicationCreate('name', 'answer_url', 'event_url', {
           type: 'artc'
         });
-        expect(nexmo.applications.create).to.have.been.calledWith('name', 'rtc', 'answer_url', 'event_url', {});;
+        expect(nexmo.applications.create).to.have.been.calledWith('name', 'rtc', 'answer_url', 'event_url', {});
       }));
 
       it('should parse a answer_method flag', test(function() {
