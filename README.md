@@ -819,12 +819,14 @@ Alias: `nexmo ia`
 
 #### Generate
 
-Generate a JWT for your application. Optionally supports extra claims to be passed in.
+Generate a JWT for your application. Optionally supports extra claims to be passed in. Can also be used without a private key and `application_id` if there is a local `.nexmo-app` file present.
 
 ```bash
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732
 [...JWT String...]
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345
+> JWT: [...JWT String...]
+> nexmo jwt:generate subject=username iat=1475861732
 > JWT: [...JWT String...]
 ```
 
