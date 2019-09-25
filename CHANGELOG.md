@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. This projec
 * Updated: `app:update` with V2 API and interactive mode.
 * Added: `app:show --v2 --recreate` with V2 API support and command recreate mode.
 * Added: `app:delete --v2` with V2 API support.
+* Updated: `jwt:generate` to use local application credentials.
 
 
 ## [0.3.11][]
