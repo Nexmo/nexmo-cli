@@ -673,7 +673,7 @@ commander
   .action(request.sendSms.bind(request));
 
 commander
-  .command('jwt:generate <private_key> [claims...]')
+  .command('jwt:generate [private_key] [claims...]')
   .description('Generate a JWT (JSON Web Token)')
   .on('--help', () => {
     emitter.log('  Examples:');

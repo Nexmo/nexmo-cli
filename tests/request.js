@@ -966,7 +966,7 @@ describe('Request', () => {
     });
 
     describe('.generateJwt', () => {
-      it('should call Nexmo.generateJwt', test(function() {
+      it('should call Nexmo.generateJwt when a privateKey is supplied', test(function() {
         var Nexmo = {
           generateJwt: sinon.spy()
         };
@@ -974,6 +974,26 @@ describe('Request', () => {
 
         request.generateJwt('path/to/private.key', [], {});
         expect(Nexmo.generateJwt).to.have.been.calledWith('path/to/private.key');
+      }));
+
+      it('should call nexmo.generateJwt when a privateKey is not supplied', test(function() {
+        var nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.instanceWithApp.returns(nexmo);
+
+        request.generateJwt(undefined, [], {});
+        expect(nexmo.generateJwt).to.have.been.calledWith({});
+      }));
+
+      it('should call update claims when a privateKey parameter includes =', test(function() {
+        var nexmo = {
+          generateJwt: sinon.spy()
+        };
+        client.instanceWithApp.returns(nexmo);
+
+        request.generateJwt('test=me', [], {});
+        expect(nexmo.generateJwt).to.have.been.calledWith({test: "me"});
       }));
 
       it('should deal with Nexmo.generateJwt with null claims', test(function() {
@@ -1060,7 +1080,7 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', 'application_id', ['subject']);
+        request.generateJwt('path/to/private.key', ['subject'], {});
         expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
       }));
 
@@ -1070,7 +1090,7 @@ describe('Request', () => {
         };
         client.definition.returns(Nexmo);
 
-        request.generateJwt('path/to/private.key', 'application_id', ['subject=fish=monkey']);
+        request.generateJwt('path/to/private.key', ['subject=fish=monkey'], {});
         expect(response.generateJwt).to.have.been.calledWith(sinon.match.instanceOf(Error), null);
       }));
 

@@ -141,7 +141,7 @@ class Request {
 
   // Applications
 
-  _createApplicationPayload(name, flags) { 
+  _createApplicationPayload(name, flags) {
     const capabilities = flags.capabilities.split(",");
     const payload = {
       name: name,
@@ -452,6 +452,11 @@ class Request {
         fullClaims['application_id'] = flags.app_id;
       }
 
+      if (privateKey && privateKey.includes("=")) {
+        claims.push(privateKey);
+        privateKey = null;
+      }
+
       claims.forEach((claim) => {
         const nameValue = claim.split('=');
         if (nameValue.length !== 2) {
@@ -470,7 +475,12 @@ class Request {
 
       });
 
-      token = this.client.definition().generateJwt(privateKey, fullClaims);
+      if (privateKey) {
+        token = this.client.definition().generateJwt(privateKey, fullClaims);
+      } else {
+        token = this.client.instanceWithApp().generateJwt(fullClaims);
+      }
+
     } catch (ex) {
       error = ex;
     }
