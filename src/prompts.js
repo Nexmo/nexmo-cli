@@ -106,7 +106,6 @@ exports.applicationCreate = [
 ];
 
 exports.applicationUpdate = function (application) {
-  console.log(application);
   return [
     {
       type : 'input',
