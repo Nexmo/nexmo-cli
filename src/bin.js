@@ -21,6 +21,49 @@ const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, appConfig, client, response, emitter);
 
+function _applicationCreate(name, answer_url, event_url, flags) {
+  if (!name) {
+    inquirer.prompt(prompts.applicationCreate).then(answers => {
+      answers.capabilities = answers.capabilities.join();
+      if (prompts.defaultPublicKey == answers.publicKeyfile) {
+        answers.publicKeyfile = "";
+      }
+      if (prompts.defaultPrivateKey == answers.keyfile) {
+        answers.keyfile = "";
+      }
+      if (answers.voiceFallbackAnswerUrl == "Optional") {
+        answers.voiceFallbackAnswerUrl = "";
+      }
+      request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
+    });
+  } else {
+    request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
+  }
+}
+
+function _applicationUpdate(app_id, name, answer_url, event_url, flags) {
+  if (!name) {
+    client.instance().applications.get(app_id, (error, application) => {
+      if (error) {
+        this.emitter.list(`${error.body.title} Error: ${error.body.detail}`, error);
+      } else {
+        inquirer.prompt(prompts.applicationUpdate(application)).then(answers => {
+          answers.capabilities = answers.capabilities.join();
+          if (prompts.defaultPublicKey == answers.publicKeyfile) {
+            answers.publicKeyfile = "";
+          }
+          if (answers.voiceFallbackAnswerUrl == "Optional") {
+            answers.voiceFallbackAnswerUrl = "";
+          }
+          request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+        });
+      }
+    }, true);
+  } else {
+    request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
+  }
+}
+
 commander
   .version(pckg.version)
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
@@ -285,16 +328,7 @@ commander
     emitter.log('    $ nexmo app:create');
     emitter.log(' ');
   })
-  .action((name, answer_url, event_url, flags) => {
-    if (!name) {
-      inquirer.prompt(prompts.applicationCreate).then(answers => {
-        answers.capabilities = answers.capabilities.join();
-        request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
-      });
-    } else {
-      request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
-    }
-  });
+  .action(_applicationCreate);
 
 commander
   .command('apps:create [name] [answer_url] [event_url]', null, { noHelp: true })
@@ -322,16 +356,7 @@ commander
     emitter.log('    $ nexmo apps:create');
     emitter.log(' ');
   })
-  .action((name, answer_url, event_url, flags) => {
-    if (!name) {
-      inquirer.prompt(prompts.applicationCreate).then(answers => {
-        answers.capabilities = answers.capabilities.join();
-        request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
-      });
-    } else {
-      request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
-    }
-  });
+  .action(_applicationCreate);
 
 // Application Show
 
@@ -391,16 +416,7 @@ commander
     emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action((app_id, name, answer_url, event_url, flags) => {
-    if (!name) {
-      inquirer.prompt(prompts.applicationUpdate).then(answers => {
-        answers.capabilities = answers.capabilities.join();
-        request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
-      });
-    } else {
-      request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
-    }
-  });
+  .action(_applicationUpdate);
 
 commander
   .command('apps:update <app_id> [name] [answer_url] [event_url]', null, { noHelp: true })
@@ -426,16 +442,7 @@ commander
     emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action((app_id, name, answer_url, event_url, flags) => {
-    if (!name) {
-      inquirer.prompt(prompts.applicationUpdate).then(answers => {
-        answers.capabilities = answers.capabilities.join();
-        request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
-      });
-    } else {
-      request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
-    }
-  });
+  .action(_applicationUpdate);
 
 
 // Application Delete
