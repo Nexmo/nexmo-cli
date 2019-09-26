@@ -142,7 +142,7 @@ exports.applicationUpdate = function (application) {
     {
       type : 'input',
       name : 'voiceFallbackAnswerUrl',
-      default: application.capabilities.voice ? application.capabilities.voice.webhooks.fallback_answer_url.address : "Optional",
+      default: (application.capabilities.voice && application.capabilities.voice.webhooks.fallback_answer_url) ? application.capabilities.voice.webhooks.fallback_answer_url.address : "Optional",
       message : "Voice Fallback Answer URL:",
       when: (answers => answers.capabilities.includes('voice'))
     },

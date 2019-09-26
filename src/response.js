@@ -221,9 +221,11 @@ API Secret: ${client.credentials.apiSecret}`
               if (response.capabilities[capability].webhooks.answer_url.http_method !== "GET") {
                 recreatedCommand += `--voice-answer-method=${response.capabilities[capability].webhooks.answer_url.http_method} `;
               }
-              recreatedCommand += `--voice-fallback-answer-url=${response.capabilities[capability].webhooks.fallback_answer_url.address} `;
-              if (response.capabilities[capability].webhooks.fallback_answer_url.http_method !== "GET") {
-                recreatedCommand += `--voice-fallback-answer-method=${response.capabilities[capability].webhooks.fallback_answer_url.http_method} `;
+              if (response.capabilities[capability].webhooks.fallback_answer_url && response.capabilities[capability].webhooks.fallback_answer_url.address !== "") {
+                recreatedCommand += `--voice-fallback-answer-url=${response.capabilities[capability].webhooks.fallback_answer_url.address} `;
+                if (response.capabilities[capability].webhooks.fallback_answer_url.http_method !== "GET") {
+                  recreatedCommand += `--voice-fallback-answer-method=${response.capabilities[capability].webhooks.fallback_answer_url.http_method} `;
+                }
               }
               recreatedCommand += `--voice-event-url=${response.capabilities[capability].webhooks.event_url.address} `;
               if (response.capabilities[capability].webhooks.event_url.http_method !== "POST") {
