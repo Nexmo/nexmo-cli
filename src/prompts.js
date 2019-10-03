@@ -101,7 +101,8 @@ exports.applicationCreate = [
     type : 'input',
     name : 'keyfile',
     message : "Private Key path:",
-    default: defaultPrivateKey
+    default: defaultPrivateKey,
+    when: (answers => !answers.publicKeyfile)
   }
 ];
 

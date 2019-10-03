@@ -152,9 +152,14 @@ class Request {
       if (flags.keyfile) {
         this.emitter.error("You can't use --keyfile and --public-keyfile at the same time.");
       }
-      payload.keys = {
-        public_key: fs.readFileSync(flags.publicKeyfile).toString()
-      };
+      try {
+        payload.keys = {
+          public_key: fs.readFileSync(flags.publicKeyfile).toString()
+        };
+      } catch (e) {
+        const error = e.code === "ENOENT" ? `Can't find your public key: ${e.path}` : e;
+        this.emitter.error(error);
+      }
     }
 
     capabilities.forEach(capability => {
@@ -223,6 +228,10 @@ class Request {
         };
         break;
 
+      case "":
+        break;
+
+
       default:
         this.emitter.error(`Unsupported capability: ${capability}`);
       }
@@ -246,7 +255,7 @@ class Request {
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
-    if (flags.capabilities) {
+    if (typeof flags.capabilities !== "undefined") {
       const payload = this._createApplicationPayload(name, flags);
       this.client.instance().applications.create(payload, this.response.applicationCreate(flags, this.appConfig));
     } else {
@@ -289,7 +298,7 @@ class Request {
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
-    if (flags.capabilities) {
+    if (typeof flags.capabilities !== "undefined") {
       const payload = this._createApplicationPayload(name, flags);
 
       this.client.instance().applications.update(app_id, payload, this.response.applicationUpdate.bind(this.response));

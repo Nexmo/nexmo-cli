@@ -690,6 +690,13 @@ describe('Request', () => {
         expect(request.emitter.error).to.have.been.calledWith("Unsupported capability: no");
       }));
 
+      it('should not emit error for empty capability', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: ""
+        });
+        expect(fs.readFileSync(__dirname + "/fixtures/app-empty-capabilities.json").toString()).to.include(JSON.stringify(payload));
+      }));
+
       it('should emit error for --keyfile and --public-keyfile at the same time', test(function() {
         request._createApplicationPayload('name', {
           capabilities: "voice",
@@ -732,6 +739,22 @@ describe('Request', () => {
           capabilities: "rtc"
         });
         expect(request.emitter.error).to.have.been.calledWith("--rtc-event-url is a required flag.");
+      }));
+
+      it('should emit error for missing public key', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: "vbc",
+          publicKeyfile: "random"
+        });
+        expect(request.emitter.error).to.have.been.calledWith("Can't find your public key: random");
+      }));
+
+      it('should emit error with stack trace for missing public key', test(function() {
+        const payload = request._createApplicationPayload('name', {
+          capabilities: "vbc",
+          publicKeyfile: __dirname + "/fixtures/"
+        });
+        expect(request.emitter.error).to.have.not.been.calledWith("Can't find your public key: random");
       }));
 
       it('should generate payload with public key', test(function() {
