@@ -746,7 +746,13 @@ describe('Request', () => {
           capabilities: "vbc",
           publicKeyfile: "random"
         });
-        expect(request.emitter.error).to.have.been.calledWith("Can't find your public key: random");
+        let error;
+        try {
+          fs.readFileSync("random");
+        } catch (e) {
+          error = e;
+        }
+        expect(request.emitter.error).to.have.been.calledWith(`Can't find your public key: ${error.path}`);
       }));
 
       it('should emit error with stack trace for missing public key', test(function() {
@@ -754,7 +760,13 @@ describe('Request', () => {
           capabilities: "vbc",
           publicKeyfile: __dirname + "/fixtures/"
         });
-        expect(request.emitter.error).to.have.not.been.calledWith("Can't find your public key: random");
+        let error;
+        try {
+          fs.readFileSync(__dirname + "/fixtures/");
+        } catch (e) {
+          error = e;
+        }
+        expect(request.emitter.error).to.have.not.been.calledWith(error);
       }));
 
       it('should generate payload with public key', test(function() {
