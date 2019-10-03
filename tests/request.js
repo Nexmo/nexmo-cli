@@ -742,7 +742,7 @@ describe('Request', () => {
       }));
 
       it('should emit error for missing public key', test(function() {
-        const payload = request._createApplicationPayload('name', {
+        request._createApplicationPayload('name', {
           capabilities: "vbc",
           publicKeyfile: "random"
         });
@@ -750,7 +750,7 @@ describe('Request', () => {
       }));
 
       it('should emit error with stack trace for missing public key', test(function() {
-        const payload = request._createApplicationPayload('name', {
+        request._createApplicationPayload('name', {
           capabilities: "vbc",
           publicKeyfile: __dirname + "/fixtures/"
         });
