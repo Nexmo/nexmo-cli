@@ -1,11 +1,13 @@
 import readline from 'readline';
+import fs from 'fs';
 
 class Request {
-  constructor(config, appConfig, client, response) {
+  constructor(config, appConfig, client, response, emitter) {
     this.config = config;
     this.client = client;
     this.response = response;
     this.appConfig = appConfig;
+    this.emitter = emitter;
   }
   // Account
 
@@ -139,6 +141,105 @@ class Request {
 
   // Applications
 
+  _createApplicationPayload(name, flags) {
+    const capabilities = flags.capabilities.split(",");
+    const payload = {
+      name: name,
+      capabilities: {}
+    };
+
+    if (flags.publicKeyfile) {
+      if (flags.keyfile) {
+        this.emitter.error("You can't use --keyfile and --public-keyfile at the same time.");
+      }
+      try {
+        payload.keys = {
+          public_key: fs.readFileSync(flags.publicKeyfile).toString()
+        };
+      } catch (e) {
+        const error = e.code === "ENOENT" ? `Can't find your public key: ${e.path}` : e;
+        this.emitter.error(error);
+      }
+    }
+
+    capabilities.forEach(capability => {
+      switch (capability) {
+      case "vbc":
+        payload.capabilities.vbc = {};
+        break;
+
+      case "voice":
+        if (!flags.voiceAnswerUrl) {
+          this.emitter.error("--voice-answer-url is a required flag.");
+        }
+        if (!flags.voiceEventUrl) {
+          this.emitter.error("--voice-event-url is a required flag.");
+        }
+        payload.capabilities.voice = {
+          webhooks: {
+            answer_url: {
+              address: flags.voiceAnswerUrl,
+              http_method: flags.voiceAnswerMethod || "GET"
+            },
+            fallback_answer_url: {
+              address: flags.voiceFallbackAnswerUrl || "",
+              http_method: flags.voiceFallbackAnswerMethod || "GET"
+            },
+            event_url: {
+              address: flags.voiceEventUrl,
+              http_method: flags.voiceEventMethod || "POST"
+            }
+          }
+        };
+        break;
+
+      case "messages":
+        if (!flags.messagesInboundUrl) {
+          this.emitter.error("--messages-inbound-url is a required flag.");
+        }
+        if (!flags.messagesStatusUrl) {
+          this.emitter.error("--messages-status-url is a required flag.");
+        }
+        payload.capabilities.messages = {
+          webhooks: {
+            inbound_url: {
+              address: flags.messagesInboundUrl,
+              http_method: "POST"
+            },
+            status_url: {
+              address: flags.messagesStatusUrl,
+              http_method: "POST"
+            }
+          }
+        };
+        break;
+
+      case "rtc":
+        if (!flags.rtcEventUrl) {
+          this.emitter.error("--rtc-event-url is a required flag.");
+        }
+        payload.capabilities.rtc = {
+          webhooks: {
+            event_url: {
+              address: flags.rtcEventUrl,
+              http_method: flags.rtcEventMethod || "POST"
+            }
+          }
+        };
+        break;
+
+      case "":
+        break;
+
+
+      default:
+        this.emitter.error(`Unsupported capability: ${capability}`);
+      }
+    });
+
+    return payload;
+  }
+
   applicationsList(flags) {
     const options = {
       page_size: 100
@@ -150,36 +251,41 @@ class Request {
       options.page_size = flags.size;
     }
 
-    this.client.instance().app.get(options, this.response.applicationsList(flags).bind(this.response));
+    this.client.instance().applications.get(options, this.response.applicationsList(flags).bind(this.response), flags.v2);
   }
 
   applicationCreate(name, answer_url, event_url, flags) {
-    const options = {};
-    if (flags.answer_method) {
-      options.answer_method = flags.answer_method;
-    }
-    if (flags.event_method) {
-      options.event_method = flags.event_method;
-    }
+    if (typeof flags.capabilities !== "undefined") {
+      const payload = this._createApplicationPayload(name, flags);
+      this.client.instance().applications.create(payload, this.response.applicationCreate(flags, this.appConfig));
+    } else {
+      const options = {};
+      if (flags.answer_method) {
+        options.answer_method = flags.answer_method;
+      }
+      if (flags.event_method) {
+        options.event_method = flags.event_method;
+      }
 
-    let type = flags.type;
+      let type = flags.type;
 
-    switch (flags.type) {
-    case "messages":
-      options.inbound_url = answer_url;
-      options.status_url = event_url;
-      break;
-    case "artc":
-      type = "rtc";
-      break;
-    default:
+      switch (flags.type) {
+      case "messages":
+        options.inbound_url = answer_url;
+        options.status_url = event_url;
+        break;
+      case "artc":
+        type = "rtc";
+        break;
+      default:
+      }
+
+      this.client.instance().applications.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
     }
-
-    this.client.instance().app.create(name, type, answer_url, event_url, options, this.response.applicationCreate(flags, this.appConfig));
   }
 
-  applicationShow(app_id) {
-    this.client.instance().app.get(app_id, this.response.applicationShow.bind(this.response));
+  applicationShow(app_id, flags) {
+    this.client.instance().applications.get(app_id, this.response.applicationShow(flags).bind(this.response), flags.v2 || flags.recreate);
   }
 
   applicationSetup(app_id, private_key, flags) {
@@ -188,37 +294,43 @@ class Request {
 
   _verifyApplication(app_id, private_key, callback) {
     const client = this.client.instanceWithApp(app_id, private_key);
-    client.app.get(app_id, callback);
+    client.applications.get(app_id, callback);
   }
 
   applicationUpdate(app_id, name, answer_url, event_url, flags) {
-    const options = {};
-    if (flags.answer_method) {
-      options.answer_method = flags.answer_method;
-    }
-    if (flags.event_method) {
-      options.event_method = flags.event_method;
-    }
+    if (typeof flags.capabilities !== "undefined") {
+      const payload = this._createApplicationPayload(name, flags);
 
-    let type = flags.type;
+      this.client.instance().applications.update(app_id, payload, this.response.applicationUpdate.bind(this.response));
+    } else {
+      const options = {};
+      if (flags.answer_method) {
+        options.answer_method = flags.answer_method;
+      }
+      if (flags.event_method) {
+        options.event_method = flags.event_method;
+      }
 
-    switch (flags.type) {
-    case "messages":
-      options.inbound_url = answer_url;
-      options.status_url = event_url;
-      break;
-    case "artc":
-      type = "rtc";
-      break;
-    default:
+      let type = flags.type;
+
+      switch (flags.type) {
+      case "messages":
+        options.inbound_url = answer_url;
+        options.status_url = event_url;
+        break;
+      case "artc":
+        type = "rtc";
+        break;
+      default:
+      }
+
+      this.client.instance().applications.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
     }
-
-    this.client.instance().app.update(app_id, name, type, answer_url, event_url, options, this.response.applicationUpdate.bind(this.response));
   }
 
   applicationDelete(app_id, flags) {
     return confirm('This operation can not be reversed.', this.response.emitter, flags, () => {
-      this.client.instance().app.delete(app_id, this.response.applicationDelete.bind(this.response));
+      this.client.instance().applications.delete(app_id, this.response.applicationDelete.bind(this.response));
     });
   }
 
@@ -231,7 +343,7 @@ class Request {
       options.size = flags.size;
     }
 
-    app_id = this.client.instance().app.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
+    app_id = this.client.instance().applications.get({}, this.response.searchByPartialAppId(app_id).bind(this.response));
     this.client.instance().number.get(options, this.response.applicationNumbers(app_id, flags).bind(this.response));
   }
 
@@ -349,6 +461,11 @@ class Request {
         fullClaims['application_id'] = flags.app_id;
       }
 
+      if (privateKey && privateKey.includes("=")) {
+        claims.push(privateKey);
+        privateKey = null;
+      }
+
       claims.forEach((claim) => {
         const nameValue = claim.split('=');
         if (nameValue.length !== 2) {
@@ -367,7 +484,12 @@ class Request {
 
       });
 
-      token = this.client.definition().generateJwt(privateKey, fullClaims);
+      if (privateKey) {
+        token = this.client.definition().generateJwt(privateKey, fullClaims);
+      } else {
+        token = this.client.instanceWithApp().generateJwt(fullClaims);
+      }
+
     } catch (ex) {
       error = ex;
     }

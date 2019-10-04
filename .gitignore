@@ -4,4 +4,8 @@ lib
 npm-debug.log
 .nexmo-app
 .vscode
-package-lock.json
+.nyc_output
+coverage
+coverage.lcov
+.DS_Store
+*.key

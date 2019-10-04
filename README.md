@@ -7,7 +7,7 @@
 
 ## Installation
 
-The Nexmo CLI requires Node.js 4 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
+The Nexmo CLI requires Node.js 6 or above. If you don't have Node.js installed on your system, go to https://nodejs.org/en/download/ and download the appropriate installer for your system.
 
 With Node.js installed, you can then install the `nexmo-cli` package from the npm registry.
 
@@ -281,64 +281,107 @@ Alias: `nexmo al` and `nexmo apps`.
 
 #### Create a new Application
 
-Parameters:
+This command has interactive mode available. Run the command without any parameters and an interactive prompt will guide you through creating an application. The interactive mode also outputs the non-interactive command used to generate the application if you need to create the same application again.
+
+For non-interactive mode, parameters are:
 
 - `name` - the custom name of your application.
-- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
-- Optional flags:
+- `--capabilities capabilities` - the capabilities your application has, as a comma separated list. Can be voice, messages, rtc, vbc.
 
-  - `--keyfile <keyfile>` The file to save your private key to
-  - `--type <type>` The product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
+- Optional flags:
+    - `--keyfile <keyfile>` - the file to save your private key to.
+    - `--public-keyfile [publicKeyfile]` - the public key for your application.
+    - `--voice-event-url [voiceEventUrl]` - the event URL for the voice capability.
+    - `--voice-event-method [voiceEventMethod]` - the HTTP method to use for the --voice-event-url (defaults to POST).
+    - `--voice-answer-url [voiceAnswerUrl]` - the answer URL for the voice capability.
+    - `--voice-answer-method [voiceAnswerMethod]` - the HTTP method to use for the --voice-answer-url (defaults to GET).
+    - `--voice-fallback-answer-url [voiceFallbackAnswerUrl]` - the fallback answer URL for the voice capability.
+    - `--voice-fallback-answer-method [voiceFallbackAnswerMethod]` - the HTTP method to use for the --voice-fallback-answer-url (defaults to GET).
+    - `--messages-inbound-url [messagesInboundUrl]` - the inbound URL for the messages capability.
+    - `--messages-status-url [messagesStatusUrl]` - the status URL for the messages capability.
+    - `--rtc-event-url [rtcEventUrl]` - the event URL for the rtc capability.
+    - `--rtc-event-method [rtcEventMethod]` - the HTTP method to use for the --rtc-event-url (defaults to POST).
+
 
 ```
-> nexmo app:create "Test Application 1" http://example.com http://example.com  --keyfile private.key
-Application created: asdasdas-asdd-2344-2344-asdasdasd345
-Credentials written to /path/to/local/folder/.nexmo-app
-Private Key saved to: private.key
+> nexmo app:create "Test Application V2" --capabilities=voice,messages,rtc,vbc --voice-answer-url=http://example.com --voice-fallback-answer-url=http://example.com --voice-event-url=http://example.com --messages-inbound-url=http://example.com --messages-status-url=http://example.com --rtc-event-url=http://example.com --keyfile=private.key
 
-> nexmo app:create "Test Application 1" http://example.com http://example.com -v
+Application created: asdasdas-asdd-2344-2344-asdasdasd345
+Credentials written to /path/to/.nexmo-app
+
+Private Key saved to: /path/to/private.key
+
+> nexmo app:create "Test Application V2" --capabilities=voice,messages,rtc,vbc --voice-answer-url=http://example.com --voice-fallback-answer-url=http://example.com --voice-event-url=http://example.com --messages-inbound-url=http://example.com --messages-status-url=http://example.com --rtc-event-url=http://example.com --keyfile=private.key -v
 [id]
 asdasdas-asdd-2344-2344-asdasdasd345
 
 [name]
-Test Application 1
-
-[voice.webhooks.0.endpoint_type]
-event_url
-
-[voice.webhooks.0.endpoint]
-http://example.com
-
-[voice.webhooks.0.http_method]
-POST
-
-[voice.webhooks.1.endpoint_type]
-answer_url
-
-[voice.webhooks.1.endpoint]
-http://example.com
-
-[voice.webhooks.1.http_method]
-GET
-
-[keys.public_key]
-...
+Test Application V2
 
 [keys.private_key]
+-----BEGIN PRIVATE KEY-----
 ...
+-----END PRIVATE KEY-----
+
+
+[keys.public_key]
+-----BEGIN PUBLIC KEY-----
+...
+-----END PUBLIC KEY-----
+
+
+[capabilities.voice.webhooks.event_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.event_url.http_method]
+POST
+
+[capabilities.voice.webhooks.answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.answer_url.http_method]
+GET
+
+[capabilities.voice.webhooks.fallback_answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.fallback_answer_url.http_method]
+GET
+
+[capabilities.rtc.webhooks.event_url.address]
+http://example.com
+
+[capabilities.rtc.webhooks.event_url.http_method]
+POST
+
+[capabilities.messages.webhooks.inbound_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.inbound_url.http_method]
+POST
+
+[capabilities.messages.webhooks.status_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.status_url.http_method]
+POST
 
 [_links.self.href]
-/applications/asdasdas-asdd-2344-2344-asdasdasd345
+/v2/applications/asdasdas-asdd-2344-2344-asdasdasd345
 
-Credentials written to /path/to/local/folder/.nexmo-app
+
+Credentials written to /path/to/.nexmo-app
+Private Key saved to: /path/to/private.key
 ```
 
 Alias: `nexmo ac`.
 
 #### Show details for an Application
+
+- Optional flags:
+    - `--v2` - use the v2 version of the API.
+    - `--recreate` - show the CLI command to create a similar application.
+
 
 ```bash
 > nexmo app:show asdasdas-asdd-2344-2344-asdasdasd345
@@ -371,9 +414,66 @@ GET
 
 [_links.self.href]
 /applications/asdasdas-asdd-2344-2344-asdasdasd345
+```
+
+```bash
+> nexmo as asdasdas-asdd-2344-2344-asdasdasd345 --recreate --v2
+[id]
+asdasdas-asdd-2344-2344-asdasdasd345
+
+[name]
+Test Application V2
+
+[keys.public_key]
+-----BEGIN PUBLIC KEY-----
+...
+-----END PUBLIC KEY-----
 
 
-Private Key saved to: private.key
+[capabilities.voice.webhooks.event_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.event_url.http_method]
+POST
+
+[capabilities.voice.webhooks.answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.answer_url.http_method]
+GET
+
+[capabilities.voice.webhooks.fallback_answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.fallback_answer_url.http_method]
+GET
+
+[capabilities.rtc.webhooks.event_url.address]
+http://example.com
+
+[capabilities.rtc.webhooks.event_url.http_method]
+POST
+
+[capabilities.messages.webhooks.inbound_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.inbound_url.http_method]
+POST
+
+[capabilities.messages.webhooks.status_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.status_url.http_method]
+POST
+
+[_links.self.href]
+/v2/applications/asdasdas-asdd-2344-2344-asdasdasd345
+
+
+
+Run this command to create a similar application:
+
+nexmo app:create Test Application V2 --capabilities=voice,rtc,messages,vbc --voice-answer-url=http://example.com --voice-fallback-answer-url=http://example.com --voice-event-url=http://example.com --rtc-event-url=http://example.com --messages-inbound-url=http://example.com --messages-status-url=http://example.com
 ```
 
 Alias: `nexmo as` and `nexmo app`.
@@ -400,55 +500,81 @@ Alias: `nexmo aset`.
 
 #### Update an Application
 
-Parameters:
+This command has interactive mode available. Run the command without just the `app_id` parameter and an interactive prompt will guide you through updating the application.
 
-- `app_id` - the UUID of your application.
+For non-interactive mode, parameters are:
+
 - `name` - the custom name of your application.
-- `answer_url` - the URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-- `event_url` - the URL the platform sends event information asynchronously to when the call_status changes
+- `app_id` - the UUID of your application.
+- `--capabilities capabilities` - the capabilities your application has, as a comma separated list. Can be voice, messages, rtc, vbc.
+
 - Optional flags:
-
-  - `--type <type>` The product you want to access with this application. (Default: voice)
-  - `--answer_method <answer_method>` The http method for the `answer_url`. (Default: GET)
-  - `--event_method <event_method>` The http method for the `event_url`. (Default: GET)
-
+    - `--public-keyfile [publicKeyfile]` - the public key for your application.
+    - `--voice-event-url [voiceEventUrl]` - the event URL for the voice capability.
+    - `--voice-event-method [voiceEventMethod]` - the HTTP method to use for the --voice-event-url (defaults to POST).
+    - `--voice-answer-url [voiceAnswerUrl]` - the answer URL for the voice capability.
+    - `--voice-answer-method [voiceAnswerMethod]` - the HTTP method to use for the --voice-answer-url (defaults to GET).
+    - `--voice-fallback-answer-url [voiceFallbackAnswerUrl]` - the fallback answer URL for the voice capability.
+    - `--voice-fallback-answer-method [voiceFallbackAnswerMethod]` - the HTTP method to use for the --voice-fallback-answer-url (defaults to GET).
+    - `--messages-inbound-url [messagesInboundUrl]` - the inbound URL for the messages capability.
+    - `--messages-status-url [messagesStatusUrl]` - the status URL for the messages capability.
+    - `--rtc-event-url [rtcEventUrl]` - the event URL for the rtc capability.
+    - `--rtc-event-method [rtcEventMethod]` - the HTTP method to use for the --rtc-event-url (defaults to POST).
 ```bash
-> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com
+> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application V2" --capabilities=voice,rtc,messages,vbc --voice-answer-url=http://example.com --voice-fallback-answer-url=http://example.com --voice-event-url=http://example.com --rtc-event-url=http://example.com --messages-inbound-url=http://example.com --messages-status-url=http://example.com
 Application updated: asdasdas-asdd-2344-2344-asdasdasd345
 
-> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com -v
+> nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application V2" --capabilities=voice,rtc,messages,vbc --voice-answer-url=http://example.com --voice-fallback-answer-url=http://example.com --voice-event-url=http://example.com --rtc-event-url=http://example.com --messages-inbound-url=http://example.com --messages-status-url=http://example.com -v
 [id]
 asdasdas-asdd-2344-2344-asdasdasd345
 
 [name]
-Test Application 1
-
-[voice.webhooks.0.endpoint_type]
-event_url
-
-[voice.webhooks.0.endpoint]
-http://example.com
-
-[voice.webhooks.0.http_method]
-POST
-
-[voice.webhooks.1.endpoint_type]
-answer_url
-
-[voice.webhooks.1.endpoint]
-http://example.com
-
-[voice.webhooks.1.http_method]
-GET
+Test Application V2
 
 [keys.public_key]
+-----BEGIN PUBLIC KEY-----
 ...
+-----END PUBLIC KEY-----
 
-[keys.private_key]
-...
+
+[capabilities.voice.webhooks.event_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.event_url.http_method]
+POST
+
+[capabilities.voice.webhooks.answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.answer_url.http_method]
+GET
+
+[capabilities.voice.webhooks.fallback_answer_url.address]
+http://example.com
+
+[capabilities.voice.webhooks.fallback_answer_url.http_method]
+GET
+
+[capabilities.rtc.webhooks.event_url.address]
+http://example.com
+
+[capabilities.rtc.webhooks.event_url.http_method]
+POST
+
+[capabilities.messages.webhooks.inbound_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.inbound_url.http_method]
+POST
+
+[capabilities.messages.webhooks.status_url.address]
+http://example.com
+
+[capabilities.messages.webhooks.status_url.http_method]
+POST
 
 [_links.self.href]
-/applications/asdasdas-asdd-2344-2344-asdasdasd345
+/v2/applications/asdasdas-asdd-2344-2344-asdasdasd345
 ```
 
 Alias: `nexmo au`.
@@ -693,12 +819,14 @@ Alias: `nexmo ia`
 
 #### Generate
 
-Generate a JWT for your application. Optionally supports extra claims to be passed in.
+Generate a JWT for your application. Optionally supports extra claims to be passed in. Can also be used without a private key and `application_id` if there is a local `.nexmo-app` file present.
 
 ```bash
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732
 [...JWT String...]
 > nexmo jwt:generate path/to/private.key subject=username iat=1475861732 application_id=asdasdas-asdd-2344-2344-asdasdasd345
+> JWT: [...JWT String...]
+> nexmo jwt:generate subject=username iat=1475861732
 > JWT: [...JWT String...]
 ```
 

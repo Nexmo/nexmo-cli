@@ -1,4 +1,11 @@
 src
-private.key
+*.key
 .nexmo-app
 .nexmorc
+.nyc_output
+coverage
+coverage.lcov
+.nexmo-app
+tests
+.travis.yml
+.github

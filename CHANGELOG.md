@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.9-beta-1][]
+
+* Updated: `app:create` with V2 API and interactive mode.
+* Updated: `app:update` with V2 API and interactive mode.
+* Added: `app:show --v2 --recreate` with V2 API support and command recreate mode.
+* Added: `app:delete --v2` with V2 API support.
+* Updated: `jwt:generate` to use local application credentials.
+
+
 ## [0.3.11][]
 
 * FIXED: `application:delete` was returning a null response and throwing a validation error.

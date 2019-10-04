@@ -60,7 +60,7 @@ class Emitter {
   pagination(flags, data) {
     const page  = parseInt(flags.page || 1);
     const size  = parseInt(flags.size || 100);
-    const total = data.count;
+    const total = data.count || data.total_items;
     const start = size*(page-1) + 1;
     const end   = Math.min(start + size - 1, total);
 

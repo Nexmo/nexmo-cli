@@ -2,6 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
+import inquirer from 'inquirer';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -9,6 +10,7 @@ import Client    from './client';
 import Response  from './response';
 import Request   from './request';
 import Validator from './validator';
+import prompts   from './prompts';
 import pckg      from '../package.json';
 
 const emitter   = new Emitter();
@@ -17,7 +19,50 @@ const appConfig = new Config(emitter, "-app");
 const client    = new Client(config, emitter, appConfig);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
-const request   = new Request(config, appConfig, client, response);
+const request   = new Request(config, appConfig, client, response, emitter);
+
+function _applicationCreate(name, answer_url, event_url, flags) {
+  if (!name) {
+    inquirer.prompt(prompts.applicationCreate).then(answers => {
+      answers.capabilities = answers.capabilities.join();
+      if (prompts.defaultPublicKey == answers.publicKeyfile) {
+        answers.publicKeyfile = "";
+      }
+      if (prompts.defaultPrivateKey == answers.keyfile) {
+        answers.keyfile = "";
+      }
+      if (answers.voiceFallbackAnswerUrl == "Optional") {
+        answers.voiceFallbackAnswerUrl = "";
+      }
+      request.applicationCreate.bind(request)(answers.name, answer_url, event_url, answers);
+    });
+  } else {
+    request.applicationCreate.bind(request)(name, answer_url, event_url, flags);
+  }
+}
+
+function _applicationUpdate(app_id, name, answer_url, event_url, flags) {
+  if (!name) {
+    client.instance().applications.get(app_id, (error, application) => {
+      if (error) {
+        this.emitter.list(`${error.body.title} Error: ${error.body.detail}`, error);
+      } else {
+        inquirer.prompt(prompts.applicationUpdate(application)).then(answers => {
+          answers.capabilities = answers.capabilities.join();
+          if (prompts.defaultPublicKey == answers.publicKeyfile) {
+            answers.publicKeyfile = "";
+          }
+          if (answers.voiceFallbackAnswerUrl == "Optional") {
+            answers.voiceFallbackAnswerUrl = "";
+          }
+          request.applicationUpdate.bind(request)(app_id, answers.name, answer_url, event_url, answers);
+        });
+      }
+    }, true);
+  } else {
+    request.applicationUpdate.bind(request)(app_id, name, answer_url, event_url, flags);
+  }
+}
 
 commander
   .version(pckg.version)
@@ -233,6 +278,7 @@ commander
   .description('List your Nexmo Applications')
   .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
   .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
+  .option('--v2', 'use the v2 version of the API')
   .alias('al')
   .description('List of numbers assigned to the account')
   .action(request.applicationsList.bind(request));
@@ -242,6 +288,7 @@ commander
   .description('List your Nexmo Applications')
   .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
   .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
+  .option('--v2', 'use the v2 version of the API')
   .action(request.applicationsList.bind(request));
 
 commander
@@ -249,52 +296,83 @@ commander
   .description('List your Nexmo Applications')
   .option('--page <page>', 'the page of results to return', /^\d*$/i, 1)
   .option('--size <size>', 'the amount of results to return', /^\d*$/i, 100)
+  .option('--v2', 'use the v2 version of the API')
   .action(request.applicationsList.bind(request));
 
 // Application Create
 
 commander
-  .command('app:create <name> <answer_url> <event_url>')
+  .command('app:create [name] [answer_url] [event_url]')
   .description('Create a new Nexmo Application')
   .alias('ac')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
+  .option('--capabilities [capabilities]', 'the capabilities your application has, as a comma separated list. can be voice, messages, rtc, vbc')
+  .option('--voice-event-url [voiceEventUrl]', 'the event URL for the voice capability')
+  .option('--voice-event-method [voiceEventMethod]', 'the HTTP method to use for the --voice-event-url (defaults to POST)')
+  .option('--voice-answer-url [voiceAnswerUrl]', 'the answer URL for the voice capability')
+  .option('--voice-answer-method [voiceAnswerMethod]', 'the HTTP method to use for the --voice-answer-url (defaults to GET)')
+  .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
+  .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
+  .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
+  .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
+  .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
+  .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:create "Test Application 1" http://example.com http://example.com --keyfile private.key');
+    emitter.log('    $ nexmo app:create');
     emitter.log(' ');
   })
-  .action(request.applicationCreate.bind(request));
+  .action(_applicationCreate);
 
 commander
-  .command('apps:create <name> <answer_url> <event_url>', null, { noHelp: true })
+  .command('apps:create [name] [answer_url] [event_url]', null, { noHelp: true })
   .description('Create a new Nexmo Application')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the voice answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the voice event_url (defaults to GET)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
+  .option('--capabilities [capabilities]', 'the capabilities your application has, as a comma separated list. can be voice, messages, rtc, vbc')
+  .option('--voice-event-url [voiceEventUrl]', 'the event URL for the voice capability')
+  .option('--voice-event-method [voiceEventMethod]', 'the HTTP method to use for the --voice-event-url (defaults to POST)')
+  .option('--voice-answer-url [voiceAnswerUrl]', 'the answer URL for the voice capability')
+  .option('--voice-answer-method [voiceAnswerMethod]', 'the HTTP method to use for the --voice-answer-url (defaults to GET)')
+  .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
+  .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
+  .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
+  .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
+  .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
+  .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:create "Test Application 1" http://example.com http://example.com --keyfile private.key');
+    emitter.log('    $ nexmo apps:create');
     emitter.log(' ');
   })
-  .action(request.applicationCreate.bind(request));
+  .action(_applicationCreate);
 
 // Application Show
 
 commander
   .command('app:show <app_id>')
   .description('Show details for a Nexmo Application')
+  .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .alias('as')
   .action(request.applicationShow.bind(request));
 
 commander
   .command('app <app_id>', null, { noHelp: true })
   .description('Show details for a Nexmo Application')
+  .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .action(request.applicationShow.bind(request));
 
 commander
@@ -307,38 +385,64 @@ commander
 commander
   .command('apps:show <app_id>', null, { noHelp: true })
   .description('Show details for a Nexmo Application')
+  .option('--v2', 'use the v2 version of the API')
+  .option('--recreate', 'show the CLI command to create a similar application')
   .action(request.applicationShow.bind(request));
 
 // Application Update
 
 commander
-  .command('app:update <app_id> <name> <answer_url> <event_url>')
+  .command('app:update <app_id> [name] [answer_url] [event_url]')
   .description('Update a Nexmo Application')
   .alias('au')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--capabilities [capabilities]', 'the capabilities your application has, as a comma separated list. can be voice, messages, rtc, vbc')
+  .option('--voice-event-url [voiceEventUrl]', 'the event URL for the voice capability')
+  .option('--voice-event-method [voiceEventMethod]', 'the HTTP method to use for the --voice-event-url (defaults to POST)')
+  .option('--voice-answer-url [voiceAnswerUrl]', 'the answer URL for the voice capability')
+  .option('--voice-answer-method [voiceAnswerMethod]', 'the HTTP method to use for the --voice-answer-url (defaults to GET)')
+  .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
+  .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
+  .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
+  .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
+  .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
+  .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+  .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com');
+    emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action(request.applicationUpdate.bind(request));
+  .action(_applicationUpdate);
 
 commander
-  .command('apps:update <app_id> <name> <answer_url> <event_url>', null, { noHelp: true })
+  .command('apps:update <app_id> [name] [answer_url] [event_url]', null, { noHelp: true })
   .description('Update a Nexmo Application')
   .option('--type <type>', 'the type of application', /^(voice|messages|artc)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--capabilities [capabilities]', 'the capabilities your application has, as a comma separated list. can be voice, messages, rtc, vbc')
+  .option('--voice-event-url [voiceEventUrl]', 'the event URL for the voice capability')
+  .option('--voice-event-method [voiceEventMethod]', 'the HTTP method to use for the --voice-event-url (defaults to POST)')
+  .option('--voice-answer-url [voiceAnswerUrl]', 'the answer URL for the voice capability')
+  .option('--voice-answer-method [voiceAnswerMethod]', 'the HTTP method to use for the --voice-answer-url (defaults to GET)')
+  .option('--voice-fallback-answer-url [voiceFallbackAnswerUrl]', 'the fallback answer URL for the voice capability')
+  .option('--voice-fallback-answer-method [voiceFallbackAnswerMethod]', 'the HTTP method to use for the --voice-fallback-answer-url (defaults to GET)')
+  .option('--messages-inbound-url [messagesInboundUrl]', 'the inbound URL for the messages capability')
+  .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
+  .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
+  .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
+  .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
-    emitter.log('    $ nexmo app:update asdasdas-asdd-2344-2344-asdasdasd345 "Test Application 1" http://example.com http://example.com');
+    emitter.log('    $ nexmo app:update');
     emitter.log(' ');
   })
-  .action(request.applicationUpdate.bind(request));
+  .action(_applicationUpdate);
 
 
 // Application Delete
@@ -576,7 +680,7 @@ commander
   .action(request.sendSms.bind(request));
 
 commander
-  .command('jwt:generate <private_key> [claims...]')
+  .command('jwt:generate [private_key] [claims...]')
   .description('Generate a JWT (JSON Web Token)')
   .on('--help', () => {
     emitter.log('  Examples:');

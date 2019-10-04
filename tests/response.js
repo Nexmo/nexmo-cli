@@ -1,12 +1,16 @@
-import Response  from '../src/response.js';
+import Response from '../src/response.js';
 import Validator from '../src/validator.js';
-import Emitter   from '../src/emitter.js';
-import Config    from '../src/config.js';
+import Emitter from '../src/emitter.js';
+import Config from '../src/config.js';
 
-import chai, { expect } from 'chai';
-import sinon            from 'sinon';
-import sinonChai        from 'sinon-chai';
-import sinonTest        from 'sinon-test';
+import fs from 'fs';
+
+import chai, {
+  expect
+} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+import sinonTest from 'sinon-test';
 const test = sinonTest(sinon);
 
 chai.use(sinonChai);
@@ -32,7 +36,9 @@ describe('Response', () => {
     it('should validate the response and save the result', test(function() {
       var config = sinon.createStubInstance(Config);
 
-      response.accountSetup(config, '123', 'abc', { local: false })(null, {});
+      response.accountSetup(config, '123', 'abc', {
+        local: false
+      })(null, {});
       expect(validator.response).to.have.been.called;
       expect(config.putAndSave).to.have.been.called;
     }));
@@ -40,7 +46,12 @@ describe('Response', () => {
 
   describe('.accountInfo', () => {
     it('should emit the result', test(function() {
-      response.accountInfo({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
+      response.accountInfo({
+        credentials: {
+          'apiKey': '123',
+          'apiSecret': '234'
+        }
+      });
       expect(emitter.log).to.have.been.calledWith(`API Key:    123
 API Secret: 234`);
     }));
@@ -48,15 +59,21 @@ API Secret: 234`);
 
   describe('.accountBalance', () => {
     it('should validate the response and emit the result', test(function() {
-      response.accountBalance(null, { value: 123.4567 });
-      expect(validator.response).to.have.been.calledWith(null, { value: 123.4567});
+      response.accountBalance(null, {
+        value: 123.4567
+      });
+      expect(validator.response).to.have.been.calledWith(null, {
+        value: 123.4567
+      });
       expect(emitter.log).to.have.been.calledWith('123.46 EUR', '123.4567 EUR');
     }));
   });
 
   describe('.priceSms', () => {
     it('should validate the response and emit the result', test(function() {
-      response.priceSms(null, { price: '123' });
+      response.priceSms(null, {
+        price: '123'
+      });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
@@ -64,7 +81,9 @@ API Secret: 234`);
 
   describe('.priceVoice', () => {
     it('should validate the response and emit the result', test(function() {
-      response.priceVoice(null, { price: '123' });
+      response.priceVoice(null, {
+        price: '123'
+      });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('123 EUR');
     }));
@@ -72,13 +91,21 @@ API Secret: 234`);
 
   describe('.priceCountry', () => {
     it('should validate the response and emit the result', test(function() {
-      response.priceCountry(null, { mt: '0.123', networks: []});
+      response.priceCountry(null, {
+        mt: '0.123',
+        networks: []
+      });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('0.123 EUR');
     }));
 
     it('should return the maximum value for a country', test(function() {
-      response.priceCountry(null, { mt: '0.123', networks: [{ mtPrice: '0.234' }]});
+      response.priceCountry(null, {
+        mt: '0.123',
+        networks: [{
+          mtPrice: '0.234'
+        }]
+      });
       expect(validator.response).to.have.been.called;
       expect(emitter.log).to.have.been.calledWith('0.234 EUR');
     }));
@@ -86,28 +113,58 @@ API Secret: 234`);
 
   describe('.numbersList', () => {
     it('should print a list of numbers', () => {
-      const data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      const data = {
+        'count': 1,
+        'numbers': [{
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS']
+        }]
+      };
       response.numbersList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
+      expect(emitter.table).to.have.been.calledWith([{
+        country: 'ES',
+        features: ['SMS'],
+        msisdn: '34911067000',
+        type: 'landline'
+      }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
     });
 
     it('should warn if no numbers found', () => {
-      response.numbersList({})(null, { numbers: []});
+      response.numbersList({})(null, {
+        numbers: []
+      });
       expect(emitter.warn).to.have.been.called;
     });
   });
 
   describe('.numberSearch', () => {
     it('should print a list of numbers', () => {
-      const data = {'count':1,'numbers':[{'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS']}]};
+      const data = {
+        'count': 1,
+        'numbers': [{
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS']
+        }]
+      };
       response.numberSearch({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline' }], ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
+      expect(emitter.table).to.have.been.calledWith([{
+        country: 'ES',
+        features: ['SMS'],
+        msisdn: '34911067000',
+        type: 'landline'
+      }], ['msisdn'], ['msisdn', 'country', 'cost', 'type', 'features']);
     });
 
     it('should warn if no numbers found', () => {
-      response.numberSearch({})(null, { numbers: []});
+      response.numberSearch({})(null, {
+        numbers: []
+      });
       expect(emitter.warn).to.have.been.called;
     });
   });
@@ -128,7 +185,11 @@ API Secret: 234`);
       });
 
       expect(method).to.be.a('function');
-      method(null, { numbers: [{msisdn: '123'}]});
+      method(null, {
+        numbers: [{
+          msisdn: '123'
+        }]
+      });
     });
   });
 
@@ -154,14 +215,26 @@ API Secret: 234`);
 
   describe('.applicationsList', () => {
     it('should print a list of application', () => {
-      const data = {'_embedded':{'applications':[{'id':123}]}};
+      const data = {
+        '_embedded': {
+          'applications': [{
+            'id': 123
+          }]
+        }
+      };
       response.applicationsList({})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.table).to.have.been.calledWith([{'id':123}], ['id', 'name'], ['id', 'name']);
+      expect(emitter.table).to.have.been.calledWith([{
+        'id': 123
+      }], ['id', 'name'], ['id', 'name']);
     });
 
     it('should warn if no applications found', () => {
-      response.applicationsList({})(null, {'_embedded':{'applications':[]}});
+      response.applicationsList({})(null, {
+        '_embedded': {
+          'applications': []
+        }
+      });
       expect(emitter.warn).to.have.been.called;
     });
   });
@@ -169,7 +242,13 @@ API Secret: 234`);
   describe('.searchByPartialAppId', () => {
     it('should return a full app_id from a single, partial match', () => {
       const partialAppId = 'app_';
-      const data = { '_embedded': { 'applications': [{ 'id': 'app_id' }] } };
+      const data = {
+        '_embedded': {
+          'applications': [{
+            'id': 'app_id'
+          }]
+        }
+      };
       const fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
@@ -180,8 +259,13 @@ API Secret: 234`);
       const partialAppId = 'app_';
       const data = {
         '_embedded': {
-          'applications': [
-            { 'id': 'not_app_id' }, { 'id': 'app_id' }, { 'id': 'also_not_app_id' }]
+          'applications': [{
+            'id': 'not_app_id'
+          }, {
+            'id': 'app_id'
+          }, {
+            'id': 'also_not_app_id'
+          }]
         }
       };
       const fullAppId = response.searchByPartialAppId(partialAppId)(null, data);
@@ -192,7 +276,13 @@ API Secret: 234`);
 
     it('should warn if no match', () => {
       const partialAppId = 'app_';
-      const data = { '_embedded': { 'applications': [{ 'id': 'not_app_id' }] } };
+      const data = {
+        '_embedded': {
+          'applications': [{
+            'id': 'not_app_id'
+          }]
+        }
+      };
       response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
@@ -201,7 +291,15 @@ API Secret: 234`);
 
     it('should warn if multiple matches', () => {
       const partialAppId = 'app_';
-      const data = { '_embedded': { 'applications': [{ 'id': 'app_id_1' }, { 'id': 'app_id_2' }] } };
+      const data = {
+        '_embedded': {
+          'applications': [{
+            'id': 'app_id_1'
+          }, {
+            'id': 'app_id_2'
+          }]
+        }
+      };
       response.searchByPartialAppId(partialAppId)(null, data);
 
       expect(validator.response).to.have.been.calledWith(null, data);
@@ -214,8 +312,17 @@ API Secret: 234`);
   describe('.applicationCreate', () => {
     it('should print the response', () => {
       const putAndSave = sinon.spy();
-      const method = response.applicationCreate({ keys: {}}, {putAndSave: putAndSave});
-      const data = { id: 123, keys: { private_key: 'asdasdasd' } };
+      const method = response.applicationCreate({
+        keys: {}
+      }, {
+        putAndSave: putAndSave
+      });
+      const data = {
+        id: 123,
+        keys: {
+          private_key: 'asdasdasd'
+        }
+      };
 
       expect(method).to.be.a('function');
       method(null, data);
@@ -225,14 +332,101 @@ API Secret: 234`);
       expect(emitter.list).to.have.been.calledWith('Application created: 123', data);
       expect(emitter.log).to.have.been.calledWith('\nPrivate Key:\n');
     });
+
+    it('should print the error', () => {
+      const putAndSave = sinon.spy();
+      const method = response.applicationCreate({
+        keys: {}
+      }, {
+        putAndSave: putAndSave
+      });
+      const error = {
+        body: {
+          title: "title",
+          detail: "detail"
+        }
+      };
+
+      expect(method).to.be.a('function');
+      method(error, null);
+
+      expect(validator.response).to.have.been.calledWith(error, null);
+      expect(putAndSave).to.not.have.been.called;
+      expect(emitter.list).to.have.been.calledWith('title Error: detail', error);
+    });
+
+    it('should recreate the command when interactive mode is used', () => {
+      const putAndSave = sinon.spy();
+      const method = response.applicationCreate({
+        voiceAnswerUrl: "url",
+        voiceAnswerMethod: "put",
+        voiceFallbackAnswerUrl: "url",
+        voiceFallbackAnswerMethod: "put",
+        voiceEventUrl: "url",
+        voiceEventMethod: "put",
+        messagesInboundUrl: "url",
+        messagesStatusUrl: "url",
+        rtcEventUrl: "url",
+        rtcEventMethod: "put",
+        publicKeyfile: "key.pub",
+        keyfile: "key.key",
+        name: "name"
+      }, {
+        putAndSave: putAndSave
+      });
+      const data = {
+        id: 123,
+        keys: {
+          private_key: 'asdasdasd'
+        }
+      };
+
+      expect(method).to.be.a('function');
+      method(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(putAndSave).to.have.been.called;
+      expect(emitter.list).to.have.been.calledWith('Application created: 123', data);
+      expect(emitter.log).to.have.been.calledWith('\nTo recreate this application in the future without interactive mode use the following command:\n\nnexmo app:create name --capabilities=undefined --voice-answer-url=url --voice-answer-method=put --voice-fallback-answer-url=url --voice-fallback-answer-method=put --voice-event-url=url --voice-event-method=put --messages-inbound-url=url --messages-status-url=url --rtc-event-url=url --rtc-event-method=put --public-keyfile=key.pub --keyfile=key.key\n');
+    });
   });
 
   describe('.applicationShow', () => {
     it('should print the response', () => {
-      const data = { id: 123 };
-      response.applicationShow(null, data);
+      const data = {
+        id: 123
+      };
+      response.applicationShow({
+        v2: true
+      })(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith(null, data);
+    });
+
+    it('should print the error', () => {
+      const error = {
+        body: {
+          title: "title",
+          detail: "detail"
+        }
+      };
+      response.applicationShow({
+        v2: true
+      })(error, null);
+      expect(validator.response).to.have.been.calledWith(error, null);
+      expect(emitter.list).to.have.been.calledWith("title Error: detail");
+    });
+
+    it('should recreate the command when --recreate is used', () => {
+      const method = response.applicationShow({recreate: true});
+      const data = JSON.parse(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json"));
+
+      expect(method).to.be.a('function');
+      method(null, data);
+
+      expect(validator.response).to.have.been.calledWith(null, data);
+      expect(emitter.list).to.have.been.calledWith(null, data);
+      expect(emitter.log).to.have.been.calledWith('\nTo recreate a similar application use the following command:\n\nnexmo app:create name --capabilities=voice,messages,rtc,vbc --voice-answer-url=example.com --voice-answer-method=PUT --voice-fallback-answer-url=example.com --voice-fallback-answer-method=PUT --voice-event-url=example.com --voice-event-method=PUT --messages-inbound-url=example.com --messages-status-url=example.com --rtc-event-url=example.com --rtc-event-method=PUT ');
     });
   });
 
@@ -240,7 +434,9 @@ API Secret: 234`);
     it('should validate the response and save the result', test(function() {
       var config = sinon.createStubInstance(Config);
 
-      response.applicationSetup(config, '123', 'abc', { global: false })(null, {});
+      response.applicationSetup(config, '123', 'abc', {
+        global: false
+      })(null, {});
       expect(validator.response).to.have.been.called;
       expect(config.putAndSave).to.have.been.called;
     }));
@@ -248,7 +444,9 @@ API Secret: 234`);
 
   describe('.applicationUpdate', () => {
     it('should print the response', () => {
-      const data = { id: 123 };
+      const data = {
+        id: 123
+      };
       response.applicationUpdate(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('Application updated: 123', data);
@@ -257,7 +455,9 @@ API Secret: 234`);
 
   describe('.applicationDelete', () => {
     it('should print the response', () => {
-      const data = { id: 123 };
+      const data = {
+        id: 123
+      };
       response.applicationDelete(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.log).to.have.been.calledWith('Application deleted');
@@ -266,17 +466,39 @@ API Secret: 234`);
 
   describe('.applicationNumbers', () => {
     it('should print a list of only the numbers that match', () => {
-      const data = {'count':1,'numbers':[
-        {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'app_id'},
-        {'country':'ES','msisdn':'34911067000','type':'landline','features':['SMS'], 'voiceCallbackValue':'other_app_id'}
-      ]};
+      const data = {
+        'count': 1,
+        'numbers': [{
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS'],
+          'voiceCallbackValue': 'app_id'
+        },
+        {
+          'country': 'ES',
+          'msisdn': '34911067000',
+          'type': 'landline',
+          'features': ['SMS'],
+          'voiceCallbackValue': 'other_app_id'
+        }
+        ]
+      };
       response.applicationNumbers('app_id', {})(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
-      expect(emitter.table).to.have.been.calledWith([{ country: 'ES', features: ['SMS'], msisdn: '34911067000', type: 'landline', voiceCallbackValue: 'app_id' }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
+      expect(emitter.table).to.have.been.calledWith([{
+        country: 'ES',
+        features: ['SMS'],
+        msisdn: '34911067000',
+        type: 'landline',
+        voiceCallbackValue: 'app_id'
+      }], ['msisdn'], ['msisdn', 'country', 'type', 'features', 'voiceCallbackType', 'voiceCallbackValue', 'moHttpUrl', 'voiceStatusCallbackUrl']);
     });
 
     it('should warn if no numbers found', () => {
-      response.applicationNumbers({})(null, { numbers: []});
+      response.applicationNumbers({})(null, {
+        numbers: []
+      });
       expect(emitter.warn).to.have.been.called;
     });
   });
@@ -292,7 +514,10 @@ API Secret: 234`);
 
   describe('.insightBasic', () => {
     it('should print the response', () => {
-      const data = { international_format_number: 123, country_code: 'GB' };
+      const data = {
+        international_format_number: 123,
+        country_code: 'GB'
+      };
       response.insightBasic(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('123 | GB', data);
@@ -301,7 +526,13 @@ API Secret: 234`);
 
   describe('.insightStandard', () => {
     it('should print the response', () => {
-      const data = { international_format_number: 123, country_code: 'GB', current_carrier: { name: 'Telco' } };
+      const data = {
+        international_format_number: 123,
+        country_code: 'GB',
+        current_carrier: {
+          name: 'Telco'
+        }
+      };
       response.insightStandard(null, data);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith('123 | GB | Telco', data);
@@ -312,15 +543,14 @@ API Secret: 234`);
     it('should print the response', () => {
       const data = {
         'message-count': '1',
-        messages: [
-          { to: '447518397784',
-            'message-id': '02000000E6ED9837',
-            status: '0',
-            'remaining-balance': '26.83440000',
-            'message-price': '0.03330000',
-            network: '23410'
-          }
-        ]
+        messages: [{
+          to: '447518397784',
+          'message-id': '02000000E6ED9837',
+          status: '0',
+          'remaining-balance': '26.83440000',
+          'message-price': '0.03330000',
+          network: '23410'
+        }]
       };
 
       response.sendSms(null, data);
@@ -340,24 +570,36 @@ Message price:     0.03330000 EUR`);
 
   describe('.conversationCreate', () => {
     it('should validate the response and emit the result', test(function() {
-      response.conversationCreate(null, {id: '123'});
-      expect(validator.response).to.have.been.calledWith(null, {id: '123'});
+      response.conversationCreate(null, {
+        id: '123'
+      });
+      expect(validator.response).to.have.been.calledWith(null, {
+        id: '123'
+      });
       expect(emitter.list).to.have.been.calledWith('Conversation created: 123');
     }));
   });
 
   describe('.userCreate', () => {
     it('should validate the response and emit the result', test(function() {
-      response.userCreate(null, {id: '123'});
-      expect(validator.response).to.have.been.calledWith(null, {id: '123'});
+      response.userCreate(null, {
+        id: '123'
+      });
+      expect(validator.response).to.have.been.calledWith(null, {
+        id: '123'
+      });
       expect(emitter.list).to.have.been.calledWith('User created: 123');
     }));
   });
 
   describe('.memberAdd', () => {
     it('should validate the response and emit the result', test(function() {
-      response.memberAdd(null, {id: '123'});
-      expect(validator.response).to.have.been.calledWith(null, {id: '123'});
+      response.memberAdd(null, {
+        id: '123'
+      });
+      expect(validator.response).to.have.been.calledWith(null, {
+        id: '123'
+      });
       expect(emitter.list).to.have.been.calledWith('Member added: 123');
     }));
   });
@@ -370,9 +612,15 @@ Message price:     0.03330000 EUR`);
     }));
 
     it('should validate the response and emit a members table', test(function() {
-      response.memberList(null, [{id: '123'}]);
-      expect(validator.response).to.have.been.calledWith(null, [{id: '123'}]);
-      expect(emitter.table).to.have.been.calledWith([{id: '123'}], ['name', 'user_id', 'user_name', 'state']);
+      response.memberList(null, [{
+        id: '123'
+      }]);
+      expect(validator.response).to.have.been.calledWith(null, [{
+        id: '123'
+      }]);
+      expect(emitter.table).to.have.been.calledWith([{
+        id: '123'
+      }], ['name', 'user_id', 'user_name', 'state']);
     }));
   });
 
