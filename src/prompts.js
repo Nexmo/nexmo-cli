@@ -102,7 +102,7 @@ exports.applicationCreate = [
     name : 'keyfile',
     message : "Private Key path:",
     default: defaultPrivateKey,
-    when: (answers => !answers.publicKeyfile)
+    when: (answers => answers.publicKeyfile === defaultPublicKey)
   }
 ];
 
