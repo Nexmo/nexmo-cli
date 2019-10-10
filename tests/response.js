@@ -387,7 +387,7 @@ API Secret: 234`);
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(putAndSave).to.have.been.called;
       expect(emitter.list).to.have.been.calledWith('Application created: 123', data);
-      expect(emitter.log).to.have.been.calledWith('\nTo recreate this application in the future without interactive mode use the following command:\n\nnexmo app:create name --capabilities=undefined --voice-answer-url=url --voice-answer-method=put --voice-fallback-answer-url=url --voice-fallback-answer-method=put --voice-event-url=url --voice-event-method=put --messages-inbound-url=url --messages-status-url=url --rtc-event-url=url --rtc-event-method=put --public-keyfile=key.pub --keyfile=key.key\n');
+      expect(emitter.log).to.have.been.calledWith('\nTo recreate this application in the future without interactive mode use the following command:\n\nnexmo app:create "name" --capabilities=undefined --voice-answer-url=url --voice-answer-method=put --voice-fallback-answer-url=url --voice-fallback-answer-method=put --voice-event-url=url --voice-event-method=put --messages-inbound-url=url --messages-status-url=url --rtc-event-url=url --rtc-event-method=put --public-keyfile=key.pub --keyfile=key.key\n');
     });
   });
 
@@ -426,7 +426,7 @@ API Secret: 234`);
 
       expect(validator.response).to.have.been.calledWith(null, data);
       expect(emitter.list).to.have.been.calledWith(null, data);
-      expect(emitter.log).to.have.been.calledWith('\nTo recreate a similar application use the following command:\n\nnexmo app:create name --capabilities=voice,messages,rtc,vbc --voice-answer-url=example.com --voice-answer-method=PUT --voice-fallback-answer-url=example.com --voice-fallback-answer-method=PUT --voice-event-url=example.com --voice-event-method=PUT --messages-inbound-url=example.com --messages-status-url=example.com --rtc-event-url=example.com --rtc-event-method=PUT ');
+      expect(emitter.log).to.have.been.calledWith('\nTo recreate a similar application use the following command:\n\nnexmo app:create "name" --capabilities=voice,messages,rtc,vbc --voice-answer-url=example.com --voice-answer-method=PUT --voice-fallback-answer-url=example.com --voice-fallback-answer-method=PUT --voice-event-url=example.com --voice-event-method=PUT --messages-inbound-url=example.com --messages-status-url=example.com --rtc-event-url=example.com --rtc-event-method=PUT ');
     });
   });
 
