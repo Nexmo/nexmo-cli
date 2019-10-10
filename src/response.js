@@ -177,7 +177,7 @@ API Secret: ${client.credentials.apiSecret}`
 
         // if command ran in interactive mode
         if (!flags._description) {
-          let recreatedCommand = `nexmo app:create ${flags.name}`;
+          let recreatedCommand = `nexmo app:create "${flags.name}"`;
           recreatedCommand += ` --capabilities=${flags.capabilities}`;
 
           if (flags.voiceAnswerUrl) recreatedCommand += ` --voice-answer-url=${flags.voiceAnswerUrl}`;
@@ -248,7 +248,7 @@ API Secret: ${client.credentials.apiSecret}`
               break;
             }
           });
-          this.emitter.log(`\nTo recreate a similar application use the following command:\n\nnexmo app:create ${response.name} --capabilities=${capabilities.join()} ${recreatedCommand}`);
+          this.emitter.log(`\nTo recreate a similar application use the following command:\n\nnexmo app:create "${response.name}" --capabilities=${capabilities.join()} ${recreatedCommand}`);
         }
       }
     };
