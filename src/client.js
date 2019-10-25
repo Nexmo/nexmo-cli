@@ -1,4 +1,4 @@
-import Nexmo from "nexmo";
+import Nexmo from 'nexmo';
 
 class Client {
   constructor(config, emitter) {
@@ -23,7 +23,7 @@ export default Client;
 
 // private methods
 
-const initialize = function(config, emitter) {
+const initialize = function (config, emitter) {
   const packageDetails = require(`${__dirname}/../package.json`);
 
   try {
@@ -36,8 +36,8 @@ const initialize = function(config, emitter) {
       {
         debug: emitter.debugging,
         appendToUserAgent: `nexmo-cli/${packageDetails.version.replace(
-          "v",
-          ""
+          'v',
+          ''
         )}`
       }
     );
