@@ -1,4 +1,4 @@
-import Nexmo from 'nexmo';
+import Nexmo from "nexmo";
 
 class Client {
   constructor(config, emitter) {
@@ -15,7 +15,7 @@ class Client {
   }
 
   instanceWith(key, secret) {
-    return new Nexmo({apiKey: key, apiSecret: secret});
+    return new Nexmo({ apiKey: key, apiSecret: secret });
   }
 }
 
@@ -35,14 +35,21 @@ const initialize = function(config, emitter) {
       },
       {
         debug: emitter.debugging,
-        appendToUserAgent: `nexmo-cli/${packageDetails.version.replace('v', '')}`
+        appendToUserAgent: `nexmo-cli/${packageDetails.version.replace(
+          "v",
+          ""
+        )}`
       }
     );
-  } catch(e) {
+  } catch (e) {
     if (e instanceof TypeError) {
-      emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
+      emitter.error(
+        `Could not initialize Nexmo library. Please run 'nexmo setup <api_key> <api_secret>' to setup the CLI correctly. (${e.message})`
+      );
     } else {
-      emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
+      emitter.error(
+        `Could not read credentials. Please run 'nexmo setup <api_key> <api_secret>' to setup the CLI. (${e.message})`
+      );
     }
   }
   return null;
