@@ -15,7 +15,7 @@ class Client {
   }
 
   instanceWith(key, secret) {
-    return new Nexmo({apiKey: key, apiSecret: secret});
+    return new Nexmo({ apiKey: key, apiSecret: secret });
   }
 }
 
@@ -23,7 +23,7 @@ export default Client;
 
 // private methods
 
-const initialize = function(config, emitter) {
+const initialize = function (config, emitter) {
   const packageDetails = require(`${__dirname}/../package.json`);
 
   try {
@@ -38,11 +38,11 @@ const initialize = function(config, emitter) {
         appendToUserAgent: `nexmo-cli/${packageDetails.version.replace('v', '')}`
       }
     );
-  } catch(e) {
+  } catch (e) {
     if (e instanceof TypeError) {
-      emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup' to setup the CLI correctly. (${e.message})`);
+      emitter.error(`Could not initialize Nexmo library. Please run 'nexmo setup <api_key> <api_secret>' to setup the CLI correctly. (${e.message})`);
     } else {
-      emitter.error(`Could not read credentials. Please run 'nexmo setup' to setup the CLI. (${e.message})`);
+      emitter.error(`Could not read credentials. Please run 'nexmo setup <api_key> <api_secret>' to setup the CLI. (${e.message})`);
     }
   }
   return null;
