@@ -20,6 +20,7 @@ const request   = new Request(config, client, response);
 
 commander
   .version(pckg.version)
+  .usage('<command> [options]')
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
   .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter))
   .option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
