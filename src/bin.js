@@ -612,7 +612,7 @@ commander
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })
-  .action(() => { 
+  .action((cmd) => { 
     commander.outputHelp();
     const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
     if (suggestion) {
