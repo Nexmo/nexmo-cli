@@ -611,7 +611,9 @@ commander
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })
-  .action(() => { commander.help() });
+  .action(() => { 
+    commander.help() 
+  });
 
 commander.parse(process.argv);
 
