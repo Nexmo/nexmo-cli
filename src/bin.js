@@ -616,7 +616,7 @@ commander
     commander.outputHelp();
     const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
     if (suggestion) {
-    	emitter.log(`\n\n Did you mean ${cmd}?\n`);
+        emitter.log(`\n\n Did you mean ${cmd}?\n`);
     } 
   });
 
