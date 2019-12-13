@@ -19,6 +19,13 @@ const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
 
+const suggestCommands = () => {
+  const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
+    if (suggestion) {
+        emitter.log(`\n\n Did you mean ${cmd}?\n`);
+    }
+};
+
 commander
   .version(pckg.version)
   .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
@@ -614,10 +621,7 @@ commander
   .command('*', null, { noHelp: true })
   .action((cmd) => { 
     commander.outputHelp();
-    const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
-    if (suggestion) {
-        emitter.log(`\n\n Did you mean ${cmd}?\n`);
-    } 
+    suggestCommands(cmd); 
   });
 
 commander.parse(process.argv);
