@@ -2,6 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
+import didYouMean from'didyoumean';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -612,7 +613,11 @@ commander
 commander
   .command('*', null, { noHelp: true })
   .action(() => { 
-    commander.help() 
+    commander.outputHelp();
+    const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
+    if (suggestion) {
+    	emitter.log(`\n\n Did you mean ${cmd}?\n`);
+    } 
   });
 
 commander.parse(process.argv);
