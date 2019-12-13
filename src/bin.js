@@ -20,7 +20,8 @@ const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
 
 const suggestCommands = () => {
-  const suggestion = didYouMean(cmd, commander.commands.map(cmd => cmd._name));
+  const availableCommands = commander.commands.map(cmd => cmd._name);
+  const suggestion = didYouMean(cmd, availableCommands);
     if (suggestion) {
         emitter.log(`\n\n Did you mean ${cmd}?\n`);
     }
