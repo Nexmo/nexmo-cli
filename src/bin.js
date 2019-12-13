@@ -19,12 +19,12 @@ const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
 
-const suggestCommands = () => {
+const suggestCommands = (cmd) => {
   const availableCommands = commander.commands.map(cmd => cmd._name);
   const suggestion = didYouMean(cmd, availableCommands);
-    if (suggestion) {
-        emitter.log(`\n\n Did you mean ${cmd}?\n`);
-    }
+  if (suggestion) {
+    emitter.log(`\n\n Did you mean ${cmd}?\n`);
+  }
 };
 
 commander
