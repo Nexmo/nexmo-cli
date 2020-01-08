@@ -23,7 +23,7 @@ const suggestCommands = (cmd) => {
   const availableCommands = commander.commands.map(cmd => cmd._name);
   const suggestion = didYouMean(cmd, availableCommands);
   if (suggestion) {
-    emitter.log(`\n Did you mean ${cmd}?\n`);
+    emitter.log(`\n Did you mean ${suggestion}?\n`);
   }
 };
 
