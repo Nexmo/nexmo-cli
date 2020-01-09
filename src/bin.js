@@ -2,6 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
+import didYouMean from'didyoumean';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -17,6 +18,14 @@ const client    = new Client(config, emitter);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
+
+const suggestCommands = (cmd) => {
+  const availableCommands = commander.commands.map(cmd => cmd._name);
+  const suggestion = didYouMean(cmd, availableCommands);
+  if (suggestion) {
+    emitter.log(`\n Did you mean ${suggestion}?\n`);
+  }
+};
 
 commander
   .version(pckg.version)
@@ -611,7 +620,10 @@ commander
 // catch unknown commands
 commander
   .command('*', null, { noHelp: true })
-  .action(() => { commander.help(); });
+  .action((cmd) => { 
+    commander.outputHelp();
+    suggestCommands(cmd); 
+  });
 
 commander.parse(process.argv);
 
