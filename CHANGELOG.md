@@ -5,8 +5,6 @@ All notable changes to this project will be documented in this file. This projec
 ## [0.3.14][]
 
 * ADDED: Suggestions for misspelled commands.
-* FIXED: `application:numbers` example was missing the required `app_id` parameter.
-
 
 ## [0.3.11][]
 
