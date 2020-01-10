@@ -2,3 +2,7 @@ src
 private.key
 .nexmo-app
 .nexmorc
+.nyc_output
+tests/
+coverage/
+coverage.lcov
