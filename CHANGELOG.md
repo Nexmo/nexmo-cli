@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.14][]
+
+* ADDED: Suggestions for misspelled commands.
+
 ## [0.3.11][]
 
 * FIXED: `application:delete` was returning a null response and throwing a validation error.
