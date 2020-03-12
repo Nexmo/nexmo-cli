@@ -5,6 +5,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/Nexmo/nexmo-cli/badge.svg)](https://snyk.io/test/github/Nexmo/nexmo-cli)
 [![codecov](https://codecov.io/gh/Nexmo/nexmo-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-cli)
 
+<img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
+
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
 ## Installation
