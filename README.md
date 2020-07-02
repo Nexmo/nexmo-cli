@@ -437,7 +437,7 @@ Parameters:
 
 ```bash
 > nexmo app:delete asdasdas-asdd-2344-2344-asdasdasd345
-This is operation can not be reversed.
+This operation can not be reversed.
 
 Please type "confirm" to continue: confirm
 
