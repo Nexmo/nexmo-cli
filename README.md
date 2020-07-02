@@ -204,7 +204,7 @@ Alias: `nexmo nb` and `nexmo numbers:buy`.
 
 ```bash
 > nexmo number:cancel 12069396555
-This is operation can not be reversed.
+This operation can not be reversed.
 
 Please type "confirm" to continue: confirm
 
