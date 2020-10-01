@@ -22,7 +22,21 @@ class Response {
   accountInfo(client) {
     this.emitter.log(
       `API Key:    ${client.credentials.apiKey}
-API Secret: ${client.credentials.apiSecret}`
+`
+    );
+  }
+
+  accountKey(client) {
+    this.emitter.log(
+      `${client.credentials.apiKey}
+`
+    );
+  }
+
+  accountSecret(client) {
+    this.emitter.log(
+      `${client.credentials.apiSecret}
+`
     );
   }
 

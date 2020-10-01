@@ -21,6 +21,14 @@ class Request {
     this.response.accountInfo(this.client.instance());
   }
 
+  accountKey() {
+    this.response.accountKey(this.client.instance());
+  }
+
+  accountSecret() {
+    this.response.accountSecret(this.client.instance());
+  }
+
   accountBalance() {
     this.client.instance().account.checkBalance(this.response.accountBalance.bind(this.response));
   }
