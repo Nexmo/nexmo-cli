@@ -29,9 +29,9 @@ const suggestCommands = (cmd) => {
 
 commander
   .version(pckg.version)
-  .option('-q, --quiet', 'disables all logging except for errors', emitter.quiet.bind(emitter))
-  .option('-v, --verbose', 'enables more rich output for certain commands', emitter.verbose.bind(emitter))
-  .option('-d, --debug', 'enables nexmo library to output debug statements', emitter.debug.bind(emitter));
+  .option('-q, --quiet', 'Disables all logging except for errors', emitter.quiet.bind(emitter))
+  .option('-v, --verbose', 'Enables more rich output for certain commands', emitter.verbose.bind(emitter))
+  .option('-d, --debug', 'Enables Nexmo library to output debug statements', emitter.debug.bind(emitter));
 
 // account level
 commander
@@ -560,7 +560,7 @@ commander
 commander
   .command('price:sms <number>')
   .alias('ps')
-  .description('Gives you the cost of sending an outbound text to a number.')
+  .description('Get the cost of sending an outbound text to a number.')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -572,7 +572,7 @@ commander
 commander
   .command('price:voice <number>')
   .alias('pv')
-  .description('Gives you the cost of making an outbound call to a number.')
+  .description('Get the the cost of making an outbound call to a number.')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -584,7 +584,7 @@ commander
 commander
   .command('price:country <country_code>')
   .alias('pc')
-  .description('Gives you the cost of sending an outbound text message to the given country ID.')
+  .description('Get the the cost of sending an outbound text message to the given country ID.')
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
