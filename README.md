@@ -120,7 +120,7 @@ Alias: `nexmo pc`
 
 - Optional flags:
 
-  - `--size` The amount of results to return
+  - `--size` The number of results to return
   - `--page` The page of results to return
   - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
 
@@ -150,9 +150,9 @@ Parameters:
 - Optional flags:
 
   - `--pattern <pattern>` to be matched in number (use * to match end or start of number)
-  - `--voice` to search for voice enabled numbers
+  - `--voice` to search for voice-enabled numbers
   - `--sms` search for SMS enabled numbers
-  - `--size` the amount of results to return
+  - `--size` the number of results to return
   - `--page` the page of results to return
 
 ```bash
@@ -257,7 +257,7 @@ nexmo sms <to_number> Hello world! --from <from_number> --confirm
 
 - Optional flags:
 
-  - `--size` The amount of results to return
+  - `--size` The number of results to return
   - `--page` The page of results to return
 
 ```bash
