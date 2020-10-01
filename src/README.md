@@ -25,3 +25,7 @@ Parses responses from Config and Client. Passes the initial results to the Valid
 ## Validator(Emitter)
 
 Validates error and response objects and outputs errors using the Emitter.
+
+## Bin(Imports all)
+
+Imports all files and and sends commands for response in CLI to user.
