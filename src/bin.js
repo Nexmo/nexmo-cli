@@ -599,6 +599,8 @@ commander
   .command('sms <to> <text...>')
   .option('--confirm', 'skip confirmation step and directly send the message' )
   .option('-f, --from <from...>', 'the number or name to send the SMS message from (defaults to "Nexmo CLI")', 'Nexmo CLI')
+  .option('--api-key <api_key>', 'the api key (for not logged-in users)')
+  .option('--api-secret <api_secret>', 'the api secret (for not logged-in users)')
   .description('Send an SMS')
   .action(request.sendSms.bind(request));
 

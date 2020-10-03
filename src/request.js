@@ -259,6 +259,9 @@ class Request {
 
   sendSms(to, text, flags) {
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
+      if(flags.apiKey && flags.apiSecret){
+        this._verifyCredentials(flags.apiKey, flags.apiSecret, this.response.accountSetup(this.config, flags.apiKey, flags.apiSecret, flags));
+      }
       this.client.instance().message.sendSms(flags.from, to, text.join(' '), this.response.sendSms.bind(this.response));
     });
   }
