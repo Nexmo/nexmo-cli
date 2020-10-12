@@ -2,7 +2,7 @@
 
 import './blocked-io';
 import commander from 'commander';
-import didYouMean from'didyoumean';
+import leven from'leven';
 
 import Emitter   from './emitter';
 import Config    from './config';
@@ -19,9 +19,11 @@ const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
 
-const suggestCommands = (cmd) => {
+const suggestCommands = (cmdName) => {
   const availableCommands = commander.commands.map(cmd => cmd._name);
-  const suggestion = didYouMean(cmd, availableCommands);
+  const suggestion = availableCommands.find(cmd => {
+    return leven(cmd, cmdName) < 3;
+  });
   if (suggestion) {
     emitter.log(`\n Did you mean ${suggestion}?\n`);
   }
