@@ -22,7 +22,7 @@ const request   = new Request(config, client, response);
 const suggestCommands = (cmdName) => {
   const availableCommands = commander.commands.map(cmd => cmd._name);
   const suggestion = availableCommands.find(cmd => {
-    return leven(cmd, cmdName) < 3;
+    return leven(cmd, cmdName) < cmd.length * 0.4;
   });
   if (suggestion) {
     emitter.log(`\n Did you mean ${suggestion}?\n`);
