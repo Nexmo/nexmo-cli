@@ -28,15 +28,13 @@ API Secret: ${client.credentials.apiSecret}`
 
   accountKey(client) {
     this.emitter.log(
-      `${client.credentials.apiKey}
-`
+      `${client.credentials.apiKey}`
     );
   }
 
   accountSecret(client) {
     this.emitter.log(
-      `${client.credentials.apiSecret}
-`
+      `${client.credentials.apiSecret}`
     );
   }
 
