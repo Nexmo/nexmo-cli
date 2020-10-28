@@ -42,7 +42,7 @@ describe('Response', () => {
     it('should emit the result', test(function() {
       response.accountInfo({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
       expect(emitter.log).to.have.been.calledWith(`API Key:    123
-`);
+API Secret: 234`);
     }));
   });
 
