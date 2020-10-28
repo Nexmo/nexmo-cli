@@ -62,7 +62,15 @@ Alias: `nexmo s`.
 > nexmo account
 API Key:    <api_key>
 API Secret: <api_secret>
+
+> nexmo account:key
+<api_key>
+
+> nexmo account:secret
+<api_secret>
 ```
+
+Alias: `nexmo a`.
 
 #### Account balance
 

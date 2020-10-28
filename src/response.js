@@ -26,6 +26,18 @@ API Secret: ${client.credentials.apiSecret}`
     );
   }
 
+  accountKey(client) {
+    this.emitter.log(
+      `${client.credentials.apiKey}`
+    );
+  }
+
+  accountSecret(client) {
+    this.emitter.log(
+      `${client.credentials.apiSecret}`
+    );
+  }
+
   accountBalance(error, response) {
     this.validator.response(error, response);
     this.emitter.log(

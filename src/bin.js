@@ -48,6 +48,16 @@ commander
   .action(request.accountInfo.bind(request));
 
 commander
+  .command('account:key')
+  .description('Your API key')
+  .action(request.accountKey.bind(request));
+
+commander
+  .command('account:secret')
+  .description('Your API secret')
+  .action(request.accountSecret.bind(request));
+
+commander
   .command('balance')
   .description('Current account balance')
   .alias('b')
