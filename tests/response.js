@@ -47,18 +47,21 @@ API Secret: 234`);
   });
 
   describe('.accountKey', () => {
-    it('should emit the result', test(function() {
-      response.accountKey({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
-      expect(emitter.log).to.have.been.calledWith(`123
-`);
-    }));
+    it(
+      'should emit the result',
+      test(function () {
+        response.accountKey({
+          credentials: { apiKey: '123', apiSecret: '234' },
+        });
+        expect(emitter.log).to.have.been.calledWith('123');
+      })
+    );
   });
 
   describe('.accountSecret', () => {
     it('should emit the result', test(function() {
       response.accountSecret({credentials: { 'apiKey' : '123', 'apiSecret' : '234' }});
-      expect(emitter.log).to.have.been.calledWith(`234
-`);
+      expect(emitter.log).to.have.been.calledWith('234');
     }));
   });
 
