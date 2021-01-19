@@ -257,7 +257,7 @@ class Request {
   }
 
   insightStandard(number, flags) {
-    number = stripPlus(number);          
+    number = stripPlus(number);
     confirm('This operation will charge your account.', this.response.emitter, flags, () => {
       this.client.instance().numberInsight.get({ level: 'standard', number: number }, this.response.insightStandard.bind(this.response));
     });
