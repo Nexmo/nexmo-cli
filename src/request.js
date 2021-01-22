@@ -193,7 +193,7 @@ class Request {
   }
 
   unlinkApp(number, flags) {
-    this._link(number, flags, null, 'app');
+    this._link(number, flags);
   }
 
   unlinkSms(number, flags) {
@@ -227,21 +227,28 @@ class Request {
   _link(number, flags, mo_http_url, voice_callback_type, voice_callback_value, voice_status_callback) {
     if (flags == null) { flags = {}; }
     number = stripPlus(number);
+
     this.getCountryCode(number, flags, (country_code) => {
+      
+
       const options = {};
 
+      
       if (voice_callback_type == 'sms') {
         options.moHttpUrl = mo_http_url;
       } else {
-        options.voiceCallbackType = voice_callback_type;
-        if (voice_callback_value) options.voiceCallbackValue = voice_callback_value;
-        if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
+        if (voice_callback_type !== undefined) {
+          options.voiceCallbackType = voice_callback_type;
+          if (voice_callback_value) options.voiceCallbackValue = voice_callback_value;
+          if (voice_status_callback) options.voiceStatusCallback = voice_status_callback;
+        }
       }
+      
 
       this.client.instance().number.update(country_code, number, options, this.response.numberUpdate.bind(this.response));
-    });
+    }); 
   }
-
+ 
   // Insight
 
   insightBasic(number) {
