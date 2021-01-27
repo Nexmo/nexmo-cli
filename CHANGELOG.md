@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.15][]
+
+* FIXED: Broken remove linked number passing too much to updated API causing failure.
+
 ## [0.3.14][]
 
 * ADDED: Suggestions for misspelled commands.
