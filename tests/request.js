@@ -560,13 +560,15 @@ describe('Request', () => {
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationCreate('name', 'answer_url', 'event_url', {
-          capabilities: 'vbc'
+          capabilities: 'vbc',
+          improveAi: true
         });
         expect(nexmo.applications.create).to.have.been.calledWith({
           capabilities: {
             vbc: {}
           },
-          name: 'name'
+          name: 'name',
+          privacy: {improve_ai: true}
         });
       }));
     });
@@ -659,13 +661,15 @@ describe('Request', () => {
         nexmo.applications = sinon.createStubInstance(App);
         client.instance.returns(nexmo);
         request.applicationUpdate('app_id', 'name', 'answer_url', 'event_url', {
-          capabilities: 'vbc'
+          capabilities: 'vbc',
+          improveAi: false
         });
         expect(nexmo.applications.update).to.have.been.calledWith('app_id', {
           capabilities: {
-            vbc: {}
+            vbc: {},
           },
-          name: 'name'
+          name: 'name',
+          privacy: {improve_ai: false}
         });
       }));
     });
@@ -692,7 +696,8 @@ describe('Request', () => {
 
       it('should not emit error for empty capability', test(function() {
         const payload = request._createApplicationPayload('name', {
-          capabilities: ""
+          capabilities: "",
+          improveAi: true
         });
         expect(fs.readFileSync(__dirname + "/fixtures/app-empty-capabilities.json").toString()).to.include(JSON.stringify(payload));
       }));
@@ -786,6 +791,7 @@ describe('Request', () => {
           messagesInboundUrl: "example.com",
           messagesStatusUrl: "example.com",
           rtcEventUrl: "example.com",
+          improveAi: true
         });
         expect(fs.readFileSync(__dirname + "/fixtures/app-default-methods.json").toString()).to.include(JSON.stringify(payload));
       }));
@@ -803,6 +809,7 @@ describe('Request', () => {
           voiceFallbackAnswerMethod: "PUT",
           voiceEventMethod: "PUT",
           rtcEventMethod: "PUT",
+          improveAi: true
         });
         expect(fs.readFileSync(__dirname + "/fixtures/app-custom-methods.json").toString()).to.include(JSON.stringify(payload));
       }));

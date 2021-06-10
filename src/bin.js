@@ -20,6 +20,7 @@ const client    = new Client(config, emitter, appConfig);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, appConfig, client, response, emitter);
+const kb_article = 'https://help.nexmo.com/hc/en-us/articles/4401914566036';
 
 function _applicationCreate(name, answer_url, event_url, flags) {
   if (!name) {
@@ -321,7 +322,7 @@ commander
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
-
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, null, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -349,7 +350,7 @@ commander
   .option('--messages-status-url [messagesStatusUrl]', 'the status URL for the messages capability')
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-method [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
-
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, null, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -410,6 +411,7 @@ commander
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
   .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, null, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -436,6 +438,7 @@ commander
   .option('--rtc-event-url [rtcEventUrl]', 'the event URL for the rtc capability')
   .option('--rtc-event-url [rtcEventMethod]', 'the HTTP method to use for the --rtc-event-url (defaults to POST)')
   .option('--public-keyfile [publicKeyfile]', 'the public key for your application')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, null, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');

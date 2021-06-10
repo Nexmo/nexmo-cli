@@ -1,5 +1,7 @@
 const defaultPublicKey = "Leave empty if you don't want to use your own public key.";
 const defaultPrivateKey = "Leave empty if you don't want to save your private key.";
+const kb_article = 'https://help.nexmo.com/hc/en-us/articles/4401914566036';
+
 
 exports.defaultPublicKey = defaultPublicKey;
 exports.defaultPrivateKey = defaultPrivateKey;
@@ -103,6 +105,19 @@ exports.applicationCreate = [
     message : "Private Key path:",
     default: defaultPrivateKey,
     when: (answers => answers.publicKeyfile === defaultPublicKey)
+  },
+  {
+    type : 'input',
+    name : 'keyfile',
+    message : "Private Key path:",
+    default: defaultPrivateKey,
+    when: (answers => answers.publicKeyfile === defaultPublicKey)
+  },
+  {
+    type : 'confirm',
+    name : 'improveAi',
+    message : `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`,
+    default: true,
   }
 ];
 
@@ -201,6 +216,12 @@ exports.applicationUpdate = function (application) {
       name : 'publicKeyfile',
       message : "Public Key path:",
       default: defaultPublicKey
+    },
+    {
+      type : 'confirm',
+      name : 'improveAi',
+      message : `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`,
+      default: application.privacy ? application.privacy.improve_ai : false
     }
   ];
 };
