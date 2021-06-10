@@ -143,9 +143,11 @@ class Request {
 
   _createApplicationPayload(name, flags) {
     const capabilities = flags.capabilities.split(",");
+    if (flags.improveAi === "undefined") flags.improveAi = true;
     const payload = {
       name: name,
-      capabilities: {}
+      capabilities: {},
+      privacy: {improve_ai: flags.improveAi}
     };
 
     if (flags.publicKeyfile) {
