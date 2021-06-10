@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.9-beta-4][]
+
+* Added: `app:create --improve-ai` tag for new opt-in
+* Added: `app:update --improve-ai` tag for new opt-in
+* Updated: build dependencies.
+
 ## [0.4.9-beta-1][]
 
 * Updated: `app:create` with V2 API and interactive mode.
