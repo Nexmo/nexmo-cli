@@ -221,7 +221,7 @@ exports.applicationUpdate = function (application) {
       type : 'confirm',
       name : 'improveAi',
       message : `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`,
-      default: application.privacy.improve_ai,
+      default: application.privacy.improve_ai || false
     }
   ];
 };
