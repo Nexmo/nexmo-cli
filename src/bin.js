@@ -18,6 +18,7 @@ const client    = new Client(config, emitter);
 const validator = new Validator(emitter);
 const response  = new Response(validator, emitter);
 const request   = new Request(config, client, response);
+const kb_article = 'https://help.nexmo.com/hc/en-us/articles/4401914566036';
 
 const suggestCommands = (cmdName) => {
   const availableCommands = commander.commands.map(cmd => cmd._name);
@@ -281,6 +282,7 @@ commander
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to POST)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -296,6 +298,7 @@ commander
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
   .option('--keyfile <keyfile>', 'the file to save your private key to')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -331,6 +334,7 @@ commander
   .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
@@ -345,6 +349,7 @@ commander
   .option('--type <type>', 'the type of application', /^(voice)$/i, 'voice')
   .option('--answer_method <answer_method>', 'the HTTP method to use for the answer_url (defaults to GET)')
   .option('--event_method <event_method>', 'the HTTP method to use for the event_url (defaults to GET)')
+  .option('--improve-ai [improveAi]', `Allow use of data for AI training? Read data collection disclosure - ${kb_article}`, true)
   .on('--help', () => {
     emitter.log('  Examples:');
     emitter.log(' ');
