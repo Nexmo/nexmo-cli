@@ -6,8 +6,10 @@
 [![codecov](https://codecov.io/gh/Nexmo/nexmo-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-cli)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
+
 |<p align="left">:exclamation: Th CLI has moved! It is now the [Vonage CLI](https://github.com/Vonage/vonage-cli).<br /><br /> We will support this repository for 12 months, ending October 2022, with any needed bug or security fixes for the last release. New features will be released under  the Vonage CLI`, so to take advantage of those please make sure to switch as soon as possible so you don't miss out!</p>   |
 |-----------------------------------------|
+
 [Installation](#installation) | [Usage](#usage) | [Contributing](#contributing) | [License](#license)
 
 ## Installation
